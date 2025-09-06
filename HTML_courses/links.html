@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTML Links — DevNest</title>
+  <style>
+    :root{
+      --bg-1:#0b1220;
+      --bg-2:#0a0f1a;
+      --card:#0f172aee;
+      --muted:#8aa0c7;
+      --text:#e6eeff;
+      --edge:#1f2a44;
+      --brand-1:#5ee7ff;
+      --brand-2:#7c4dff;
+      --accent:#3b82f6;
+      --success:#22c55e;
+      --radius:14px;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --glass:backdrop-filter: blur(10px);
+      --font:-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Arial, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      --nav-h:72px;
+      --sidebar-w:280px;
+      --sidebar-w-collapsed:72px;
+    }
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--font);
+      color:var(--muted);
+      background:
+        radial-gradient(1000px 600px at 80% -10%, rgba(124,77,255,.16), transparent 60%),
+        radial-gradient(900px 500px at -10% 20%, rgba(94,231,255,.12), transparent 55%),
+        linear-gradient(180deg, var(--bg-1), var(--bg-2));
+      line-height:1.7;
+    }
+    a{color:inherit;text-decoration:none}
+
+    /* ========= TOP NAV ========= */
+    .topnav{
+      position:sticky; top:0; z-index:1000;
+      height:var(--nav-h);
+      display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(180deg, rgba(8,12,20,.8), rgba(8,12,20,.55));
+      border-bottom:1px solid rgba(255,255,255,.04);
+      backdrop-filter: blur(12px);
+    }
+    .nav-inner{
+      width:min(1200px, 92vw);
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px;
+      color:var(--text);
+    }
+    .brand-badge{
+      width:34px; height:34px; border-radius:10px;
+      background:linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      box-shadow:0 8px 30px rgba(124,77,255,.35), inset 0 0 18px rgba(255,255,255,.3);
+    }
+    .nav-links{
+      display:flex; gap:26px; align-items:center; font-weight:600;
+      color:#b8c6e8;
+    }
+    .nav-links a{opacity:.9}
+    .nav-links a:hover{opacity:1; color:var(--text)}
+    .login-btn{
+      padding:10px 18px; border-radius:999px; font-weight:700;
+      color:#04111f; background:linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      box-shadow:0 10px 24px rgba(94,231,255,.25);
+      border:none; cursor:pointer;
+    }
+
+    /* ========= LAYOUT ========= */
+    .layout{
+      display:grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      gap:24px;
+      width:min(1300px, 96vw);
+      margin:24px auto 80px;
+    }
+    .layout.collapsed{
+      grid-template-columns: var(--sidebar-w-collapsed) 1fr;
+    }
+
+    /* ========= SIDEBAR ========= */
+    .sidebar{
+      position:sticky; top:calc(var(--nav-h) + 24px);
+      align-self:start;
+      background:linear-gradient(180deg, rgba(18,25,42,.8), rgba(12,18,33,.7));
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:20px;
+      box-shadow:var(--shadow);
+      padding:12px;
+      color:#cfe0ff;
+      overflow:hidden;
+    }
+    .collapse-toggle{
+      width:100%; background:transparent; border:none; color:#9fb3d8;
+      display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; cursor:pointer;
+    }
+    .collapse-toggle:hover{background:rgba(255,255,255,.05); color:var(--text)}
+    .toggle-icon{transition: transform .25s ease}
+    .layout.collapsed .toggle-icon{transform: rotate(180deg)}
+    .layout.collapsed .sidebar-content{display:none}
+    .course-title{
+      font-size:14px; letter-spacing:1px; text-transform:uppercase; margin:6px 12px 10px; color:#86a1d6;
+    }
+    details{
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:14px; margin:8px 0; overflow:hidden;
+      background:rgba(255,255,255,.02);
+    }
+    summary{
+      list-style:none; cursor:pointer; padding:12px 14px; font-weight:700; color:#dbe7ff;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    summary::-webkit-details-marker{display:none}
+    .chev{transition: transform .2s ease}
+    details[open] .chev{transform: rotate(90deg)}
+    .menu{
+      display:flex; flex-direction:column; padding:6px 6px 10px;
+    }
+    .menu a{
+      padding:10px 10px; margin:4px 6px; border-radius:10px; color:#b9c9f0; font-weight:600; font-size:15px;
+    }
+    .menu a:hover{background:rgba(255,255,255,.06); color:var(--text)}
+    .menu a.active{
+      background:linear-gradient(135deg, rgba(94,231,255,.15), rgba(124,77,255,.18));
+      color:#eaf2ff; border:1px solid rgba(94,231,255,.35);
+    }
+
+    /* ========= MAIN CONTENT CARD ========= */
+    .card{
+      background:var(--card); border:1px solid rgba(255,255,255,.06);
+      border-radius:24px; box-shadow:var(--shadow);
+      padding:28px 26px;
+    }
+
+    h1{
+      margin:0 0 8px; font-size:42px; line-height:1.15; color:var(--text); font-weight:900;
+      letter-spacing:.2px;
+      background:linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      text-align:center;
+    }
+    h2{
+      margin:26px 0 10px; color:#cfe0ff; font-size:22px;
+    }
+    p, li{color:#c3d0f2}
+    .analogy-box{
+      background:rgba(255,255,255,.06);
+      border-left:4px solid var(--accent);
+      padding:12px 14px; border-radius:12px;
+      margin-bottom:1.6rem;
+      color:#e8f1ff;
+      font-size:1.08em;
+    }
+    .code-box{
+      background:#0b1530; border:1px solid #1c2a4e; color:#d7e6ff;
+      border-radius:14px; padding:14px 16px; overflow:auto; font-family:var(--mono); font-size:15px;
+      margin-bottom:1.2rem;
+      box-shadow:var(--shadow);
+    }
+    .good-example { border-left:6px solid #38bdf8; background:#18294d; }
+    .bad-example { border-left:6px solid #f87171; background:#3b1d2e; }
+    .divider{
+      height: 6px;
+      background: var(--brand-1);
+      margin: 0.3rem 0 0.3rem 0;
+      border-radius: 3px;
+      opacity: 1;
+    }
+    footer{margin:26px 0 6px; text-align:center; color:#8da3c9}
+    @media (max-width: 700px) {
+      .card {
+        padding:14px 6px;
+      }
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        position:static; width:100%; height:auto; margin-bottom:14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ========= TOP NAV ========= -->
+  <header class="topnav">
+    <div class="nav-inner">
+      <a class="brand" href="#">
+        <span class="brand-badge" aria-hidden="true"></span>
+        DevNest
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/courses.html" style="color:var(--text)">Courses</a>
+        <a href="/practice.html">Practice</a>
+        <a href="/projects.html">Projects</a>
+        <a href="/about.html">About</a>
+      </nav>
+      <!-- <button class="login-btn">Login</button>
+      <div class="hamburger">
+        <button class="login-btn" style="padding:8px 14px;">Menu</button>
+      </div> -->
+    </div>
+  </header>
+  <div id="page" class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" aria-label="Course navigation">
+      <button class="collapse-toggle" id="collapseSidebar" title="Collapse sidebar">
+        <svg class="toggle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <strong>Course Menu</strong>
+      </button>
+      <div class="sidebar-content">
+        <div class="course-title">HTML</div>
+        <details open>
+          <summary>Basics <span class="chev" aria-hidden="true">▶</span></summary>
+          <nav class="menu">
+            <a href="introduction.html">HTML Introduction</a>
+            <a href="structure.html">Structure</a>
+            <a href="heading.html">Headings &amp; Paragraphs</a>
+            <a href="lists.html">Lists</a>
+            <a href="links.html" class="active">Links</a>
+            <a href="images.html">Images</a>
+            <a href="tables.html">Tables</a>
+            <a href="forms.html">Forms</a>
+          </nav>
+        </details>
+        <details>
+          <summary>Extras <span class="chev" aria-hidden="true">▶</span></summary>
+          <nav class="menu">
+            <a href="quizzes.html">Quizzes</a>
+          </nav>
+        </details>
+      </div>
+    </aside>
+    <!-- Main content -->
+    <main class="card">
+      <h1>HTML Links</h1>
+      <section>
+        <h2>Introduction</h2>
+        <div class="analogy-box">
+          <span style="font-size:1.14em;">🔗</span> <b>Analogy:</b>
+          Links are like bridges that let you jump between places on the web.
+        </div>
+        <p>
+          <b>Links</b> (or "hyperlinks") are used to connect different web pages, websites, or resources. They let users move easily from one place to another!
+        </p>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Basic Link Structure</h2>
+        <p>The <code>&lt;a&gt;</code> tag creates a link. You must use the <b>href</b> attribute to tell where the link goes.</p>
+        <div class="code-box">
+<pre>
+&lt;a href="https://example.com"&gt;Visit Example&lt;/a&gt;
+</pre>
+        </div>
+        <p>
+          <b>&lt;a&gt;</b> is the anchor (link) tag.<br>
+          <b>href</b> is where the link points to.<br>
+          The text between the tags is what people click.
+        </p>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Absolute vs. Relative Links</h2>
+        <p>
+          <b>Absolute links</b> go to a full address (like another website).<br>
+          <b>Relative links</b> go to another page or file in your own website.
+        </p>
+        <div class="code-box">
+<pre>
+&lt;!-- Absolute link --&gt;
+&lt;a href="https://wikipedia.org"&gt;Wikipedia&lt;/a&gt;
+
+&lt;!-- Relative link --&gt;
+&lt;a href="about.html"&gt;About Us&lt;/a&gt;
+</pre>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Open in a New Tab</h2>
+        <p>Add <code>target="_blank"</code> to open a link in a new tab.</p>
+        <div class="code-box">
+<pre>
+&lt;a href="https://google.com" target="_blank"&gt;Google&lt;/a&gt;
+</pre>
+        </div>
+        <p><b>Tip:</b> For security, add <code>rel="noopener"</code> for external links.</p>
+        <div class="code-box">
+<pre>
+&lt;a href="https://google.com" target="_blank" rel="noopener"&gt;Google&lt;/a&gt;
+</pre>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Email &amp; Phone Links</h2>
+        <p>You can make links that open the user's email app or call a phone number!</p>
+        <div class="code-box">
+<pre>
+&lt;a href="mailto:hello@example.com"&gt;Email us&lt;/a&gt;
+&lt;a href="tel:+1234567890"&gt;Call us&lt;/a&gt;
+</pre>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Anchor Links (Jump on Same Page)</h2>
+        <p>
+          Use anchor links to jump to another part of the same page. The <b>href</b> uses <code>#id</code> and the target section gets an <b>id</b>.
+        </p>
+        <div class="code-box">
+<pre>
+&lt;a href="#contact"&gt;Contact Section&lt;/a&gt;
+...
+&lt;h2 id="contact"&gt;Contact Us&lt;/h2&gt;
+</pre>
+        </div>
+        <p>
+          <a href="#top">Back to top</a>
+        </p>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Linking Images</h2>
+        <p>Make an image clickable by putting it inside an <code>&lt;a&gt;</code> tag.</p>
+        <div class="code-box">
+<pre>
+&lt;a href="https://html.com"&gt;
+  &lt;img src="logo.png" alt="HTML Logo"&gt;
+&lt;/a&gt;
+</pre>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Styling Links with CSS</h2>
+        <p>You can style links for normal, hover, visited, and active states!</p>
+        <div class="code-box">
+<pre>
+a {
+  color: #5ee7ff;
+  text-decoration: underline;
+}
+a:hover {
+  color: #7c4dff;
+  background: #e7f0fe;
+}
+a:visited {
+  color: #8e44ad;
+}
+a:active {
+  color: #e17055;
+  background: #fff3e0;
+}
+</pre>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Best Practices</h2>
+        <ul>
+          <li>Use clear, descriptive link text (not just “click here”).</li>
+          <li>Make links easy to see and obvious when hovered.</li>
+          <li>For accessibility, describe where a link goes.</li>
+          <li>Use <code>target="_blank"</code> sparingly and warn users if needed.</li>
+          <li>Test your links—they should all work!</li>
+        </ul>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Common Mistakes</h2>
+        <div class="bad-example code-box">
+          &lt;a&gt;Google&lt;/a&gt; &nbsp; <span style="color:#900">← Missing <b>href</b>!</span>
+        </div>
+        <div class="good-example code-box">
+          &lt;a href="https://google.com"&gt;Google&lt;/a&gt;
+        </div>
+        <div class="bad-example code-box">
+          &lt;a href="page.html"&gt;Click here&lt;/a&gt; &nbsp; <span style="color:#900">← Not descriptive</span>
+        </div>
+        <div class="good-example code-box">
+          &lt;a href="page.html"&gt;Read our About Page&lt;/a&gt;
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Real-World Examples</h2>
+        <ul>
+          <li><b>Navigation menu:</b> <code>&lt;a href="about.html"&gt;About&lt;/a&gt;</code></li>
+          <li><b>Back to top:</b> <code>&lt;a href="#top"&gt;Back to top&lt;/a&gt;</code></li>
+          <li><b>External resource:</b> <code>&lt;a href="https://developer.mozilla.org/" target="_blank"&gt;MDN Docs&lt;/a&gt;</code></li>
+          <li><b>Download link:</b> <code>&lt;a href="file.pdf" download&gt;Download PDF&lt;/a&gt;</code></li>
+        </ul>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Activity</h2>
+        <div class="analogy-box">
+          <span style="font-size:1.2em;">🛠️</span>
+          <b>Try it yourself:</b>
+          <ol>
+            <li>Create a link to Google that opens in a new tab.</li>
+            <li>Add a “Back to top” link.</li>
+            <li>Make an email link that opens the default mail app.</li>
+          </ol>
+          <div class="code-box" style="margin-bottom:0;">
+<pre>
+&lt;a href="https://google.com" target="_blank"&gt;Google&lt;/a&gt;
+&lt;a href="#top"&gt;Back to top&lt;/a&gt;
+&lt;a href="mailto:hello@example.com"&gt;Email me&lt;/a&gt;
+</pre>
+          </div>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Quick Recap: Cheat Sheet</h2>
+        <div class="code-box">
+          <ul>
+            <li><b>&lt;a href="url"&gt;...&lt;/a&gt;</b> - Basic link</li>
+            <li><b>href</b> – Link destination (URL, file, #id, mailto:, tel:)</li>
+            <li><b>target="_blank"</b> – Open in new tab</li>
+            <li><b>mailto:someone@domain.com</b> – Open email app</li>
+            <li><b>tel:+number</b> – Call via phone</li>
+            <li><b>#id</b> – Jump to section with that id</li>
+            <li><b>download</b> – Download file</li>
+          </ul>
+        </div>
+      </section>
+      <footer>© DevNest · Practice meets purpose.</footer>
+    </main>
+  </div>
+  <script>
+    // Sidebar collapse
+    const page = document.getElementById('page');
+    const collapseBtn = document.getElementById('collapseSidebar');
+    const saved = sessionStorage.getItem('sidebar-collapsed');
+    if (saved === '1') page.classList.add('collapsed');
+    collapseBtn.addEventListener('click', () => {
+      page.classList.toggle('collapsed');
+      sessionStorage.setItem('sidebar-collapsed', page.classList.contains('collapsed') ? '1' : '0');
+    });
+  </script>
+</body>
+</html>

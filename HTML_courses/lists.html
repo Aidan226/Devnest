@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTML Lists — DevNest</title>
+  <style>
+    :root{
+      --bg-1:#0b1220;
+      --bg-2:#0a0f1a;
+      --card:#0f172aee;
+      --muted:#8aa0c7;
+      --text:#e6eeff;
+      --edge:#1f2a44;
+      --brand-1:#5ee7ff;
+      --brand-2:#7c4dff;
+      --accent:#3b82f6;
+      --success:#22c55e;
+      --radius:14px;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --glass:backdrop-filter: blur(10px);
+      --font:-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Arial, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      --nav-h:72px;
+      --sidebar-w:280px;
+      --sidebar-w-collapsed:72px;
+    }
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--font);
+      color:var(--muted);
+      background:
+        radial-gradient(1000px 600px at 80% -10%, rgba(124,77,255,.16), transparent 60%),
+        radial-gradient(900px 500px at -10% 20%, rgba(94,231,255,.12), transparent 55%),
+        linear-gradient(180deg, var(--bg-1), var(--bg-2));
+      line-height:1.7;
+    }
+    a{color:inherit;text-decoration:none}
+
+    .topnav{
+      position:sticky; top:0; z-index:1000;
+      height:var(--nav-h);
+      display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(180deg, rgba(8,12,20,.8), rgba(8,12,20,.55));
+      border-bottom:1px solid rgba(255,255,255,.04);
+      backdrop-filter: blur(12px);
+    }
+    .nav-inner{
+      width:min(1200px, 92vw);
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px;
+      color:var(--text);
+    }
+    .brand-badge{
+      width:34px; height:34px; border-radius:10px;
+      background:linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      box-shadow:0 8px 30px rgba(124,77,255,.35), inset 0 0 18px rgba(255,255,255,.3);
+    }
+    .nav-links{
+      display:flex; gap:26px; align-items:center; font-weight:600;
+      color:#b8c6e8;
+    }
+    .nav-links a{opacity:.9}
+    .nav-links a:hover{opacity:1; color:var(--text)}
+    .login-btn{
+      padding:10px 18px; border-radius:999px; font-weight:700;
+      color:#04111f; background:linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      box-shadow:0 10px 24px rgba(94,231,255,.25);
+      border:none; cursor:pointer;
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      gap:24px;
+      width:min(1300px, 96vw);
+      margin:24px auto 80px;
+    }
+    .layout.collapsed{
+      grid-template-columns: var(--sidebar-w-collapsed) 1fr;
+    }
+
+    .sidebar{
+      position:sticky; top:calc(var(--nav-h) + 24px);
+      align-self:start;
+      background:linear-gradient(180deg, rgba(18,25,42,.8), rgba(12,18,33,.7));
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:20px;
+      box-shadow:var(--shadow);
+      padding:12px;
+      color:#cfe0ff;
+      overflow:hidden;
+    }
+    .collapse-toggle{
+      width:100%; background:transparent; border:none; color:#9fb3d8;
+      display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; cursor:pointer;
+    }
+    .collapse-toggle:hover{background:rgba(255,255,255,.05); color:var(--text)}
+    .toggle-icon{transition: transform .25s ease}
+    .layout.collapsed .toggle-icon{transform: rotate(180deg)}
+    .layout.collapsed .sidebar-content{display:none}
+    .course-title{
+      font-size:14px; letter-spacing:1px; text-transform:uppercase; margin:6px 12px 10px; color:#86a1d6;
+    }
+    details{
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:14px; margin:8px 0; overflow:hidden;
+      background:rgba(255,255,255,.02);
+    }
+    summary{
+      list-style:none; cursor:pointer; padding:12px 14px; font-weight:700; color:#dbe7ff;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    summary::-webkit-details-marker{display:none}
+    .chev{transition: transform .2s ease}
+    details[open] .chev{transform: rotate(90deg)}
+    .menu{
+      display:flex; flex-direction:column; padding:6px 6px 10px;
+    }
+    .menu a{
+      padding:10px 10px; margin:4px 6px; border-radius:10px; color:#b9c9f0; font-weight:600; font-size:15px;
+    }
+    .menu a:hover{background:rgba(255,255,255,.06); color:var(--text)}
+    .menu a.active{
+      background:linear-gradient(135deg, rgba(94,231,255,.15), rgba(124,77,255,.18));
+      color:#eaf2ff; border:1px solid rgba(94,231,255,.35);
+    }
+
+    .card{
+      background:var(--card); border:1px solid rgba(255,255,255,.06);
+      border-radius:24px; box-shadow:var(--shadow);
+      padding:28px 26px;
+    }
+
+    h1{
+      margin:0 0 8px; font-size:42px; line-height:1.15; color:var(--text); font-weight:900;
+      letter-spacing:.2px;
+      background:linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      text-align:center;
+    }
+    h2{
+      margin:26px 0 10px; color:#cfe0ff; font-size:22px;
+    }
+    p, li{color:#c3d0f2}
+    .analogy, .summary-box{
+      background:rgba(255,255,255,.06);
+      border-left:4px solid var(--accent);
+      padding:12px 14px; border-radius:12px;
+      margin-bottom:1.6rem;
+    }
+    .diagram{
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:16px; padding:16px; margin:8px 0 10px;
+    }
+    .diagram pre{margin:0; white-space:pre-wrap; color:#e8f1ff}
+    .code, .code-box, .good-example, .bad-example{
+      background:#0b1530; border:1px solid #1c2a4e; color:#d7e6ff;
+      border-radius:14px; padding:14px 16px; overflow:auto; font-family:var(--mono); font-size:15px;
+      margin-bottom:1.2rem;
+      box-shadow:var(--shadow);
+    }
+    .good-example { border-left:6px solid #38bdf8; background:#18294d; }
+    .bad-example { border-left:6px solid #f87171; background:#3b1d2e; }
+    .row, .styling-demo, .good-bad{
+      display:flex; gap:18px; align-items:flex-start; flex-wrap:wrap;
+    }
+    .rendered-box, .preview{
+      background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06);
+      border-radius:14px; padding:10px; flex:1 1 320px; min-width:280px;
+      color:#e8f1ff;
+      font-size:1.07rem;
+      box-shadow:0 8px 20px rgba(0,0,0,.35);
+      margin-bottom:1.1rem;
+    }
+    ul, ol, dl {
+      margin-top:0.3em;
+      margin-bottom:1.1em;
+      padding-left:1.4em;
+    }
+    li + li { margin-top:0.35em; }
+    dt { font-weight:600; }
+    dd { margin-left:1.2em; }
+    .cheat-sheet, .recap-box {
+      background:rgba(255,255,255,.04);
+      border-radius:14px;
+      padding:1.3rem 1rem;
+      font-size:1.08rem;
+      border-left:7px solid var(--brand-1);
+      box-shadow:0 1px 6px rgba(56,121,246,0.05);
+      margin-bottom:1.2rem;
+      color:#e8f1ff;
+    }
+    .divider{
+      height: 6px;
+      background: var(--brand-1);
+      margin: 0.3rem 0 0.3rem 0;
+      border-radius: 3px;
+      opacity: 1;
+    }
+    footer{margin:26px 0 6px; text-align:center; color:#8da3c9}
+    @media (max-width: 700px) {
+      .card {
+        padding:14px 6px;
+      }
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        position:static; width:100%; height:auto; margin-bottom:14px;
+      }
+      .row, .styling-demo, .good-bad {
+        flex-direction:column; gap:1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ========= TOP NAV ========= -->
+  <header class="topnav">
+    <div class="nav-inner">
+      <a class="brand" href="#">
+        <span class="brand-badge" aria-hidden="true"></span>
+        DevNest
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+          <a href="/Main_web_page.html">Home</a>
+        <a href="/courses.html" style="color:var(--text)">Courses</a>
+        <a href="/mini_code_editor.html">Practice</a>
+        <a href="/project_section.html">Projects</a>
+        <a href="/about.html">About</a>
+      </nav>
+      <button class="login-btn">Login</button>
+      <div class="hamburger">
+        <button class="login-btn" style="padding:8px 14px;">Menu</button>
+      </div>
+    </div>
+  </header>
+  <div id="page" class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" aria-label="Course navigation">
+      <button class="collapse-toggle" id="collapseSidebar" title="Collapse sidebar">
+        <svg class="toggle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <strong>Course Menu</strong>
+      </button>
+      <div class="sidebar-content">
+        <div class="course-title">HTML</div>
+        <details open>
+          <summary>Basics <span class="chev" aria-hidden="true">▶</span></summary>
+          <nav class="menu">
+            <a href="introduction.html">HTML Introduction</a>
+            <a href="structure.html">Structure</a>
+            <a href="heading.html">Headings &amp; Paragraphs</a>
+            <a href="lists.html" class="active">Lists</a>
+            <a href="links.html">Links</a>
+            <a href="images.html">Images</a>
+            <a href="tables.html">Tables</a>
+            <a href="forms.html">Forms</a>
+          </nav>
+        </details>
+        <details>
+          <summary>Extras <span class="chev" aria-hidden="true">▶</span></summary>
+          <nav class="menu">
+            <a href="quizzes.html">Quizzes</a>
+          </nav>
+        </details>
+      </div>
+    </aside>
+    <!-- Main content -->
+    <main class="card">
+      <h1>HTML Lists</h1>
+      <section>
+        <h2>Introduction</h2>
+        <div class="summary-box">
+          <b>Lists</b> let you group related items in HTML. They make your page easier to read and help structure information like steps, features, or options.
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Unordered Lists <code>&lt;ul&gt;</code></h2>
+        <p>Use <code>&lt;ul&gt;</code> for items where order doesn't matter. Each item is inside <code>&lt;li&gt;</code> tags.</p>
+        <div class="code-box">
+<pre>
+&lt;ul&gt;
+  &lt;li&gt;Milk&lt;/li&gt;
+  &lt;li&gt;Bread&lt;/li&gt;
+  &lt;li&gt;Eggs&lt;/li&gt;
+&lt;/ul&gt;
+</pre>
+        </div>
+        <div class="rendered-box">
+          <ul>
+            <li>Milk</li>
+            <li>Bread</li>
+            <li>Eggs</li>
+          </ul>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Ordered Lists <code>&lt;ol&gt;</code></h2>
+        <p>Use <code>&lt;ol&gt;</code> for items that must be in order (like steps). You can change number style with the <b>type</b> attribute.</p>
+        <div class="code-box">
+<pre>
+&lt;ol type="1"&gt;
+  &lt;li&gt;Step One&lt;/li&gt;
+  &lt;li&gt;Step Two&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;ol type="A"&gt;
+  &lt;li&gt;Alpha&lt;/li&gt;
+  &lt;li&gt;Beta&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;ol type="i"&gt;
+  &lt;li&gt;First&lt;/li&gt;
+  &lt;li&gt;Second&lt;/li&gt;
+&lt;/ol&gt;
+</pre>
+        </div>
+        <div class="rendered-box">
+          <ol type="1">
+            <li>Step One</li>
+            <li>Step Two</li>
+          </ol>
+          <ol type="A">
+            <li>Alpha</li>
+            <li>Beta</li>
+          </ol>
+          <ol type="i">
+            <li>First</li>
+            <li>Second</li>
+          </ol>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Description Lists <code>&lt;dl&gt;</code></h2>
+        <p>Use <code>&lt;dl&gt;</code> for pairs of <code>&lt;dt&gt;</code> (term) and <code>&lt;dd&gt;</code> (description) – great for glossaries.</p>
+        <div class="code-box">
+<pre>
+&lt;dl&gt;
+  &lt;dt&gt;HTML&lt;/dt&gt;
+  &lt;dd&gt;HyperText Markup Language&lt;/dd&gt;
+  &lt;dt&gt;CSS&lt;/dt&gt;
+  &lt;dd&gt;Cascading Style Sheets&lt;/dd&gt;
+&lt;/dl&gt;
+</pre>
+        </div>
+        <div class="rendered-box">
+          <dl>
+            <dt>HTML</dt>
+            <dd>HyperText Markup Language</dd>
+            <dt>CSS</dt>
+            <dd>Cascading Style Sheets</dd>
+          </dl>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Nested Lists</h2>
+        <p>Put lists inside other lists to show subcategories.</p>
+        <div class="code-box">
+<pre>
+&lt;ul&gt;
+  &lt;li&gt;Groceries
+    &lt;ul&gt;
+      &lt;li&gt;Milk&lt;/li&gt;
+      &lt;li&gt;Bread&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;To-Do
+    &lt;ol&gt;
+      &lt;li&gt;Clean room&lt;/li&gt;
+      &lt;li&gt;Do homework&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</pre>
+        </div>
+        <div class="rendered-box">
+          <ul>
+            <li>Groceries
+              <ul>
+                <li>Milk</li>
+                <li>Bread</li>
+              </ul>
+            </li>
+            <li>To-Do
+              <ol>
+                <li>Clean room</li>
+                <li>Do homework</li>
+              </ol>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Customizing Lists with CSS</h2>
+        <p>Change bullets or numbers with <b>list-style-type</b>.</p>
+        <div class="code-box">
+<pre>
+&lt;ul style="list-style-type: disc;"&gt;...&lt;/ul&gt;
+&lt;ul style="list-style-type: circle;"&gt;...&lt;/ul&gt;
+&lt;ul style="list-style-type: square;"&gt;...&lt;/ul&gt;
+&lt;ul style="list-style-type: none;"&gt;...&lt;/ul&gt;
+&lt;ol style="list-style-type: upper-roman;"&gt;...&lt;/ol&gt;
+</pre>
+        </div>
+        <div class="rendered-box">
+          <ul style="list-style-type: disc;"><li>Disc</li><li>Style</li></ul>
+          <ul style="list-style-type: circle;"><li>Circle</li><li>Style</li></ul>
+          <ul style="list-style-type: square;"><li>Square</li><li>Style</li></ul>
+          <ul style="list-style-type: none;"><li>No bullets</li><li>Still a list</li></ul>
+          <ol style="list-style-type: upper-roman;"><li>First</li><li>Second</li></ol>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Real-World Examples</h2>
+        <div class="rendered-box">
+          <strong>Shopping List:</strong>
+          <ul>
+            <li>Apples</li>
+            <li>Oranges</li>
+            <li>Bread</li>
+          </ul>
+          <strong>Recipe Steps:</strong>
+          <ol>
+            <li>Preheat oven</li>
+            <li>Mix ingredients</li>
+            <li>Bake for 30 minutes</li>
+          </ol>
+          <strong>Glossary:</strong>
+          <dl>
+            <dt>API</dt>
+            <dd>Application Programming Interface</dd>
+            <dt>URL</dt>
+            <dd>Uniform Resource Locator</dd>
+          </dl>
+          <strong>Navigation Menu:</strong>
+          <ul>
+            <li>Home</li>
+            <li>About</li>
+            <li>Contact</li>
+          </ul>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Best Practices</h2>
+        <ul>
+          <li>Use <code>&lt;ul&gt;</code> for unordered items.</li>
+          <li>Use <code>&lt;ol&gt;</code> for ordered steps.</li>
+          <li>Use <code>&lt;dl&gt;</code> for terms and definitions.</li>
+          <li>Always wrap list items with <code>&lt;li&gt;</code> (except in <code>&lt;dl&gt;</code>).</li>
+          <li>Don’t use lists for layout—use them for actual lists.</li>
+        </ul>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Common Mistakes</h2>
+        <div class="bad-example">
+          &lt;ul&gt;
+            Apples
+            Oranges
+          &lt;/ul&gt;
+          <br><strong>← Missing &lt;li&gt; tags!</strong>
+        </div>
+        <div class="good-example">
+          &lt;ul&gt;<br>
+            &lt;li&gt;Apples&lt;/li&gt;<br>
+            &lt;li&gt;Oranges&lt;/li&gt;<br>
+          &lt;/ul&gt;
+        </div>
+        <div class="bad-example">
+          &lt;ol&gt;
+            &lt;li&gt;Step One&lt;/li&gt;
+            &lt;li&gt;Step Two
+              &lt;li&gt;Substep&lt;/li&gt;
+            &lt;/li&gt;
+          &lt;/ol&gt;
+          <br><strong>← Nested &lt;li&gt; without a new &lt;ol&gt;!</strong>
+        </div>
+        <div class="good-example">
+          &lt;ol&gt;<br>
+            &lt;li&gt;Step One&lt;/li&gt;<br>
+            &lt;li&gt;Step Two
+              &lt;ol&gt;
+                &lt;li&gt;Substep&lt;/li&gt;
+              &lt;/ol&gt;
+            &lt;/li&gt;<br>
+          &lt;/ol&gt;
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Interactive Activity</h2>
+        <ol>
+          <li>Make an unordered list for a shopping list (at least 3 items).</li>
+          <li>Write an ordered list for recipe steps (at least 3 steps).</li>
+          <li>Create a description list for 2 dictionary words.</li>
+        </ol>
+        <div class="code-box">
+<pre>
+&lt;ul&gt;
+  &lt;li&gt;Milk&lt;/li&gt;
+  &lt;li&gt;Bread&lt;/li&gt;
+  &lt;li&gt;Eggs&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+  &lt;li&gt;Mix ingredients&lt;/li&gt;
+  &lt;li&gt;Bake&lt;/li&gt;
+  &lt;li&gt;Eat&lt;/li&gt;
+&lt;/ol&gt;
+&lt;dl&gt;
+  &lt;dt&gt;HTML&lt;/dt&gt;
+  &lt;dd&gt;HyperText Markup Language&lt;/dd&gt;
+  &lt;dt&gt;CSS&lt;/dt&gt;
+  &lt;dd&gt;Cascading Style Sheets&lt;/dd&gt;
+&lt;/dl&gt;
+</pre>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Challenge Project: Recipe Page</h2>
+        <ul>
+          <li>Main heading for the recipe title.</li>
+          <li>Ingredients as an unordered list.</li>
+          <li>Steps as an ordered list.</li>
+          <li>Glossary of terms as a description list.</li>
+        </ul>
+        <div class="code-box">
+<pre>
+&lt;h1&gt;Chocolate Cake&lt;/h1&gt;
+
+&lt;h2&gt;Ingredients&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Flour&lt;/li&gt;
+  &lt;li&gt;Sugar&lt;/li&gt;
+  &lt;li&gt;Cocoa powder&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;Steps&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;Preheat oven&lt;/li&gt;
+  &lt;li&gt;Mix ingredients&lt;/li&gt;
+  &lt;li&gt;Bake for 30 minutes&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;Glossary&lt;/h2&gt;
+&lt;dl&gt;
+  &lt;dt&gt;Preheat&lt;/dt&gt;
+  &lt;dd&gt;Heat the oven before baking&lt;/dd&gt;
+  &lt;dt&gt;Mix&lt;/dt&gt;
+  &lt;dd&gt;Combine ingredients together&lt;/dd&gt;
+&lt;/dl&gt;
+</pre>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Quick Recap: Cheat Sheet</h2>
+        <div class="cheat-sheet">
+          <ul>
+            <li><code>&lt;ul&gt;</code>: Unordered (bulleted) list</li>
+            <li><code>&lt;ol&gt;</code>: Ordered (numbered/lettered) list</li>
+            <li><code>&lt;dl&gt;</code>: Description (terms + definitions) list</li>
+            <li><code>&lt;li&gt;</code>: List item</li>
+            <li><code>&lt;dt&gt;</code>: Term in description list</li>
+            <li><code>&lt;dd&gt;</code>: Definition in description list</li>
+          </ul>
+        </div>
+      </section>
+      <footer>© DevNest · Practice meets purpose.</footer>
+    </main>
+  </div>
+  <script>
+    // Sidebar collapse
+    const page = document.getElementById('page');
+    const collapseBtn = document.getElementById('collapseSidebar');
+    const saved = sessionStorage.getItem('sidebar-collapsed');
+    if (saved === '1') page.classList.add('collapsed');
+    collapseBtn.addEventListener('click', () => {
+      page.classList.toggle('collapsed');
+      sessionStorage.setItem('sidebar-collapsed', page.classList.contains('collapsed') ? '1' : '0');
+    });
+  </script>
+</body>
+</html>

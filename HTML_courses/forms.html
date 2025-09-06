@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTML Forms — DevNest</title>
+  <style>
+    :root{
+      --bg-1:#0b1220;
+      --bg-2:#0a0f1a;
+      --card:#0f172aee;
+      --muted:#8aa0c7;
+      --text:#e6eeff;
+      --edge:#1f2a44;
+      --brand-1:#5ee7ff;
+      --brand-2:#7c4dff;
+      --accent:#3b82f6;
+      --success:#22c55e;
+      --radius:14px;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --glass:backdrop-filter: blur(10px);
+      --font:-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Arial, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      --nav-h:72px;
+      --sidebar-w:280px;
+      --sidebar-w-collapsed:72px;
+    }
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--font);
+      color:var(--muted);
+      background:
+        radial-gradient(1000px 600px at 80% -10%, rgba(124,77,255,.16), transparent 60%),
+        radial-gradient(900px 500px at -10% 20%, rgba(94,231,255,.12), transparent 55%),
+        linear-gradient(180deg, var(--bg-1), var(--bg-2));
+      line-height:1.7;
+    }
+    a{color:var(--brand-1);text-decoration:underline;}
+    a:hover{color:var(--brand-2);}
+    .topnav{
+      position:sticky; top:0; z-index:1000;
+      height:var(--nav-h);
+      display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(180deg, rgba(8,12,20,.8), rgba(8,12,20,.55));
+      border-bottom:1px solid rgba(255,255,255,.04);
+      backdrop-filter: blur(12px);
+    }
+    .nav-inner{
+      width:min(1200px, 92vw);
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px;
+      color:var(--text);
+    }
+    .brand-badge{
+      width:34px; height:34px; border-radius:10px;
+      background:linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      box-shadow:0 8px 30px rgba(124,77,255,.35), inset 0 0 18px rgba(255,255,255,.3);
+    }
+    .nav-links{
+      display:flex; gap:26px; align-items:center; font-weight:600;
+      color:#b8c6e8;
+    }
+    .nav-links a{opacity:.9}
+    .nav-links a:hover{opacity:1; color:var(--text)}
+    .login-btn{
+      padding:10px 18px; border-radius:999px; font-weight:700;
+      color:#04111f; background:linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      box-shadow:0 10px 24px rgba(94,231,255,.25);
+      border:none; cursor:pointer;
+    }
+    .layout{
+      display:grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      gap:24px;
+      width:min(1300px, 96vw);
+      margin:24px auto 80px;
+    }
+    .layout.collapsed{
+      grid-template-columns: var(--sidebar-w-collapsed) 1fr;
+    }
+    .sidebar{
+      position:sticky; top:calc(var(--nav-h) + 24px);
+      align-self:start;
+      background:linear-gradient(180deg, rgba(18,25,42,.8), rgba(12,18,33,.7));
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:20px;
+      box-shadow:var(--shadow);
+      padding:12px;
+      color:#cfe0ff;
+      overflow:hidden;
+    }
+    .collapse-toggle{
+      width:100%; background:transparent; border:none; color:#9fb3d8;
+      display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; cursor:pointer;
+    }
+    .collapse-toggle:hover{background:rgba(255,255,255,.05); color:var(--text)}
+    .toggle-icon{transition: transform .25s ease}
+    .layout.collapsed .toggle-icon{transform: rotate(180deg)}
+    .layout.collapsed .sidebar-content{display:none}
+    .course-title{
+      font-size:14px; letter-spacing:1px; text-transform:uppercase; margin:6px 12px 10px; color:#86a1d6;
+    }
+    details{
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:14px; margin:8px 0; overflow:hidden;
+      background:rgba(255,255,255,.02);
+    }
+    summary{
+      list-style:none; cursor:pointer; padding:12px 14px; font-weight:700; color:#dbe7ff;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    summary::-webkit-details-marker{display:none}
+    .chev{transition: transform .2s ease}
+    details[open] .chev{transform: rotate(90deg)}
+    .menu{
+      display:flex; flex-direction:column; padding:6px 6px 10px;
+    }
+    .menu a{
+      padding:10px 10px; margin:4px 6px; border-radius:10px; color:#b9c9f0; font-weight:600; font-size:15px;
+    }
+    .menu a:hover{background:rgba(255,255,255,.06); color:var(--text)}
+    .menu a.active{
+      background:linear-gradient(135deg, rgba(94,231,255,.15), rgba(124,77,255,.18));
+      color:#eaf2ff; border:1px solid rgba(94,231,255,.35);
+    }
+    .card{
+      background:var(--card); border:1px solid rgba(255,255,255,.06);
+      border-radius:24px; box-shadow:var(--shadow);
+      padding:28px 26px;
+    }
+    h1{
+      margin:0 0 8px; font-size:42px; line-height:1.15; color:var(--text); font-weight:900;
+      letter-spacing:.2px;
+      background:linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      text-align:center;
+    }
+    h2{
+      margin:26px 0 10px; color:#cfe0ff; font-size:22px;
+    }
+    p, li{color:#c3d0f2}
+    .summary-box, .analogy-box{
+      background:rgba(255,255,255,.06);
+      border-left:4px solid var(--accent);
+      padding:12px 14px; border-radius:12px;
+      margin-bottom:1.6rem;
+      color:#e8f1ff;
+      font-size:1.08em;
+    }
+    .code, .code-box, .good-example, .bad-example{
+      background:#0b1530; border:1px solid #1c2a4e; color:#d7e6ff;
+      border-radius:14px; padding:14px 16px; overflow:auto; font-family:var(--mono); font-size:15px;
+      margin-bottom:1.2rem;
+      box-shadow:var(--shadow);
+    }
+    .good-example { border-left:6px solid #38bdf8; background:#18294d; }
+    .bad-example { border-left:6px solid #f87171; background:#3b1d2e; }
+    .row, .styling-demo, .good-bad{
+      display:flex; gap:18px; align-items:flex-start; flex-wrap:wrap;
+    }
+    .preview, .rendered-box, .activity-prompt {
+      background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06);
+      border-radius:14px; padding:10px; flex:1 1 320px; min-width:280px;
+      color:#e8f1ff;
+      font-size:1.07rem;
+      box-shadow:0 8px 20px rgba(0,0,0,.35);
+      margin-bottom:1.1rem;
+    }
+    ul, ol {
+      margin-top:0.3em;
+      margin-bottom:1.1em;
+      padding-left:1.4em;
+    }
+    li + li { margin-top:0.35em; }
+    dt { font-weight:600; }
+    dd { margin-left:1.2em; }
+    .cheat-sheet, .recap-box {
+      background:rgba(255,255,255,.04);
+      border-radius:14px;
+      padding:1.3rem 1rem;
+      font-size:1.08rem;
+      border-left:7px solid var(--brand-1);
+      box-shadow:0 1px 6px rgba(56,121,246,0.05);
+      margin-bottom:1.2rem;
+      color:#e8f1ff;
+    }
+    .divider{
+      height: 6px;
+      background: var(--brand-1);
+      margin: 0.3rem 0 0.3rem 0;
+      border-radius: 3px;
+      opacity: 1;
+    }
+    form {
+      margin: 1rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      max-width: 440px;
+      background: rgba(255,255,255,.03);
+      padding: 1rem 1rem 1rem 1rem;
+      border-radius: 12px;
+    }
+    label {
+      font-weight: 500;
+      margin-bottom: 0.3em;
+      display: inline-block;
+      color: #cfe0ff;
+    }
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+      font-size: 1.05rem;
+      padding: 0.65em 0.9em;
+      border: 1.5px solid #1c2a4e;
+      border-radius: 8px;
+      outline: none;
+      background: #0b1530;
+      margin-top: 0.2em;
+      color: #e6eeff;
+      transition: border 0.18s, box-shadow 0.18s;
+      box-sizing: border-box;
+    }
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--brand-1);
+      box-shadow: 0 0 0 3px #5ee7ff44;
+      background: #18294d;
+    }
+    input[type="checkbox"], input[type="radio"] {
+      width: 1.1em;
+      height: 1.1em;
+      vertical-align: middle;
+      margin-right: 0.35em;
+      box-shadow: none;
+      background: #18294d;
+      accent-color: var(--brand-1);
+    }
+    input[type="file"] {
+      padding: 0.2em 0.5em;
+      background: #18294d;
+      color: #e6eeff;
+    }
+    input[type="hidden"] {
+      display: none;
+    }
+    fieldset {
+      border: 1.5px solid #1c2a4e;
+      border-radius: 10px;
+      padding: 1em 1.3em 1.1em 1.3em;
+      background: #18294d;
+      margin-bottom: 1.2em;
+      color: #e6eeff;
+    }
+    legend {
+      font-weight: 600;
+      color: var(--brand-2);
+      font-size: 1.07em;
+      padding: 0 0.5em;
+      letter-spacing: 0.01em;
+    }
+    .form-row {
+      display: flex;
+      gap: 1.1em;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    button,
+    input[type="submit"],
+    input[type="reset"] {
+      background: var(--brand-1);
+      color: #07111f;
+      font-weight: 600;
+      border: none;
+      border-radius: var(--radius);
+      padding: 0.7em 1.4em;
+      font-size: 1.05em;
+      cursor: pointer;
+      margin-top: 0.2em;
+      transition: background 0.22s, box-shadow 0.22s;
+      box-shadow: 0 1px 8px rgba(94,231,255,0.10);
+      letter-spacing: 0.01em;
+    }
+    button:hover,
+    input[type="submit"]:hover,
+    input[type="reset"]:hover {
+      background: var(--brand-2);
+      color: #ffe066;
+      box-shadow: 0 0 0 4px #7c4dff33;
+    }
+    @media (max-width: 930px) {
+      .sidebar { position: static; width: 100%; height: auto; flex-direction: row; flex-wrap: wrap; }
+      .layout { grid-template-columns: 1fr;}
+    }
+    @media (max-width: 600px) {
+      .card { padding: 1.1rem 0.4rem;}
+      .sidebar { margin-bottom: 14px;}
+      .code-box, .recap-box { padding:0.7rem 0.4rem;}
+    }
+  </style>
+</head>
+<body>
+  <!-- ========= TOP NAV ========= -->
+  <header class="topnav">
+    <div class="nav-inner">
+      <a class="brand" href="#">
+        <span class="brand-badge" aria-hidden="true"></span>
+        DevNest
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+           <a href="/Main_web_page.html">Home</a>
+        <a href="/courses.html" style="color:var(--text)">Courses</a>
+        <a href="/mini_code_editor.html">Practice</a>
+        <a href="/project_section.html">Projects</a>
+        <a href="/about.html">About</a>
+      </nav>
+      <button class="login-btn">Login</button>
+      <div class="hamburger">
+        <button class="login-btn" style="padding:8px 14px;">Menu</button>
+      </div>
+    </div>
+  </header>
+  <div id="page" class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" aria-label="Course navigation">
+      <button class="collapse-toggle" id="collapseSidebar" title="Collapse sidebar">
+        <svg class="toggle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <strong>Course Menu</strong>
+      </button>
+      <div class="sidebar-content">
+        <div class="course-title">HTML</div>
+        <details open>
+          <summary>Basics <span class="chev" aria-hidden="true">▶</span></summary>
+          <nav class="menu">
+            <a href="introduction.html">HTML Introduction</a>
+            <a href="structure.html">Structure</a>
+            <a href="heading.html">Headings &amp; Paragraphs</a>
+            <a href="lists.html">Lists</a>
+            <a href="links.html">Links</a>
+            <a href="images.html">Images</a>
+            <a href="tables.html">Tables</a>
+            <a href="forms.html" class="active">Forms</a>
+          </nav>
+        </details>
+        <details>
+          <summary>Extras <span class="chev" aria-hidden="true">▶</span></summary>
+          <nav class="menu">
+            <a href="quizzes.html">Quizzes</a>
+          </nav>
+        </details>
+      </div>
+    </aside>
+    <!-- Main content -->
+    <main class="card">
+      <h1>HTML Forms</h1>
+      <section>
+        <h2>Basic Form Structure</h2>
+        <p>
+          Forms are created with the <code>&lt;form&gt;</code> element. Use <b>action</b> for the destination and <b>method</b> for how data is sent.
+        </p>
+        <div class="code-box">
+<pre>
+&lt;form action="/submit" method="post"&gt;
+  ...
+&lt;/form&gt;
+</pre>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Text Inputs &amp; Textarea</h2>
+        <ul>
+          <li><code>&lt;input type="text"&gt;</code> for single-line</li>
+          <li><code>&lt;textarea&gt;</code> for multi-line</li>
+        </ul>
+        <div class="code-box">
+<pre>
+&lt;input type="text" name="username" placeholder="Enter your name" maxlength="20" value="Alice"&gt;
+&lt;textarea name="bio" rows="3" placeholder="Tell us about yourself"&gt;&lt;/textarea&gt;
+</pre>
+        </div>
+        <form>
+          <label for="username">Name:</label>
+          <input type="text" name="username" id="username" placeholder="Enter your name" maxlength="20" value="Alice">
+          <label for="bio">Bio:</label>
+          <textarea name="bio" id="bio" rows="3" placeholder="Tell us about yourself"></textarea>
+        </form>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Password Input</h2>
+        <div class="code-box">
+<pre>
+&lt;input type="password" name="pass"&gt;
+</pre>
+        </div>
+        <form>
+          <label for="pw1">Password:</label>
+          <input type="password" name="pw1" id="pw1" placeholder="Secret!">
+        </form>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Email, Number, URL, Tel, Date/Time</h2>
+        <div class="code-box">
+<pre>
+&lt;input type="email" placeholder="Email"&gt;
+&lt;input type="number" min="0" max="100"&gt;
+&lt;input type="url" placeholder="https://..."&gt;
+&lt;input type="tel" placeholder="123-456-7890"&gt;
+&lt;input type="date"&gt;
+</pre>
+        </div>
+        <form>
+          <label>Email: <input type="email" placeholder="your@email.com"></label>
+          <label>Age: <input type="number" min="0" max="120" placeholder="0-120"></label>
+          <label>Website: <input type="url" placeholder="https://..."></label>
+          <label>Phone: <input type="tel" placeholder="123-456-7890"></label>
+          <label>Birthday: <input type="date"></label>
+        </form>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Radio Buttons</h2>
+        <p>Choose one option only.</p>
+        <div class="code-box">
+<pre>
+&lt;input type="radio" name="color" value="red"&gt; Red
+&lt;input type="radio" name="color" value="blue"&gt; Blue
+</pre>
+        </div>
+        <form>
+          <label><input type="radio" name="color" value="red"> Red</label>
+          <label><input type="radio" name="color" value="blue"> Blue</label>
+        </form>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Checkboxes</h2>
+        <p>Pick as many as you want.</p>
+        <div class="code-box">
+<pre>
+&lt;input type="checkbox" name="like" value="pizza"&gt; Pizza
+&lt;input type="checkbox" name="like" value="icecream"&gt; Ice Cream
+</pre>
+        </div>
+        <form>
+          <label><input type="checkbox" name="like" value="pizza"> Pizza</label>
+          <label><input type="checkbox" name="like" value="icecream"> Ice Cream</label>
+        </form>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Drop-down Menus</h2>
+        <div class="code-box">
+<pre>
+&lt;select name="country"&gt;
+  &lt;option&gt;USA&lt;/option&gt;
+  &lt;option&gt;UK&lt;/option&gt;
+&lt;/select&gt;
+</pre>
+        </div>
+        <form>
+          <label for="country">Country: </label>
+          <select name="country" id="country">
+            <option>USA</option>
+            <option>UK</option>
+            <option>Canada</option>
+            <option>Other</option>
+          </select>
+        </form>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Buttons</h2>
+        <ul>
+          <li><code>&lt;input type="submit"&gt;</code> (submit form)</li>
+          <li><code>&lt;input type="reset"&gt;</code> (clear form)</li>
+          <li><code>&lt;button&gt;</code> (custom button)</li>
+        </ul>
+        <div class="code-box">
+<pre>
+&lt;input type="submit" value="Send"&gt;
+&lt;input type="reset" value="Clear"&gt;
+&lt;button&gt;Regular Button&lt;/button&gt;
+</pre>
+        </div>
+        <form>
+          <input type="submit" value="Send">
+          <input type="reset" value="Clear">
+          <button type="button">Regular Button</button>
+        </form>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Labels for Accessibility</h2>
+        <ul>
+          <li>Use <code>&lt;label for="id"&gt;</code> for every input (the <b>for</b> attribute matches the input’s <b>id</b>).</li>
+          <li>Labels help screen readers and improve usability.</li>
+        </ul>
+        <div class="code-box">
+<pre>
+&lt;label for="email"&gt;Email:&lt;/label&gt;
+&lt;input id="email" type="email"&gt;
+</pre>
+        </div>
+        <form>
+          <label for="email2">Email:</label>
+          <input id="email2" type="email">
+        </form>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>File Upload</h2>
+        <div class="code-box">
+<pre>
+&lt;input type="file" name="myphoto"&gt;
+</pre>
+        </div>
+        <form>
+          <label for="myphoto">Upload a photo:</label>
+          <input type="file" id="myphoto" name="myphoto">
+        </form>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Hidden Fields</h2>
+        <div class="code-box">
+<pre>
+&lt;input type="hidden" name="userid" value="123"&gt;
+</pre>
+        </div>
+        <form>
+          <input type="hidden" name="userid" value="123">
+          <span style="font-size:1.02em; color:#888;">(Hidden fields are not visible to users)</span>
+        </form>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Fieldset &amp; Legend</h2>
+        <div class="code-box">
+<pre>
+&lt;fieldset&gt;
+  &lt;legend&gt;Contact Info&lt;/legend&gt;
+  ...
+&lt;/fieldset&gt;
+</pre>
+        </div>
+        <form>
+          <fieldset>
+            <legend>Contact Info</legend>
+            <label for="fsetname">Name:</label>
+            <input type="text" id="fsetname" name="fsetname">
+            <label for="fsetemail">Email:</label>
+            <input type="email" id="fsetemail" name="fsetemail">
+          </fieldset>
+        </form>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Validation: Required, Patterns, Min/Max</h2>
+        <ul>
+          <li><code>required</code> — must be filled in</li>
+          <li><code>pattern</code> — regex pattern</li>
+          <li><code>min</code> and <code>max</code> for numbers</li>
+        </ul>
+        <div class="code-box">
+<pre>
+&lt;input type="email" required&gt;
+&lt;input type="text" pattern="[A-Za-z]+"&gt;
+&lt;input type="number" min="1" max="10"&gt;
+</pre>
+        </div>
+        <form>
+          <label>Email (required): <input type="email" required></label>
+          <label>Name (letters only): <input type="text" pattern="[A-Za-z]+"></label>
+          <label>Pick a number: <input type="number" min="1" max="10"></label>
+        </form>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Accessibility Tips</h2>
+        <ul>
+          <li>Always use <code>&lt;label&gt;</code> for every input.</li>
+          <li>Placeholders are not a replacement for labels.</li>
+          <li>Make sure inputs are large enough for easy use.</li>
+        </ul>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Styling Forms with CSS</h2>
+        <ul>
+          <li>Use <code>padding</code>, <code>border-radius</code>, and <code>box-shadow</code> for inputs.</li>
+          <li>Highlight inputs on <code>:focus</code>.</li>
+          <li>Use <code>display: flex</code> or <code>grid</code> for layout.</li>
+          <li>Style buttons with color and hover effects.</li>
+        </ul>
+        <div class="code-box">
+<pre>
+input, select, textarea {
+  padding: 0.7em 1em;
+  border-radius: 8px;
+  border: 1.5px solid #1c2a4e;
+}
+input:focus {
+  border-color: #5ee7ff;
+  box-shadow: 0 0 0 3px #5ee7ff44;
+}
+button:hover {
+  background: #7c4dff;
+  color: #ffe066;
+}
+</pre>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Common Mistakes</h2>
+        <div class="bad-example">
+          &lt;input type="text"&gt;  <span style="color:#f87171;">← No label!</span>
+        </div>
+        <div class="bad-example">
+          &lt;input type="text" style="width:50px;"&gt; <span style="color:#f87171;">← Too small!</span>
+        </div>
+        <div class="bad-example">
+          &lt;input type="email"&gt; <span style="color:#f87171;">← No name attribute!</span>
+        </div>
+        <div class="good-example">
+          &lt;label for="user"&gt;Username:&lt;/label&gt;
+          &lt;input id="user" name="user" type="text"&gt;
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Interactive Activity</h2>
+        <ol>
+          <li>Create a login form with username &amp; password fields and a submit button.</li>
+          <li>Make a survey with radio buttons and checkboxes.</li>
+          <li>Make a registration form with email, password, and country select.</li>
+        </ol>
+        <div class="code-box">
+<pre>
+&lt;!-- Login Form --&gt;
+&lt;form&gt;
+  &lt;label for="loginuser"&gt;Username:&lt;/label&gt;
+  &lt;input id="loginuser" name="loginuser"&gt;
+  &lt;label for="loginpass"&gt;Password:&lt;/label&gt;
+  &lt;input id="loginpass" type="password" name="loginpass"&gt;
+  &lt;input type="submit" value="Login"&gt;
+&lt;/form&gt;
+
+&lt;!-- Survey --&gt;
+&lt;form&gt;
+  Favorite Pet:
+  &lt;input type="radio" name="pet" value="cat"&gt; Cat
+  &lt;input type="radio" name="pet" value="dog"&gt; Dog
+  <br>Hobbies:
+  &lt;input type="checkbox" name="hobby" value="reading"&gt; Reading
+  &lt;input type="checkbox" name="hobby" value="sports"&gt; Sports
+&lt;/form&gt;
+
+&lt;!-- Registration --&gt;
+&lt;form&gt;
+  &lt;label&gt;Email: &lt;input type="email" name="regemail"&gt;&lt;/label&gt;
+  &lt;label&gt;Password: &lt;input type="password" name="regpass"&gt;&lt;/label&gt;
+  &lt;label&gt;Country:
+    &lt;select name="country"&gt;
+      &lt;option&gt;USA&lt;/option&gt;
+      &lt;option&gt;UK&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/label&gt;
+  &lt;input type="submit" value="Register"&gt;
+&lt;/form&gt;
+</pre>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Challenge Project: Contact Form</h2>
+        <ul>
+          <li>Name, email, subject, and message fields</li>
+          <li>Radio buttons for contact reason</li>
+          <li>Checkbox for newsletter</li>
+          <li>Nice styled submit button</li>
+        </ul>
+        <div class="code-box">
+<pre>
+&lt;form&gt;
+  &lt;label&gt;Name: &lt;input name="name"&gt;&lt;/label&gt;
+  &lt;label&gt;Email: &lt;input type="email" name="email"&gt;&lt;/label&gt;
+  &lt;label&gt;Subject: &lt;input name="subject"&gt;&lt;/label&gt;
+  &lt;label&gt;Message:&lt;br&gt;&lt;textarea rows="3" name="msg"&gt;&lt;/textarea&gt;&lt;/label&gt;
+  Reason:
+  &lt;input type="radio" name="reason" value="question"&gt; Question
+  &lt;input type="radio" name="reason" value="feedback"&gt; Feedback
+  &lt;label&gt;
+    &lt;input type="checkbox"

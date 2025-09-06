@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Code Editor</title>
+    <style>
+       body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Fira Code', monospace;
+  background: #1e1e1e;
+  color: #eee;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+  gap: 1px;
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background: #2c2c2c;
+  overflow-y: auto;
+}
+
+.editor textarea {
+  width: 100%;
+  height: 150px;
+  padding: 12px;
+  background: #1e1e1e;
+  color: #eee;
+  border: 1px solid #444;
+  border-radius: 6px;
+  font-size: 15px;
+  resize: vertical;
+  transition: border-color 0.3s;
+}
+
+.editor textarea:focus {
+  border-color: #00ff99;
+  outline: none;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.toolbar button,
+.toolbar select {
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.toolbar button {
+  background: #00ff99;
+  color: #000;
+  font-weight: bold;
+}
+
+.toolbar button:hover {
+  background: #00cc88;
+}
+
+.toolbar select {
+  background: #1e1e1e;
+  color: #eee;
+  border: 1px solid #555;
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #fff;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+  body {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .editor textarea {
+    height: 120px;
+  }
+
+  .toolbar {
+    justify-content: center;
+  }
+}
+.editor textarea.expanded {
+  height: 400px;
+}
+.editor textarea {
+  transition: height 0.3s ease;
+}
+    </style>
+</head>
+<body>
+    <div class="editor">
+        <div class="toolbar">
+            <button onclick="saveProject()">Save Project</button>
+            <button onclick="newProject()">New Projects</button>
+            <select  id="projectSelect" onchange="loadProject(this.value)"></select>
+             <!-- <button id="run" onclick="runClick()">Run </button> -->
+            <button id="reset" onclick="resetBtn()">Reset</button>
+            <button id="delete" onclick="deleteBtn()">Delete</button>
+            <button onclick="renameProject()">Rename</button>
+        </div>
+        <textarea id="htmlCode" placeholder="HTML code here..."></textarea>
+        <textarea id="cssCode" placeholder="CSS code here..."></textarea>
+        <textarea id="jsCode"  placeholder="JS code here..."></textarea>
+      
+    </div>
+    <iframe id="output"></iframe>
+    <script>
+        let currentProject = "default";
+        function runClick() {
+  const htmlCode = document.getElementById("htmlCode").value;
+  const cssCode  = document.getElementById("cssCode").value;
+  const jsCode   = document.getElementById("jsCode").value;
+
+  const output = document.getElementById("output").contentWindow.document;
+  output.open();
+  output.write(htmlCode + cssCode + jsCode);
+  output.close();
+}
+        function saveProject() {
+            let projects = JSON.parse(localStorage.getItem("projects")) || {};
+            projects[currentProject] = {
+                html: document.getElementById("htmlCode").value,
+                css: document.getElementById("cssCode").value,
+                js: document.getElementById("jsCode").value,
+            };
+            localStorage.setItem("projects", JSON.stringify(projects));
+            loadProjectList();
+            alert("Project saved");
+        }
+        function newProject() {
+            const name = prompt("Enter your project name:");
+            if(!name) return;
+            let projects = JSON.parse(localStorage.getItem("projects")) || {};
+            if(projects[name]) {
+                alert("Project is already saved");
+                return;
+            }
+            projects[name] = {html: "", css: "", js: ""};
+            localStorage.setItem("projects", JSON.stringify(projects));
+            currentProject = name;
+            loadProjectList();
+            loadProject(name);
+        }
+        function loadProject(name) {
+            let projects = JSON.parse(localStorage.getItem("projects")) || {};
+            if(!projects[name]) return;
+            currentProject = name;
+            document.getElementById("htmlCode").value = projects[name].html;
+            document.getElementById("cssCode").value  = projects[name].css;
+            document.getElementById("jsCode").value   = projects[name].js;
+            runClick();
+        }
+        function resetBtn() {
+            if(!confirm("Clear all code in this project?")) return;
+            document.getElementById("htmlCode").value = "";
+            document.getElementById("cssCode").value = "";
+            document.getElementById("jsCode").value = "";
+            runClick();
+            saveProject();
+        }
+        function loadProjectList() {
+            let projects = JSON.parse(localStorage.getItem("projects")) || {};
+            let select = document.getElementById("projectSelect");
+            select.innerHTML = "";
+            for(let key in projects) {
+                let option = document.createElement("option");
+                option.value = key;
+                option.textContent = key;
+                if(key === currentProject) option.selected = true;
+                select.appendChild(option);
+            }
+        }
+        function deleteBtn() {
+          if(!confirm("Deleter this project permanently?")) return;
+          let projects = JSON.parse(localStorage.getItem("projects")) || {};
+          delete projects[currentProject];
+         localStorage.setItem("projects", JSON.stringify(projects));
+          let keys = Object.keys(projects);
+          if(keys.length > 0) {
+            currentProject = keys[0];
+            loadProject(currentProject);
+          }else {
+            newProject();
+          }
+          loadProjectList();
+        }
+       function renameProject() {
+  const newName = prompt("Enter new project name:");
+  if (!newName || newName === currentProject) return;
+
+  let projects = JSON.parse(localStorage.getItem("projects")) || {};
+
+  if (projects[newName]) {
+    alert("A project with that name already exists.");
+    return;
+  }
+
+  // Copy current project data to new name
+  projects[newName] = projects[currentProject];
+
+  delete projects[currentProject];
+
+  localStorage.setItem("projects", JSON.stringify(projects));
+
+  currentProject = newName;
+  loadProjectList();
+  loadProject(newName);
+  alert("Project renamed successfully.");
+}
+
+        window.onload = () => {
+            loadProjectList();
+            let projects = JSON.parse(localStorage.getItem("projects")) || {};
+            if(Object.keys(projects).length > 0 ) {
+            currentProject = Object.keys(projects)[0];
+            loadProject(currentProject);
+            }
+            else {
+                newProject();
+            }
+        }
+        ["htmlCode", "cssCode", "jsCode"].forEach(id => {
+  document.getElementById(id).addEventListener("input", runClick);
+});
+
+    </script>
+</body>
+</html>

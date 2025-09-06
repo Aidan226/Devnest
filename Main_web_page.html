@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DevNest – Learn. Build. Transform.</title>
+<style>
+  /* ===================== Design Tokens ===================== */
+  :root{
+    --bg: #0b1220;
+    --surface: #101a2b;
+    --text: #e8eefc;
+    --muted: #b8c3da;
+    --primary: #4f8cff;
+    --primary-2: #22d3ee;   /* teal accent */
+    --accent: #a78bfa;      /* purple accent */
+    --radius: 16px;
+    --shadow: 0 12px 40px rgba(0,0,0,.35);
+    --glass: rgba(16,26,43,.55);
+    --card: #0f172a;
+    --grad: linear-gradient(135deg, #4f8cff 0%, #22d3ee 50%, #a78bfa 100%);
+  }
+
+  /* ===================== Reset / Base ===================== */
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+    color:var(--text);
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(79,140,255,.25), transparent 60%),
+      radial-gradient(800px 500px at -10% 20%, rgba(34,211,238,.18), transparent 60%),
+      radial-gradient(1000px 600px at 50% 120%, rgba(167,139,250,.2), transparent 60%),
+      var(--bg);
+    line-height:1.6;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .container{width:min(1200px, 92%); margin-inline:auto}
+
+/* ===================== Navbar (REPLACE THIS BLOCK) ===================== */
+.nav{
+  position:sticky; top:0; z-index:40;
+  backdrop-filter:saturate(140%) blur(10px);
+  background:linear-gradient(to bottom, rgba(11,18,32,.86), rgba(11,18,32,.6));
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.nav-inner{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 0; position:relative;
+}
+.brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.3px}
+.brand .logo{
+  width:34px; height:34px; border-radius:10px; background:var(--grad);
+  box-shadow:0 6px 20px rgba(79,140,255,.35);
+}
+
+/* Single right-aligned menu for all breakpoints */
+.menu{
+  margin-left:auto;
+  display:flex; align-items:center; gap:14px;
+}
+
+/* Links – glassy pill + active underline animation */
+.menu .link{
+  position:relative;
+  color:var(--muted); font-weight:700;
+  padding:10px 12px; border-radius:12px;
+  transition: color .2s ease, background .2s ease, border-color .2s ease;
+  border:1px solid transparent;
+  background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+}
+.menu .link::after{
+  content:""; position:absolute; left:12px; right:12px; bottom:6px; height:2px;
+  background:var(--grad);
+  transform:scaleX(0); transform-origin:left; transition:transform .25s ease;
+}
+.menu .link:hover{
+  color:var(--text);
+  border-color:rgba(255,255,255,.14);
+  background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+}
+.menu .link:hover::after{ transform:scaleX(1); }
+.menu .link.active{
+  color:var(--text);
+  border-color:rgba(255,255,255,.18);
+  box-shadow:0 8px 20px rgba(79,140,255,.18);
+}
+
+/* Navbar-specific button */
+.nav .btn.nav-cta {
+  padding:8px 14px;
+  border-radius:999px;
+  font-weight:800;
+  background:var(--grad);
+  color:#0b1220;
+  box-shadow: var(--shadow);
+}
+
+/* Burger */
+.burger{
+  display:none; width:42px; height:42px; border-radius:12px;
+  border:1px solid rgba(255,255,255,.12); background:transparent; color:var(--text);
+}
+
+/* Mobile behavior: dropdown tray from the right */
+@media (max-width: 900px){
+  .burger{display:inline-grid; place-items:center}
+
+  .menu{
+    position:absolute; right:2%; top:calc(100% + 10px);
+    flex-direction:column; gap:10px;
+    width:min(86vw, 360px);
+    padding:0 12px;
+    background:var(--glass);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:14px; box-shadow:var(--shadow);
+    backdrop-filter:saturate(140%) blur(14px);
+
+    /* Animation base */
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.35s ease;
+  }
+  .menu[data-open="true"]{
+    padding:12px;
+    max-height:600px; /* enough to fit all links */
+  }
+  .menu .link, .btn.nav-cta{ width:100%; text-align:left }
+}
+
+/* Desktop: keep it tight on the right (no big middle gap) */
+@media (min-width: 901px){
+  .burger{ display:none }
+}e a{padding:10px 12px; border-radius:10px; background:rgba(255,255,255,.04)}
+
+ /* ===== Hero Section ===== */
+.hero{
+  position:relative; isolation:isolate;
+  padding: clamp(56px, 8vw, 96px) 0 clamp(36px, 6vw, 64px);
+}
+.hero .wrap{
+  display:grid; 
+  grid-template-columns: 1.2fr 1fr; 
+  gap:40px; 
+  align-items:center;   /* text + card aligned */
+}
+@media (max-width: 1000px){
+  .hero .wrap{ grid-template-columns:1fr; gap:26px }
+}
+
+/* Headline + Sub */
+.headline{
+  font-size:clamp(32px, 4.2vw, 56px);
+  line-height:1.1; font-weight:900;
+  background:var(--grad);
+  -webkit-background-clip:text; background-clip:text;
+  color:transparent;
+  margin:0 0 14px 0;
+}
+.sub{
+  color:var(--muted);
+  font-size:clamp(16px, 1.4vw, 18px);
+  margin-bottom:24px;
+}
+
+/* Actions Row */
+.hero .actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+  align-items:center;
+}
+
+/* Hero Buttons */
+.hero .actions .btn.hero-btn {
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  letter-spacing: .2px;
+  background: var(--grad);
+  color: #0b1220;
+  box-shadow: var(--shadow);
+  border: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .18s ease, filter .18s ease;
+  margin:0;
+}
+.hero .headline,
+.hero .sub,
+.hero .actions,
+.hero .hero-card {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 0.8s ease forwards;
+}
+
+.hero .headline { animation-delay: 0.1s; }
+.hero .sub { animation-delay: 0.25s; }
+.hero .actions { animation-delay: 0.4s; }
+.hero .hero-card { animation-delay: 0.55s; }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.hero .actions .btn.hero-btn:hover {
+  transform: translateY(-3px);
+}
+
+/* Ghost button */
+.hero .actions .btn.hero-btn.ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,.16);
+  box-shadow: none;
+}
+.hero .actions .btn.hero-btn.ghost:hover {
+  filter: brightness(1.06);
+}
+
+/* Hero Card (Image Panel) */
+.hero-card{
+  border-radius:var(--radius);
+  overflow:hidden;
+  position:relative;
+  min-height:320px;
+  align-self:center;   /* ensures vertical alignment */
+  box-shadow:var(--shadow);
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,.06);
+}
+.hero-card::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    linear-gradient(180deg, rgba(11,18,32,.2), rgba(11,18,32,.6)),
+    url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1920&auto=format&fit=crop');
+  background-size:cover;
+  background-position:center;
+  filter:saturate(115%) contrast(105%);
+  z-index:-1;
+}
+
+  /* ===================== Courses ===================== */
+  section.courses{padding:70px 0}
+  .sec-title{
+    font-size:28px; font-weight:800; margin-bottom:18px;
+  }
+  .sec-sub{color:var(--muted); margin-bottom:28px}
+  /* Grid for exactly 3 cards */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  gap: 24px; /* space between cards */
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 per row on tablet */
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr; /* 1 per row on mobile */
+  }
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column; /* stack content vertically */
+  gap: 12px;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  min-height: 220px; /* increase card height */
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,.18);
+  box-shadow: 0 12px 30px rgba(0,0,0,.35);
+}
+
+.course-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.course-desc {
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.4;
+  font-weight: Inter, Inter Fallback;
+
+}
+.pill {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  color: #0b1220;
+  background: var(--grad);
+  box-shadow: 0 10px 24px rgba(79,140,255,.35);
+}
+  .course-name{font-weight:800}
+
+  /* ===================== Tagline / About ===================== */
+  .tagline{
+    padding:70px 0; position:relative;
+  }
+  .tagline .panel{
+    background:linear-gradient(135deg, rgba(79,140,255,.12), rgba(167,139,250,.1));
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:var(--radius);
+    padding:32px; box-shadow:var(--shadow);
+  }
+  .tagline h3{margin:0 0 10px 0; font-size:clamp(22px, 2.4vw, 30px)}
+  .tagline p{color:var(--muted); margin:6px 0}
+
+  /* ===================== CTA ===================== */
+  .cta{padding:70px 0}
+  .cta .panel{
+    display:flex; gap:18px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+    background:var(--grad); color:#0b1220; border-radius:var(--radius); padding:28px;
+    box-shadow: var(--shadow);
+  }
+  .cta h4{margin:0; font-size:clamp(20px,2.2vw,26px); font-weight:900}
+  .cta .row{display:flex; gap:10px; flex-wrap:wrap}
+  .input{
+    background:rgba(255,255,255,.9); border:0; padding:12px 14px; border-radius:12px; min-width:260px;
+    font-weight:600; color:#0b1220; outline:none;
+  }
+
+  /* Footer */
+  footer{
+    background:#0a0f1b; border-top:1px solid rgba(255,255,255,.06);
+    color:var(--muted); padding:36px 0 46px;
+  }
+  .foot-grid{display:grid; grid-template-columns:1.2fr .8fr .8fr; gap:20px}
+  @media (max-width: 850px){ .foot-grid{grid-template-columns:1fr; gap:10px} }
+  .foot-title{color:var(--text); font-weight:800; margin-bottom:10px}
+  .tiny{font-size:13px; opacity:.85}
+  .copyright{margin-top:18px; border-top:1px solid rgba(255,255,255,.06); padding-top:14px; font-size:13px; text-align:center}
+</style>
+</head>
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <span class="logo"></span>
+        <span>DevNest</span>
+      </div>
+      <!-- for both desktop and mobile -->
+      <div class="menu" id="menu" data-open="false">
+      <a href="#" class="link active">Home</a>
+      <a href="/courses.html" class="link">Courses</a>
+      <a href="/mini_code_editor.html" class="link" target="_blank">Practice</a>
+      <a href="/project_section.html" class="link">Projects</a>
+      <a href="#about" class="link">About</a>
+      <a class="btn nav-cta" href="login.html">Login</a>
+    </div>
+
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">☰</button>
+  </div>
+  </nav>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <div class="container wrap">
+    <div>
+      <h1 class="headline">Dive Into Our Website and <br/>Ignite Your Learning!</h1>
+      <p class="sub">
+        DevNet – Where practice meets purpose. From HTML to JavaScript, your learning path begins now.
+        Code with confidence. Learn with clarity.
+      </p>
+      <div class="actions">
+        <a class="btn hero-btn" id="browse-btn" href="#courses">Browse Courses</a>
+        <a class="btn hero-btn ghost" id="about-btn" href="#about">About More</a>
+      </div>
+    </div>
+
+    <div class="hero-card" aria-hidden="true"></div>
+  </div>
+</header>
+
+  <!-- ===================== COURSES ===================== -->
+  <section class="courses container" id="courses">
+    <h2 class="sec-title">Our Courses</h2>
+    <p class="sec-sub">Choose a stack and start building. Designed for curious minds and bold creators.</p>
+
+   <div class="grid">
+  <div class="card">
+    <span class="pill">HTML</span>
+    <div class="course-content">
+      <span class="course-name"><a href="heading.html" target="_blank">HTML</a></span>
+      <p class="course-desc">HTML is the standard language used to create the structure of web pages.
+        It defines elements like headings, paragraphs, images, links, and forms, organizing content in a way that browsers can display.
+        Think of HTML as the blueprint or skeleton of a website—it tells the browser what each part of the page is and how it should be arranged.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="pill">CSS</span>
+    <div class="course-content">
+      <span class="course-name">CSS</span>
+      <p class="course-desc">CSS is used to style and visually enhance HTML elements.
+         It controls the layout, colors, fonts, spacing, and responsiveness of a webpage, allowing developers to create attractive and user-friendly designs.
+         If HTML is the structure of a house, CSS is the paint, furniture, and decor that make it feel like home.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="pill">JS</span>
+    <div class="course-content">
+      <span class="course-name">JavaScript</span>
+      <p class="course-desc">JavaScript is a programming language that adds interactivity and dynamic behavior to websites.
+         It enables features like dropdown menus, animations, form validation, and real-time updates.
+         JavaScript runs in the browser and responds to user actions, making websites feel alive and responsive—like the electricity and plumbing that make a house functional.</p>
+    </div>
+  </div>
+</div>
+
+  </section>
+
+  <!-- ===================== TAGLINE / ABOUT ===================== -->
+  <section class="tagline" id="about">
+    <div class="container">
+      <div class="panel">
+        <h3>Empowering future developers—one course at a time.</h3>
+        <p>DevNet: Your journey into tech starts here. Learn by doing through guided projects and real practice.</p>
+        <p class="tiny">From fundamentals to frameworks, we keep things practical so you can build with confidence.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="cta" id="practice">
+    <div class="container">
+      <div class="panel">
+        <h4>Let’s Learn Together</h4>
+        <div class="row">
+          <input class="input" type="email" placeholder="Email address" aria-label="Email address" />
+          <a class="btn" href="#courses">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <div class="container foot-grid">
+      <div>
+        <div class="foot-title">DevNest</div>
+        <p class="tiny">“DevNest: Where practice meets purpose.”<br/>© 2025 DevNest — Learn. Build. Transform.</p>
+      </div>
+      <div>
+        <div class="foot-title">Links</div>
+        <p class="tiny"><a href="#courses">Courses</a> · <a href="#projects">Projects</a> · <a href="#about">About</a> · <a href="#">Terms of Service</a></p>
+      </div>
+      <div>
+        <div class="foot-title">Contact</div>
+        <p class="tiny">DevNest.com • Email: hello@devnet.example</p>
+        <p class="tiny">UIT 14/, CT Road, Ayeayarwaddy</p>
+      </div>
+    </div>
+    <div class="container copyright">Copyright @DevNest</div>
+  </footer>
+
+<script>
+const burger = document.getElementById('burger');
+const menu = document.getElementById('menu');
+
+burger.addEventListener('click', () => {
+  const open = menu.getAttribute('data-open') === 'true';
+  menu.setAttribute('data-open', String(!open));
+  burger.setAttribute('aria-expanded', String(!open));
+});
+
+</script>
+</body>
+</html>

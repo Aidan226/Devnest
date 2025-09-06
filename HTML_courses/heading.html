@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML Headings &amp; Paragraphs — DevNest</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root{
+      --bg-1:#0b1220;
+      --bg-2:#0a0f1a;
+      --card:#0f172aee;
+      --muted:#8aa0c7;
+      --text:#e6eeff;
+      --edge:#1f2a44;
+      --brand-1:#5ee7ff;
+      --brand-2:#7c4dff;
+      --accent:#3b82f6;
+      --success:#22c55e;
+      --radius:14px;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --glass:backdrop-filter: blur(10px);
+      --font:-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Arial, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      --nav-h:72px;
+      --sidebar-w:280px;
+      --sidebar-w-collapsed:72px;
+    }
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--font);
+      color:var(--muted);
+      background:
+        radial-gradient(1000px 600px at 80% -10%, rgba(124,77,255,.16), transparent 60%),
+        radial-gradient(900px 500px at -10% 20%, rgba(94,231,255,.12), transparent 55%),
+        linear-gradient(180deg, var(--bg-1), var(--bg-2));
+      line-height:1.7;
+    }
+    a{color:inherit;text-decoration:none}
+
+    .topnav{
+      position:sticky; top:0; z-index:1000;
+      height:var(--nav-h);
+      display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(180deg, rgba(8,12,20,.8), rgba(8,12,20,.55));
+      border-bottom:1px solid rgba(255,255,255,.04);
+      backdrop-filter: blur(12px);
+    }
+    .nav-inner{
+      width:min(1200px, 92vw);
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px;
+      color:var(--text);
+    }
+    .brand-badge{
+      width:34px; height:34px; border-radius:10px;
+      background:linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      box-shadow:0 8px 30px rgba(124,77,255,.35), inset 0 0 18px rgba(255,255,255,.3);
+    }
+    .nav-links{
+      display:flex; gap:26px; align-items:center; font-weight:600;
+      color:#b8c6e8;
+    }
+    .nav-links a{opacity:.9}
+    .nav-links a:hover{opacity:1; color:var(--text)}
+    .login-btn{
+      padding:10px 18px; border-radius:999px; font-weight:700;
+      color:#04111f; background:linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      box-shadow:0 10px 24px rgba(94,231,255,.25);
+      border:none; cursor:pointer;
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      gap:24px;
+      width:min(1300px, 96vw);
+      margin:24px auto 80px;
+    }
+    .layout.collapsed{
+      grid-template-columns: var(--sidebar-w-collapsed) 1fr;
+    }
+
+    .sidebar{
+      position:sticky; top:calc(var(--nav-h) + 24px);
+      align-self:start;
+      background:linear-gradient(180deg, rgba(18,25,42,.8), rgba(12,18,33,.7));
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:20px;
+      box-shadow:var(--shadow);
+      padding:12px;
+      color:#cfe0ff;
+      overflow:hidden;
+    }
+    .collapse-toggle{
+      width:100%; background:transparent; border:none; color:#9fb3d8;
+      display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; cursor:pointer;
+    }
+    .collapse-toggle:hover{background:rgba(255,255,255,.05); color:var(--text)}
+    .toggle-icon{transition: transform .25s ease}
+    .layout.collapsed .toggle-icon{transform: rotate(180deg)}
+    .layout.collapsed .sidebar-content{display:none}
+    .course-title{
+      font-size:14px; letter-spacing:1px; text-transform:uppercase; margin:6px 12px 10px; color:#86a1d6;
+    }
+    details{
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:14px; margin:8px 0; overflow:hidden;
+      background:rgba(255,255,255,.02);
+    }
+    summary{
+      list-style:none; cursor:pointer; padding:12px 14px; font-weight:700; color:#dbe7ff;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    summary::-webkit-details-marker{display:none}
+    .chev{transition: transform .2s ease}
+    details[open] .chev{transform: rotate(90deg)}
+    .menu{
+      display:flex; flex-direction:column; padding:6px 6px 10px;
+    }
+    .menu a{
+      padding:10px 10px; margin:4px 6px; border-radius:10px; color:#b9c9f0; font-weight:600; font-size:15px;
+    }
+    .menu a:hover{background:rgba(255,255,255,.06); color:var(--text)}
+    .menu a.active{
+      background:linear-gradient(135deg, rgba(94,231,255,.15), rgba(124,77,255,.18));
+      color:#eaf2ff; border:1px solid rgba(94,231,255,.35);
+    }
+
+    .card{
+      background:var(--card); border:1px solid rgba(255,255,255,.06);
+      border-radius:24px; box-shadow:var(--shadow);
+      padding:28px 26px;
+    }
+
+    h1{
+      margin:0 0 8px; font-size:42px; line-height:1.15; color:var(--text); font-weight:900;
+      letter-spacing:.2px;
+      background:linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      text-align:center;
+    }
+    .section-title, h2{
+      margin:26px 0 10px; color:#cfe0ff; font-size:22px;
+    }
+    p, li{color:#c3d0f2}
+    .summary-box, .analogy{
+      background:rgba(255,255,255,.06);
+      border-left:4px solid var(--accent);
+      padding:12px 14px; border-radius:12px;
+      margin-bottom:1.6rem;
+    }
+    .diagram{
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:16px; padding:16px; margin:8px 0 10px;
+    }
+    .diagram pre{margin:0; white-space:pre-wrap; color:#e8f1ff}
+    .code, .code-box, .good-box, .bad-box{
+      background:#0b1530; border:1px solid #1c2a4e; color:#d7e6ff;
+      border-radius:14px; padding:14px 16px; overflow:auto; font-family:var(--mono); font-size:15px;
+      margin-bottom:1.2rem;
+      box-shadow:var(--shadow);
+    }
+    .good-box { border-left:6px solid #38bdf8; background:#18294d; }
+    .bad-box { border-left:6px solid #f87171; background:#3b1d2e; }
+    .row, .styling-demo, .good-bad{
+      display:flex; gap:18px; align-items:flex-start; flex-wrap:wrap;
+    }
+    .preview, .render-box{
+      background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06);
+      border-radius:14px; padding:10px; flex:1 1 320px; min-width:280px;
+      color:#e8f1ff;
+      font-size:1.07rem;
+      box-shadow:0 8px 20px rgba(0,0,0,.35);
+      margin-bottom:1.1rem;
+    }
+    iframe{
+      width:100%; height:140px; border:none; border-radius:10px; background:#fff;
+      box-shadow:0 8px 20px rgba(0,0,0,.35);
+    }
+    textarea{
+      width:100%; min-height:120px; resize:vertical;
+      border-radius:12px; border:1px solid #1c2a4e; padding:10px 12px; background:#0b1530; color:#e6eeff;
+      font-family:var(--mono); font-size:14px;
+    }
+    .btn{
+      display:inline-flex; align-items:center; gap:8px; cursor:pointer; user-select:none;
+      padding:10px 16px; border-radius:12px; border:1px solid rgba(94,231,255,.4);
+      background:linear-gradient(135deg, rgba(94,231,255,.25), rgba(124,77,255,.28));
+      color:#07111f; font-weight:800;
+      box-shadow:0 10px 24px rgba(94,231,255,.2);
+    }
+    .btn span{
+      background:linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent
+    }
+    .divider{
+      height: 6px;
+      background: var(--brand-1);
+      margin: 0.3rem 0 0.3rem 0;
+      border-radius: 3px;
+      opacity: 1;
+    }
+    .cheat-sheet{
+      background:rgba(255,255,255,.04);
+      border-radius:14px;
+      padding:1.3rem 1rem;
+      font-size:1.08rem;
+      border-left:7px solid var(--brand-1);
+      box-shadow:0 1px 6px rgba(56,121,246,0.05);
+      margin-bottom:1.2rem;
+    }
+    footer{margin:26px 0 6px; text-align:center; color:#8da3c9}
+    @media (max-width: 700px) {
+      .card {
+        padding:14px 6px;
+      }
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        position:static; width:100%; height:auto; margin-bottom:14px;
+      }
+      .row, .styling-demo, .good-bad {
+        flex-direction:column; gap:1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ========= TOP NAV ========= -->
+  <header class="topnav">
+    <div class="nav-inner">
+      <a class="brand" href="#">
+        <span class="brand-badge" aria-hidden="true"></span>
+        DevNest
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/Main_web_page.html">Home</a>
+        <a href="/courses.html" style="color:var(--text)">Courses</a>
+        <a href="/mini_code_editor.html">Practice</a>
+        <a href="/project_section.html">Projects</a>
+        <a href="/about.html">About</a>
+      </nav>
+      <button class="login-btn">Login</button>
+      <div class="hamburger">
+        <button class="login-btn" style="padding:8px 14px;">Menu</button>
+      </div>
+    </div>
+  </header>
+  <div id="page" class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" aria-label="Course navigation">
+      <button class="collapse-toggle" id="collapseSidebar" title="Collapse sidebar">
+        <svg class="toggle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <strong>Course Menu</strong>
+      </button>
+      <div class="sidebar-content">
+        <div class="course-title">HTML</div>
+        <details open>
+          <summary>Basics <span class="chev" aria-hidden="true">▶</span></summary>
+          <nav class="menu">
+            <a href="introduction.html">HTML Introduction</a>
+            <a href="structure.html">Structure</a>
+            <a href="heading.html" class="active">Headings &amp; Paragraphs</a>
+            <a href="lists.html">Lists</a>
+            <a href="links.html">Links</a>
+            <a href="images.html">Images</a>
+            <a href="tables.html">Tables</a>
+            <a href="forms.html">Forms</a>
+          </nav>
+        </details>
+        <details>
+          <summary>Extras <span class="chev" aria-hidden="true">▶</span></summary>
+          <nav class="menu">
+            <a href="quizzes.html">Quizzes</a>
+          </nav>
+        </details>
+      </div>
+    </aside>
+    <!-- Main content -->
+    <main class="card">
+      <h1>HTML Headings &amp; Paragraphs</h1>
+      <section>
+        <div class="section-title">Introduction: What are Headings &amp; Paragraphs?</div>
+        <div class="summary-box">
+          <b>Headings</b> are titles that organize your web page into sections, like chapters in a book. <br>
+          <b>Paragraphs</b> are blocks of text that share information, stories, or ideas.<br><br>
+          Both make your content easy to read and understand!
+        </div>
+        <p>In HTML, headings use tags <code>&lt;h1&gt;</code> through <code>&lt;h6&gt;</code>, and paragraphs use the <code>&lt;p&gt;</code> tag.</p>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <div class="section-title">Headings: <code>&lt;h1&gt;</code> to <code>&lt;h6&gt;</code></div>
+        <p>Headings tell readers what a section is about. There are six levels:</p>
+        <div class="code-box">
+<pre>
+&lt;h1&gt;This is Heading 1&lt;/h1&gt;
+&lt;h2&gt;This is Heading 2&lt;/h2&gt;
+&lt;h3&gt;This is Heading 3&lt;/h3&gt;
+&lt;h4&gt;This is Heading 4&lt;/h4&gt;
+&lt;h5&gt;This is Heading 5&lt;/h5&gt;
+&lt;h6&gt;This is Heading 6&lt;/h6&gt;
+</pre>
+        </div>
+        <div class="render-box">
+          <h1>This is Heading 1</h1>
+          <h2>This is Heading 2</h2>
+          <h3>This is Heading 3</h3>
+          <h4>This is Heading 4</h4>
+          <h5>This is Heading 5</h5>
+          <h6>This is Heading 6</h6>
+        </div>
+        <p><b>Tip:</b> Use <code>&lt;h1&gt;</code> for your main title, then smaller headings for subsections.</p>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <div class="section-title">Paragraphs: <code>&lt;p&gt;</code></div>
+        <p>Paragraphs hold sentences and ideas. Each <code>&lt;p&gt;</code> creates a new block of text with space around it.</p>
+        <div class="code-box">
+<pre>
+&lt;p&gt;HTML makes websites easy to read.&lt;/p&gt;
+&lt;p&gt;This is another paragraph.&lt;/p&gt;
+</pre>
+        </div>
+        <div class="render-box">
+          <p>HTML makes websites easy to read.</p>
+          <p>This is another paragraph.</p>
+        </div>
+        <p>Use paragraphs to separate thoughts or topics for better readability.</p>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <div class="section-title">Line Breaks: <code>&lt;br&gt;</code></div>
+        <p>The <code>&lt;br&gt;</code> tag adds a single line break — like pressing "Enter" once. Use it inside paragraphs when you need a new line, but not a whole new paragraph.</p>
+        <div class="code-box">
+<pre>
+&lt;p&gt;
+123 Main St.&lt;br&gt;
+Springfield, IL&lt;br&gt;
+USA
+&lt;/p&gt;
+</pre>
+        </div>
+        <div class="render-box">
+          <p>
+            123 Main St.<br>
+            Springfield, IL<br>
+            USA
+          </p>
+        </div>
+        <p><b>Best for:</b> Addresses, poems, or forms where you need lines stacked together.</p>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <div class="section-title">Combining Headings &amp; Paragraphs: A Short Article</div>
+        <div class="code-box">
+<pre>
+&lt;h1&gt;All About Space&lt;/h1&gt;
+&lt;h2&gt;The Solar System&lt;/h2&gt;
+&lt;p&gt;Our solar system has eight planets.&lt;/p&gt;
+&lt;h3&gt;Fun Fact&lt;/h3&gt;
+&lt;p&gt;Jupiter is the largest planet!&lt;/p&gt;
+</pre>
+        </div>
+        <div class="render-box">
+          <h1>All About Space</h1>
+          <h2>The Solar System</h2>
+          <p>Our solar system has eight planets.</p>
+          <h3>Fun Fact</h3>
+          <p>Jupiter is the largest planet!</p>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <div class="section-title">Styling Headings &amp; Paragraphs (inline CSS)</div>
+        <div class="styling-demo">
+          <div>
+            <div class="code-box">
+<pre>
+&lt;h2 style="color:#2563eb;"&gt;Blue Heading&lt;/h2&gt;
+&lt;p style="color:#38bdf8;
+          text-align:center;
+          font-size:1.1rem;"&gt;
+This is a centered, blue paragraph!
+&lt;/p&gt;
+</pre>
+            </div>
+            <div class="render-box">
+              <h2 style="color:#2563eb;">Blue Heading</h2>
+              <p style="color:#38bdf8; text-align:center; font-size:1.1rem;">
+                This is a centered, blue paragraph!
+              </p>
+            </div>
+          </div>
+          <div>
+            <div class="code-box">
+<pre>
+&lt;h3 style="font-size:2rem;
+       font-family:monospace;"&gt;
+Monospace Heading
+&lt;/h3&gt;
+</pre>
+            </div>
+            <div class="render-box">
+              <h3 style="font-size:2rem; font-family:monospace;">
+                Monospace Heading
+              </h3>
+            </div>
+          </div>
+        </div>
+        <p>Inline CSS lets you style each element directly. For bigger projects, use separate CSS files!</p>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <div class="section-title">Best Practices</div>
+        <ul class="best-practices">
+          <li>Use only <b>one &lt;h1&gt;</b> per page – this is your main title.</li>
+          <li>Use headings <b>in order</b>: start with <code>&lt;h2&gt;</code> for major sections, then <code>&lt;h3&gt;</code> for subsections.</li>
+          <li>Don’t skip heading levels (<code>&lt;h2&gt;</code> ➔ <code>&lt;h4&gt;</code> is bad).</li>
+          <li>Keep paragraphs short for readability.</li>
+          <li>Don’t use headings just to make things big or bold — use them for structure!</li>
+          <li>Don’t rely on <code>&lt;br&gt;</code> for layout; use paragraphs for new thoughts.</li>
+        </ul>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <div class="section-title">Accessibility &amp; SEO Tips</div>
+        <ul class="seo-tips">
+          <li>Headings help <b>screen readers</b> and users navigate your page.</li>
+          <li>Google uses headings to understand your content — good for SEO!</li>
+          <li>Write meaningful headings, not just “Welcome” or “Stuff”.</li>
+          <li>Use paragraphs for real text, not headings for everything.</li>
+        </ul>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <div class="section-title">Common Mistakes: Bad vs Good</div>
+        <div class="good-bad">
+          <div class="bad-box">
+            <b>Bad Example:</b>
+<pre>
+&lt;h1&gt;Welcome!&lt;/h1&gt;
+&lt;h1&gt;Products&lt;/h1&gt;  &lt;!-- Two h1s (bad) --&gt;
+&lt;p&gt;&lt;br&gt;Paragraph with too many &lt;br&gt;s&lt;/p&gt;
+</pre>
+          </div>
+          <div class="good-box">
+            <b>Good Example:</b>
+<pre>
+&lt;h1&gt;Welcome!&lt;/h1&gt;
+&lt;h2&gt;Products&lt;/h2&gt;  &lt;!-- Use h2 for section --&gt;
+&lt;p&gt;A proper paragraph.&lt;/p&gt;
+</pre>
+          </div>
+        </div>
+        <p><b>Tip:</b> Always use headings in order, and paragraphs for text blocks. Only one <code>&lt;h1&gt;</code> per page!</p>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <div class="section-title">Practice Tasks</div>
+        <ol class="practice-list">
+          <li>Create a page with your name as the <code>&lt;h1&gt;</code> and a paragraph about your favorite hobby.</li>
+          <li>Write an address using a paragraph and <code>&lt;br&gt;</code> tags for line breaks.</li>
+          <li>Make a mini outline with <code>&lt;h1&gt;</code>, <code>&lt;h2&gt;</code>, and <code>&lt;h3&gt;</code> headings.</li>
+        </ol>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <div class="section-title">Challenge: Make a Mini Newspaper Article</div>
+        <div class="summary-box">
+          <b>Your Task:</b> Create a newspaper article page using headings and paragraphs.<br>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <div class="section-title">Quick Recap (Cheat Sheet)</div>
+        <div class="cheat-sheet">
+          <ul>
+            <li><b>&lt;h1&gt; – &lt;h6&gt;:</b> Headings, organize content. Only one <code>&lt;h1&gt;</code>!</li>
+            <li><b>&lt;p&gt;:</b> Paragraph, for blocks of text.</li>
+            <li><b>&lt;br&gt;:</b> Line break, for stacking lines inside paragraphs.</li>
+            <li>Use headings in order for structure and accessibility.</li>
+            <li>Headings &amp; paragraphs help SEO and screen readers.</li>
+            <li>Don’t use headings just for bigger text — use them for meaning!</li>
+          </ul>
+        </div>
+      </section>
+      <footer>© DevNest · Practice meets purpose.</footer>
+    </main>
+  </div>
+  <script>
+    // Sidebar collapse
+    const page = document.getElementById('page');
+    const collapseBtn = document.getElementById('collapseSidebar');
+    const saved = sessionStorage.getItem('sidebar-collapsed');
+    if (saved === '1') page.classList.add('collapsed');
+    collapseBtn.addEventListener('click', () => {
+      page.classList.toggle('collapsed');
+      sessionStorage.setItem('sidebar-collapsed', page.classList.contains('collapsed') ? '1' : '0');
+    });
+  </script>
+</body>
+</html>

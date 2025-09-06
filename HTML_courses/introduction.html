@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Introduction to HTML — DevNest</title>
+<style>
+  :root{
+    --bg-1:#0b1220;
+    --bg-2:#0a0f1a;
+    --card:#0f172aee;
+    --muted:#8aa0c7;
+    --text:#e6eeff;
+    --edge:#1f2a44;
+    --brand-1:#5ee7ff;
+    --brand-2:#7c4dff;
+    --accent:#3b82f6;
+    --success:#22c55e;
+    --radius:14px;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+    --glass:backdrop-filter: blur(10px);
+    --font:-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    --nav-h:72px;
+    --sidebar-w:280px;
+    --sidebar-w-collapsed:72px;
+  }
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:var(--font);
+    color:var(--muted);
+    background:
+      radial-gradient(1000px 600px at 80% -10%, rgba(124,77,255,.16), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(94,231,255,.12), transparent 55%),
+      linear-gradient(180deg, var(--bg-1), var(--bg-2));
+    line-height:1.7;
+  }
+  a{color:inherit;text-decoration:none}
+
+  .topnav{
+    position:sticky; top:0; z-index:1000;
+    height:var(--nav-h);
+    display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(180deg, rgba(8,12,20,.8), rgba(8,12,20,.55));
+    border-bottom:1px solid rgba(255,255,255,.04);
+    backdrop-filter: blur(12px);
+  }
+  .nav-inner{
+    width:min(1200px, 92vw);
+    display:flex; align-items:center; justify-content:space-between;
+    gap:16px;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px;
+    color:var(--text);
+  }
+  .brand-badge{
+    width:34px; height:34px; border-radius:10px;
+    background:linear-gradient(135deg, var(--brand-1), var(--brand-2));
+    box-shadow:0 8px 30px rgba(124,77,255,.35), inset 0 0 18px rgba(255,255,255,.3);
+  }
+  .nav-links{
+    display:flex; gap:26px; align-items:center; font-weight:600;
+    color:#b8c6e8;
+  }
+  .nav-links a{opacity:.9}
+  .nav-links a:hover{opacity:1; color:var(--text)}
+  .login-btn{
+    padding:10px 18px; border-radius:999px; font-weight:700;
+    color:#04111f; background:linear-gradient(135deg, var(--brand-1), var(--brand-2));
+    box-shadow:0 10px 24px rgba(94,231,255,.25);
+    border:none; cursor:pointer;
+  }
+
+  .layout{
+    display:grid;
+    grid-template-columns: var(--sidebar-w) 1fr;
+    gap:24px;
+    width:min(1300px, 96vw);
+    margin:24px auto 80px;
+  }
+  .layout.collapsed{
+    grid-template-columns: var(--sidebar-w-collapsed) 1fr;
+  }
+
+  .sidebar{
+    position:sticky; top:calc(var(--nav-h) + 24px);
+    align-self:start;
+    background:linear-gradient(180deg, rgba(18,25,42,.8), rgba(12,18,33,.7));
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:12px;
+    color:#cfe0ff;
+    overflow:hidden;
+  }
+  .collapse-toggle{
+    width:100%; background:transparent; border:none; color:#9fb3d8;
+    display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; cursor:pointer;
+  }
+  .collapse-toggle:hover{background:rgba(255,255,255,.05); color:var(--text)}
+  .toggle-icon{transition: transform .25s ease}
+  .layout.collapsed .toggle-icon{transform: rotate(180deg)}
+  .layout.collapsed .sidebar-content{display:none}
+  .course-title{
+    font-size:14px; letter-spacing:1px; text-transform:uppercase; margin:6px 12px 10px; color:#86a1d6;
+  }
+  details{
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:14px; margin:8px 0; overflow:hidden;
+    background:rgba(255,255,255,.02);
+  }
+  summary{
+    list-style:none; cursor:pointer; padding:12px 14px; font-weight:700; color:#dbe7ff;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  summary::-webkit-details-marker{display:none}
+  .chev{transition: transform .2s ease}
+  details[open] .chev{transform: rotate(90deg)}
+  .menu{
+    display:flex; flex-direction:column; padding:6px 6px 10px;
+  }
+  .menu a{
+    padding:10px 10px; margin:4px 6px; border-radius:10px; color:#b9c9f0; font-weight:600; font-size:15px;
+  }
+  .menu a:hover{background:rgba(255,255,255,.06); color:var(--text)}
+  .menu a.active{
+    background:linear-gradient(135deg, rgba(94,231,255,.15), rgba(124,77,255,.18));
+    color:#eaf2ff; border:1px solid rgba(94,231,255,.35);
+  }
+
+  .card{
+    background:var(--card); border:1px solid rgba(255,255,255,.06);
+    border-radius:24px; box-shadow:var(--shadow);
+    padding:28px 26px;
+  }
+
+  h1{
+    margin:0 0 8px; font-size:42px; line-height:1.15; color:var(--text); font-weight:900;
+    letter-spacing:.2px;
+    background:linear-gradient(135deg, var(--brand-1), var(--brand-2));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-align:center;
+  }
+  h2{
+    margin:26px 0 10px; color:#cfe0ff; font-size:22px;
+  }
+  p, li{color:#c3d0f2}
+  .analogy{
+    background:rgba(255,255,255,.06);
+    border-left:4px solid var(--accent);
+    padding:12px 14px; border-radius:12px;
+  }
+  .diagram{
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:16px; padding:16px; margin:8px 0 10px;
+  }
+  .diagram pre{margin:0; white-space:pre-wrap; color:#e8f1ff}
+  .code{
+    background:#0b1530; border:1px solid #1c2a4e; color:#d7e6ff;
+    border-radius:14px; padding:14px 16px; overflow:auto; font-family:var(--mono); font-size:15px;
+  }
+  .row{
+    display:flex; gap:18px; align-items:flex-start; flex-wrap:wrap;
+  }
+  .preview{
+    background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06);
+    border-radius:14px; padding:10px; flex:1 1 320px; min-width:280px;
+  }
+  iframe{
+    width:100%; height:140px; border:none; border-radius:10px; background:#fff;
+    box-shadow:0 8px 20px rgba(0,0,0,.35);
+  }
+  textarea{
+    width:100%; min-height:120px; resize:vertical;
+    border-radius:12px; border:1px solid #1c2a4e; padding:10px 12px; background:#0b1530; color:#e6eeff;
+    font-family:var(--mono); font-size:14px;
+  }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; cursor:pointer; user-select:none;
+    padding:10px 16px; border-radius:12px; border:1px solid rgba(94,231,255,.4);
+    background:linear-gradient(135deg, rgba(94,231,255,.25), rgba(124,77,255,.28));
+    color:#07111f; font-weight:800;
+    box-shadow:0 10px 24px rgba(94,231,255,.2);
+  }
+  .btn span{
+    background:linear-gradient(135deg, var(--brand-1), var(--brand-2));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent
+  }
+  footer{margin:26px 0 6px; text-align:center; color:#8da3c9}
+</style>
+</head>
+<body>
+
+  <!-- ========= TOP NAV ========= -->
+  <header class="topnav">
+    <div class="nav-inner">
+      <a class="brand" href="#">
+        <span class="brand-badge" aria-hidden="true"></span>
+        DevNest
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/Main_web_page.html">Home</a>
+        <a href="/courses.html" style="color:var(--text)">Courses</a>
+        <a href="/mini_code_editor.html">Practice</a>
+        <a href="/project_section.html">Projects</a>
+        <a href="/about.html">About</a>
+      </nav>
+      <button class="login-btn">Login</button>
+      <div class="hamburger">
+        <button class="login-btn" style="padding:8px 14px;">Menu</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========= PAGE LAYOUT ========= -->
+  <div id="page" class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" aria-label="Course navigation">
+      <button class="collapse-toggle" id="collapseSidebar" title="Collapse sidebar">
+        <svg class="toggle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <strong>Course Menu</strong>
+      </button>
+      <div class="sidebar-content">
+        <div class="course-title">HTML</div>
+        <details open>
+          <summary>Basics <span class="chev" aria-hidden="true">▶</span></summary>
+          <nav class="menu">
+            <a href="introduction.html" class="active">HTML Introduction</a>
+            <a href="structure.html">Structure</a>
+            <a href="heading.html">Headings &amp; Paragraphs</a>
+            <a href="lists.html">Lists</a>
+            <a href="links.html">Links</a>
+            <a href="images.html">Images</a>
+            <a href="tables.html">Tables</a>
+            <a href="forms.html">Forms</a>
+          </nav>
+        </details>
+        <details>
+          <summary>Extras <span class="chev" aria-hidden="true">▶</span></summary>
+          <nav class="menu">
+            <a href="quizzes.html">Quizzes</a>
+          </nav>
+        </details>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="card">
+      <h1>Introduction to HTML</h1>
+
+      <section>
+        <h2>What is HTML?</h2>
+        <p>
+          HTML stands for <strong>HyperText Markup Language</strong>. It’s the basic building block for web pages.
+        </p>
+        <div class="analogy">
+          <strong>Analogy:</strong> Imagine a website as a house:
+          <ul>
+            <li><b>HTML</b> is the structure—the walls, rooms, and layout.</li>
+            <li><b>CSS</b> is the paint and decorations—the colors, styles, and furniture.</li>
+            <li><b>JavaScript</b> are the gadgets—the things that make your house interactive, like a remote-controlled light.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>How Does an HTML Page Work?</h2>
+        <div class="diagram">
+<pre>Browser
+   │
+   ▼
+Reads HTML file
+   │
+   ▼
+Displays content on your screen
+</pre>
+          <p>
+            Your browser (like Chrome, Edge, or Firefox) reads the HTML file and shows the content as a web page.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Basic HTML Page Structure</h2>
+        <div class="code">
+<pre>
+&lt;!DOCTYPE html&gt;  &lt;!-- Tells the browser this is an HTML5 document --&gt;
+&lt;html&gt;           &lt;!-- The root of your HTML page --&gt;
+  &lt;head&gt;         &lt;!-- Info about your page (title, links, etc) --&gt;
+    &lt;title&gt;My Page Title&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;         &lt;!-- The visible content --&gt;
+    &lt;!-- Content goes here --&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+        </div>
+      </section>
+
+      <section>
+        <h2>Tags, Elements, and Attributes</h2>
+        <ul>
+          <li>
+            <b>Tag:</b> The command inside <code>&lt;angle brackets&gt;</code>.
+            <br>Example: <code>&lt;p&gt;</code>
+          </li>
+          <li>
+            <b>Element:</b> The complete thing, including both opening and closing tags, and the content in between.
+            <br>Example: <code>&lt;p&gt;Hello!&lt;/p&gt;</code>
+          </li>
+          <li>
+            <b>Attribute:</b> Extra info inside a tag.
+            <br>Example: <code>&lt;a href="https://example.com"&gt;Visit&lt;/a&gt;</code>. Here, <code>href="..."</code> is an attribute.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Hands-On Example</h2>
+        <div class="row">
+          <div class="code" style="flex:1 1 360px; min-width:280px;">
+<pre id="handsOnCode">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;My First HTML Page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Hello, World!&lt;/h1&gt;
+    &lt;p&gt;This is my first HTML paragraph.&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+          </div>
+          <div class="preview">
+            <iframe id="handsOnPreview"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Activity</h2>
+        <p>
+          <strong>Try this:</strong> Create a page with your name as the title, a heading that says “Welcome to My Page”, and a paragraph about your hobby.
+        </p>
+        <div style="margin-top:10px">
+          <textarea id="tryTextarea" rows="8" spellcheck="false">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Alex Smith&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Welcome to My Page&lt;/h1&gt;
+    &lt;p&gt;I enjoy reading science fiction and exploring new ideas.&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</textarea>
+          <button class="btn" id="runCodeBtn"><span>▶</span> Show Output</button>
+          <div class="label">Your Output:</div>
+          <div class="preview">
+            <iframe id="tryOutput"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <footer>© DevNest · Practice meets purpose.</footer>
+    </main>
+  </div>
+
+<script>
+  // Sidebar collapse
+  const page = document.getElementById('page');
+  const collapseBtn = document.getElementById('collapseSidebar');
+  const saved = sessionStorage.getItem('sidebar-collapsed');
+  if (saved === '1') page.classList.add('collapsed');
+  collapseBtn.addEventListener('click', () => {
+    page.classList.toggle('collapsed');
+    sessionStorage.setItem('sidebar-collapsed', page.classList.contains('collapsed') ? '1' : '0');
+  });
+
+  // Hands-on preview
+  document.getElementById('handsOnPreview').srcdoc = document.getElementById('handsOnCode').textContent;
+
+  // Try It Yourself editor
+  const runCodeBtn = document.getElementById('runCodeBtn');
+  const tryTextarea = document.getElementById('tryTextarea');
+  const tryOutput = document.getElementById('tryOutput');
+  runCodeBtn.addEventListener('click', () => {
+    tryOutput.srcdoc = tryTextarea.value;
+  });
+  // Initial load
+  tryOutput.srcdoc = tryTextarea.value;
+</script>
+</body>
+</html>

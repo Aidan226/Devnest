@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DevNest Login</title>
+  <style>
+    body {
+      background: #121212;
+      font-family: 'Fira Code', monospace;
+      color: #eee;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,255,153,0.2);
+      width: 100%;
+      max-width: 400px;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    h2 {
+      color: #00ff99;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+      color: #aaa;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #444;
+      border-radius: 6px;
+      background: #2c2c2c;
+      color: #eee;
+    }
+
+    input:focus {
+      border-color: #00ff99;
+      outline: none;
+      box-shadow: 0 0 5px rgba(0,255,153,0.3);
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #00ff99;
+      border: none;
+      border-radius: 6px;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background: #00cc88;
+    }
+
+    .link {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .link a {
+      color: #00ff99;
+      text-decoration: none;
+    }
+
+    .link a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Welcome to DevNest</h2>
+
+    <!-- Login Form -->
+    <form id="loginForm">
+      <label for="loginUser">Username</label>
+      <input type="text" id="loginUser" required />
+      <label for="loginPass">Password</label>
+      <input type="password" id="loginPass" required />
+      <button type="submit">Login</button>
+      <div class="link">
+        <a href="#" onclick="toggleForm('signup')">Create Account</a> |
+        <a href="#" onclick="toggleForm('reset')">Reset Password</a>
+      </div>
+    </form>
+
+    <!-- Signup Form -->
+    <form id="signupForm" style="display:none;">
+      <label for="newUser">Username</label>
+      <input type="text" id="newUser" required />
+      <label for="newEmail">Email</label>
+      <input type="email" id="newEmail" required />
+      <label for="newPass">Password</label>
+      <input type="password" id="newPass" required />
+      <label for="conPass">Confirm Password</label>
+      <input type="password" id="conPass" required />
+      <button type="submit">Sign Up</button>
+      <div class="link">
+        <a href="#" onclick="toggleForm('login')">Back to Login</a>
+      </div>
+    </form>
+
+    <!-- Reset Form -->
+    <form id="resetForm" style="display:none;">
+      <label for="resetUser">Username</label>
+      <input type="text" id="resetUser" required />
+      <label for="resetPass">New Password</label>
+      <input type="password" id="resetPass" required />
+      <button type="submit">Reset Password</button>
+      <div class="link">
+        <a href="#" onclick="toggleForm('login')">Back to Login</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const resetForm = document.getElementById('resetForm');
+
+    function toggleForm(form) {
+      loginForm.style.display = form === 'login' ? 'block' : 'none';
+      signupForm.style.display = form === 'signup' ? 'block' : 'none';
+      resetForm.style.display = form === 'reset' ? 'block' : 'none';
+    }
+
+    // Sign Up
+    signupForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const user = document.getElementById('newUser').value.trim();
+      const email = document.getElementById('newEmail').value.trim();
+      const pass = document.getElementById('newPass').value;
+
+      if (user && email && pass) {
+        localStorage.setItem(user, JSON.stringify({ email, password: pass }));
+        alert('Account created!');
+        toggleForm('login');
+      } else {
+        alert('Please fill all fields');
+      }
+    });
+
+    // Login
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const user = document.getElementById('loginUser').value.trim();
+      const pass = document.getElementById('loginPass').value;
+      const stored = JSON.parse(localStorage.getItem(user));
+
+      if (stored && stored.password === pass) {
+        alert(`Welcome back, ${user}!`);
+      } else {
+        alert('Invalid credentials');
+      }
+    });
+
+    // Reset Password
+    resetForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const user = document.getElementById('resetUser').value.trim();
+      const newPass = document.getElementById('resetPass').value;
+      const stored = JSON.parse(localStorage.getItem(user));
+
+      if (stored) {
+        stored.password = newPass;
+        localStorage.setItem(user, JSON.stringify(stored));
+        alert('Password updated!');
+        toggleForm('login');
+      } else {
+        alert('User not found');
+      }
+    });
+  </script>
+</body>
+</html>

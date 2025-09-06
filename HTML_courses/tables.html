@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTML Tables — DevNest</title>
+  <style>
+    :root{
+      --bg-1:#0b1220;
+      --bg-2:#0a0f1a;
+      --card:#0f172aee;
+      --muted:#8aa0c7;
+      --text:#e6eeff;
+      --edge:#1f2a44;
+      --brand-1:#5ee7ff;
+      --brand-2:#7c4dff;
+      --accent:#3b82f6;
+      --success:#22c55e;
+      --radius:14px;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --glass:backdrop-filter: blur(10px);
+      --font:-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Arial, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      --nav-h:72px;
+      --sidebar-w:280px;
+      --sidebar-w-collapsed:72px;
+      --table-head: #5fa8d3;
+      --table-head-txt: #fff;
+      --zebra: #192135;
+      --hover: #2b3266;
+    }
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--font);
+      color:var(--muted);
+      background:
+        radial-gradient(1000px 600px at 80% -10%, rgba(124,77,255,.16), transparent 60%),
+        radial-gradient(900px 500px at -10% 20%, rgba(94,231,255,.12), transparent 55%),
+        linear-gradient(180deg, var(--bg-1), var(--bg-2));
+      line-height:1.7;
+    }
+    a{color:var(--brand-1);text-decoration:underline;}
+    a:hover{color:var(--brand-2);}
+    .topnav{
+      position:sticky; top:0; z-index:1000;
+      height:var(--nav-h);
+      display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(180deg, rgba(8,12,20,.8), rgba(8,12,20,.55));
+      border-bottom:1px solid rgba(255,255,255,.04);
+      backdrop-filter: blur(12px);
+    }
+    .nav-inner{
+      width:min(1200px, 92vw);
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px;
+      color:var(--text);
+    }
+    .brand-badge{
+      width:34px; height:34px; border-radius:10px;
+      background:linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      box-shadow:0 8px 30px rgba(124,77,255,.35), inset 0 0 18px rgba(255,255,255,.3);
+    }
+    .nav-links{
+      display:flex; gap:26px; align-items:center; font-weight:600;
+      color:#b8c6e8;
+    }
+    .nav-links a{opacity:.9}
+    .nav-links a:hover{opacity:1; color:var(--text)}
+    .login-btn{
+      padding:10px 18px; border-radius:999px; font-weight:700;
+      color:#04111f; background:linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      box-shadow:0 10px 24px rgba(94,231,255,.25);
+      border:none; cursor:pointer;
+    }
+    .layout{
+      display:grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      gap:24px;
+      width:min(1300px, 96vw);
+      margin:24px auto 80px;
+    }
+    .layout.collapsed{
+      grid-template-columns: var(--sidebar-w-collapsed) 1fr;
+    }
+    .sidebar{
+      position:sticky; top:calc(var(--nav-h) + 24px);
+      align-self:start;
+      background:linear-gradient(180deg, rgba(18,25,42,.8), rgba(12,18,33,.7));
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:20px;
+      box-shadow:var(--shadow);
+      padding:12px;
+      color:#cfe0ff;
+      overflow:hidden;
+    }
+    .collapse-toggle{
+      width:100%; background:transparent; border:none; color:#9fb3d8;
+      display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; cursor:pointer;
+    }
+    .collapse-toggle:hover{background:rgba(255,255,255,.05); color:var(--text)}
+    .toggle-icon{transition: transform .25s ease}
+    .layout.collapsed .toggle-icon{transform: rotate(180deg)}
+    .layout.collapsed .sidebar-content{display:none}
+    .course-title{
+      font-size:14px; letter-spacing:1px; text-transform:uppercase; margin:6px 12px 10px; color:#86a1d6;
+    }
+    details{
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:14px; margin:8px 0; overflow:hidden;
+      background:rgba(255,255,255,.02);
+    }
+    summary{
+      list-style:none; cursor:pointer; padding:12px 14px; font-weight:700; color:#dbe7ff;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    summary::-webkit-details-marker{display:none}
+    .chev{transition: transform .2s ease}
+    details[open] .chev{transform: rotate(90deg)}
+    .menu{
+      display:flex; flex-direction:column; padding:6px 6px 10px;
+    }
+    .menu a{
+      padding:10px 10px; margin:4px 6px; border-radius:10px; color:#b9c9f0; font-weight:600; font-size:15px;
+    }
+    .menu a:hover{background:rgba(255,255,255,.06); color:var(--text)}
+    .menu a.active{
+      background:linear-gradient(135deg, rgba(94,231,255,.15), rgba(124,77,255,.18));
+      color:#eaf2ff; border:1px solid rgba(94,231,255,.35);
+    }
+    .card{
+      background:var(--card); border:1px solid rgba(255,255,255,.06);
+      border-radius:24px; box-shadow:var(--shadow);
+      padding:28px 26px;
+    }
+    h1{
+      margin:0 0 8px; font-size:42px; line-height:1.15; color:var(--text); font-weight:900;
+      letter-spacing:.2px;
+      background:linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      text-align:center;
+    }
+    h2{
+      margin:26px 0 10px; color:#cfe0ff; font-size:22px;
+    }
+    p, li{color:#c3d0f2}
+    .summary-box, .analogy-box{
+      background:rgba(255,255,255,.06);
+      border-left:4px solid var(--accent);
+      padding:12px 14px; border-radius:12px;
+      margin-bottom:1.6rem;
+      color:#e8f1ff;
+      font-size:1.08em;
+    }
+    .code, .code-box, .good-example, .bad-example{
+      background:#0b1530; border:1px solid #1c2a4e; color:#d7e6ff;
+      border-radius:14px; padding:14px 16px; overflow:auto; font-family:var(--mono); font-size:15px;
+      margin-bottom:1.2rem;
+      box-shadow:var(--shadow);
+    }
+    .good-example { border-left:6px solid #38bdf8; background:#18294d; }
+    .bad-example { border-left:6px solid #f87171; background:#3b1d2e; }
+    .row, .styling-demo, .good-bad{
+      display:flex; gap:18px; align-items:flex-start; flex-wrap:wrap;
+    }
+    .preview, .rendered-box, .activity-prompt {
+      background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06);
+      border-radius:14px; padding:10px; flex:1 1 320px; min-width:280px;
+      color:#e8f1ff;
+      font-size:1.07rem;
+      box-shadow:0 8px 20px rgba(0,0,0,.35);
+      margin-bottom:1.1rem;
+    }
+    .cheat-sheet, .recap-box {
+      background:rgba(255,255,255,.04);
+      border-radius:14px;
+      padding:1.3rem 1rem;
+      font-size:1.08rem;
+      border-left:7px solid var(--brand-1);
+      box-shadow:0 1px 6px rgba(56,121,246,0.05);
+      margin-bottom:1.2rem;
+      color:#e8f1ff;
+    }
+    .divider{
+      height: 6px;
+      background: var(--brand-1);
+      margin: 0.3rem 0 0.3rem 0;
+      border-radius: 3px;
+      opacity: 1;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.2em 0 1.8em 0;
+      background: #18294d;
+      border-radius: 0.6em;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(80,120,180,0.12);
+      font-size: 1.06em;
+      color: #e6eeff;
+    }
+    th, td {
+      padding: 0.75em 1.1em;
+      text-align: left;
+      border: none;
+    }
+    th {
+      background: var(--table-head);
+      color: var(--table-head-txt);
+      font-weight: bold;
+    }
+    tr:nth-child(even) td {
+      background: var(--zebra);
+    }
+    tr:hover td {
+      background: var(--hover);
+      transition: background 0.18s;
+    }
+    caption {
+      caption-side: top;
+      font-size: 1.1em;
+      font-weight: bold;
+      margin-bottom: 0.4em;
+      color: #ffac41;
+      letter-spacing: 0.01em;
+      background: #192135;
+      border-radius: 0.36em 0.36em 0 0;
+      padding: 0.3em 0.8em;
+      box-shadow: 0 1px 2px #ffac4128;
+    }
+    .border-table {
+      border: 2px solid var(--brand-1);
+    }
+    .border-table th,
+    .border-table td {
+      border: 1px solid #5ee7ff;
+    }
+    .code-inline {
+      background: #1c2945;
+      border-radius: 6px;
+      padding: 0.08em 0.5em;
+      font-size: 1em;
+      font-family: var(--mono);
+      color: #5ee7ff;
+      border: 1px solid #3b82f6;
+    }
+    @media (max-width: 700px) {
+      .card {
+        padding:14px 6px;
+      }
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        position:static; width:100%; height:auto; margin-bottom:14px;
+      }
+      .row, .styling-demo, .good-bad {
+        flex-direction:column; gap:1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ========= TOP NAV ========= -->
+  <header class="topnav">
+    <div class="nav-inner">
+      <a class="brand" href="#">
+        <span class="brand-badge" aria-hidden="true"></span>
+        DevNest
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+          <a href="/Main_web_page.html">Home</a>
+        <a href="/courses.html" style="color:var(--text)">Courses</a>
+        <a href="/mini_code_editor.html">Practice</a>
+        <a href="/project_section.html">Projects</a>
+        <a href="/about.html">About</a>
+      </nav>
+      <!-- <button class="login-btn">Login</button>
+      <div class="hamburger">
+        <button class="login-btn" style="padding:8px 14px;">Menu</button>
+      </div> -->
+    </div>
+  </header>
+  <div id="page" class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" aria-label="Course navigation">
+      <button class="collapse-toggle" id="collapseSidebar" title="Collapse sidebar">
+        <svg class="toggle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <strong>Course Menu</strong>
+      </button>
+      <div class="sidebar-content">
+        <div class="course-title">HTML</div>
+        <details open>
+          <summary>Basics <span class="chev" aria-hidden="true">▶</span></summary>
+          <nav class="menu">
+            <a href="introduction.html">HTML Introduction</a>
+            <a href="structure.html">Structure</a>
+            <a href="heading.html">Headings &amp; Paragraphs</a>
+            <a href="lists.html">Lists</a>
+            <a href="links.html">Links</a>
+            <a href="image.html">Images</a>
+            <a href="tables.html" class="active">Tables</a>
+            <a href="forms.html">Forms</a>
+          </nav>
+        </details>
+        <details>
+          <summary>Extras <span class="chev" aria-hidden="true">▶</span></summary>
+          <nav class="menu">
+            <a href="quizzes.html">Quizzes</a>
+          </nav>
+        </details>
+      </div>
+    </aside>
+    <!-- Main content -->
+    <main class="card">
+      <h1>HTML Tables</h1>
+      <section>
+        <h2>Introduction</h2>
+        <div class="summary-box">
+          <strong>Tables</strong> organize data into <b>rows</b> and <b>columns</b>. They're essential for displaying things like schedules, comparisons, or results. Think of a table as a mini spreadsheet right on your webpage!
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Basic Table Structure</h2>
+        <p>
+          Tables use <span class="code-inline">&lt;table&gt;</span> for the main container, <span class="code-inline">&lt;tr&gt;</span> for rows, and <span class="code-inline">&lt;td&gt;</span> for cells.
+        </p>
+        <div class="code-box">
+<pre>
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Apple&lt;/td&gt;
+    &lt;td&gt;Banana&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Orange&lt;/td&gt;
+    &lt;td&gt;Grape&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+</pre>
+        </div>
+        <b>Result:</b>
+        <table>
+          <tr><td>Apple</td><td>Banana</td></tr>
+          <tr><td>Orange</td><td>Grape</td></tr>
+        </table>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Table Headers: <span class="code-inline">&lt;th&gt;</span></h2>
+        <p>
+          Use <span class="code-inline">&lt;th&gt;</span> for header cells (like column titles). They’re bold and let screen readers know it's a header.
+        </p>
+        <div class="code-box">
+<pre>
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Name&lt;/th&gt;
+    &lt;th&gt;Score&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Alex&lt;/td&gt;
+    &lt;td&gt;95&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+</pre>
+        </div>
+        <b>Result:</b>
+        <table>
+          <tr><th>Name</th><th>Score</th></tr>
+          <tr><td>Alex</td><td>95</td></tr>
+        </table>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Adding a Caption</h2>
+        <p>
+          <span class="code-inline">&lt;caption&gt;</span> gives your table a title—very helpful for accessibility and clarity.
+        </p>
+        <div class="code-box">
+<pre>
+&lt;table&gt;
+  &lt;caption&gt;Top Students&lt;/caption&gt;
+  &lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Score&lt;/th&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;Lila&lt;/td&gt;&lt;td&gt;99&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+</pre>
+        </div>
+        <b>Result:</b>
+        <table>
+          <caption>Top Students</caption>
+          <tr><th>Name</th><th>Score</th></tr>
+          <tr><td>Lila</td><td>99</td></tr>
+        </table>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Spanning Rows &amp; Columns</h2>
+        <p>
+          Use <span class="code-inline">colspan</span> to make a cell stretch across columns, and <span class="code-inline">rowspan</span> to stretch across rows.
+        </p>
+        <div class="code-box">
+<pre>
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th colspan="2"&gt;Schedule&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Monday&lt;/td&gt;
+    &lt;td&gt;Math&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td rowspan="2"&gt;Tuesday&lt;/td&gt;
+    &lt;td&gt;Science&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Art&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+</pre>
+        </div>
+        <b>Result:</b>
+        <table>
+          <tr><th colspan="2">Schedule</th></tr>
+          <tr><td>Monday</td><td>Math</td></tr>
+          <tr><td rowspan="2">Tuesday</td><td>Science</td></tr>
+          <tr><td>Art</td></tr>
+        </table>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Table Borders: HTML &amp; CSS</h2>
+        <p>
+          <b>Old HTML:</b> <span class="code-inline">border="1"</span> (not recommended; use CSS!).
+        </p>
+        <div class="code-box">
+<pre>
+&lt;table border="1"&gt; ... &lt;/table&gt;
+</pre>
+        </div>
+        <table border="1">
+          <tr><td>Example</td><td>Bordered</td></tr>
+        </table>
+        <p>
+          <b>Modern CSS:</b> Add borders and <span class="code-inline">border-collapse: collapse;</span> for a neat look.
+        </p>
+        <div class="code-box">
+<pre>
+&lt;table style="border:2px solid #5ee7ff; border-collapse:collapse;"&gt;
+  &lt;tr&gt;
+    &lt;td style="border:1px solid #7c4dff;"&gt;Data&lt;/td&gt;
+    &lt;td style="border:1px solid #7c4dff;"&gt;Data&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+</pre>
+        </div>
+        <table class="border-table">
+          <tr><td>Data</td><td>Data</td></tr>
+        </table>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Styling Tables</h2>
+        <ul>
+          <li><span class="code-inline">:nth-child(even)</span> for zebra stripes</li>
+          <li><span class="code-inline">:hover</span> for row highlight</li>
+          <li>Colorful headers with <span class="code-inline">th</span></li>
+          <li>Padding for readability</li>
+        </ul>
+        <div class="code-box">
+<pre>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th {
+  background: #5fa8d3;
+  color: #fff;
+  padding: 0.8em;
+}
+td {
+  padding: 0.8em;
+}
+tr:nth-child(even) td {
+  background: #192135;
+}
+tr:hover td {
+  background: #2b3266;
+}
+</pre>
+        </div>
+        <b>Result:</b>
+        <table>
+          <tr><th>Product</th><th>Price</th></tr>
+          <tr><td>Notebook</td><td>$5.00</td></tr>
+          <tr><td>Pencil</td><td>$1.00</td></tr>
+          <tr><td>Eraser</td><td>$0.50</td></tr>
+        </table>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Tables with Links &amp; Images</h2>
+        <p>
+          Table cells can contain <span class="code-inline">&lt;a&gt;</span> links, <span class="code-inline">&lt;img&gt;</span> images, or almost any HTML!
+        </p>
+        <div class="code-box">
+<pre>
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Website&lt;/th&gt;
+    &lt;th&gt;Logo&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;a href="https://github.com"&gt;GitHub&lt;/a&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" width="32"&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+</pre>
+        </div>
+        <b>Result:</b>
+        <table>
+          <tr><th>Website</th><th>Logo</th></tr>
+          <tr>
+            <td><a href="https://github.com" target="_blank">GitHub</a></td>
+            <td>
+              <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" width="32" style="vertical-align:middle;">
+            </td>
+          </tr>
+        </table>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Accessibility Tips</h2>
+        <ul>
+          <li>Use <span class="code-inline">&lt;caption&gt;</span> for table titles</li>
+          <li>Use <span class="code-inline">&lt;th&gt;</span> for headers and add <span class="code-inline">scope="col"</span> or <span class="code-inline">scope="row"</span></li>
+          <li>Don't use tables for layout—use for data only</li>
+        </ul>
+        <div class="code-box">
+<pre>
+&lt;th scope="col"&gt;Score&lt;/th&gt;
+&lt;th scope="row"&gt;Alex&lt;/th&gt;
+</pre>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Common Mistakes</h2>
+        <ul>
+          <li>Forgetting <span class="code-inline">&lt;tr&gt;</span> (table rows)</li>
+          <li>Not using <span class="code-inline">&lt;th&gt;</span> for headers</li>
+          <li>Using tables for page layout (not for tabular data!)</li>
+          <li>Missing <span class="code-inline">colspan</span> or <span class="code-inline">rowspan</span> where needed</li>
+        </ul>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Real-world Examples</h2>
+        <ul>
+          <li><b>Schedules:</b> Class times, conference agendas</li>
+          <li><b>Price lists:</b> Product lists, menus</li>
+          <li><b>Product comparisons:</b> Features across different items</li>
+          <li><b>Timetables:</b> Bus, train, or flight times</li>
+        </ul>
+        <table>
+          <caption>Sample Conference Schedule</caption>
+          <tr><th>Time</th><th>Session</th></tr>
+          <tr><td>09:00</td><td>Welcome</td></tr>
+          <tr><td>09:30</td><td>Keynote</td></tr>
+          <tr><td>10:15</td><td>Break</td></tr>
+        </table>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Practice Activity</h2>
+        <ol>
+          <li><b>Task 1:</b> Create a <b>3x3 table</b> with student names and scores.</li>
+          <li><b>Task 2:</b> Add a header row and caption to your table.</li>
+          <li><b>Task 3:</b> Use <span class="code-inline">colspan</span> and <span class="code-inline">rowspan</span> in a mini schedule.</li>
+          <li><b>Task 4:</b> Style your table—borders, zebra stripes, colors, and padding with CSS!</li>
+        </ol>
+        <div style="margin-top:1.5em;">
+          <b>Challenge Project:</b> Make a <b>product comparison table</b> with:
+          <ul>
+            <li>A <span class="code-inline">&lt;caption&gt;</span> and header row</li>
+            <li>Product images</li>
+            <li>Feature comparison rows</li>
+            <li>Nice styling—colors, stripes, hover!</li>
+          </ul>
+        </div>
+      </section>
+      <div class="divider"></div>
+      <section>
+        <h2>Quick Recap: Table Cheat Sheet</h2>
+        <div class="cheat-sheet">
+          <b>HTML Elements:</b>
+          <ul>
+            <li><span class="code-inline">&lt;table&gt;</span>: The table container</li>
+            <li><span class="code-inline">&lt;tr&gt;</span>: Table row</li>
+            <li><span class="code-inline">&lt;td&gt;</span>: Table cell</li>
+            <li><span class="code-inline">&lt;th&gt;</span>: Table header</li>
+            <li><span class="code-inline">&lt;caption&gt;</span>: Table title</li>
+            <li><span class="code-inline">colspan</span>, <span class="code-inline">rowspan</span>: Span columns/rows</li>
+          </ul>
+          <b>CSS Styling Tips:</b>
+          <ul>
+            <li><span class="code-inline">border-collapse: collapse;</span> for clean borders</li>
+            <li><span class="code-inline">tr:nth-child(even)</span> for zebra stripes</li>
+            <li><span class="code-inline">tr:hover</span> for row highlight</li>
+            <li><span class="code-inline">th, td { padding: ... }</span> for spacing</li>
+            <li>Use <span class="code-inline">background</span> for color</li>
+          </ul>
+        </div>
+      </section>
+      <footer>© DevNest · Practice meets purpose.</footer>
+    </main>
+  </div>
+  <script>
+    // Sidebar collapse
+    const page = document.getElementById('page');
+    const collapseBtn = document.getElementById('collapseSidebar');
+    const saved = sessionStorage.getItem('sidebar-collapsed');
+    if (saved === '1') page.classList.add('collapsed');
+    collapseBtn.addEventListener('click', () => {
+      page.classList.toggle('collapsed');
+      sessionStorage.setItem('sidebar-collapsed', page.classList.contains('collapsed') ? '1' : '0');
+    });
+  </script>
+</body>
+</html>
