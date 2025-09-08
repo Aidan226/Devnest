@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(145deg, #4a90e2, #63e2c6);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.weather-app {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  text-align: center;
+  width: 300px;
+}
+
+.weather-app h1 {
+  margin-bottom: 20px;
+  color: #4a90e2;
+}
+
+.weather-app input {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.weather-app button {
+  padding: 10px 20px;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.weather-app button:hover {
+  background: #357ae8;
+}
+  </style>
+</head>
+<body>
+  <div class="weather-app">
+    <h1>Weather App</h1>
+    <input type="text" id="cityInput" placeholder="Enter city name">
+    <button onclick="getWeather()">Get Weather</button>
+    <div id="weatherResult"></div>
+  </div>
+  <script>
+    const apiKey = "0aa111ade71465dbe13056a5cb9c9d48"; 
+
+async function getWeather() {
+  const city = document.getElementById("cityInput").value;
+  if (!city) {
+    alert("Please enter a city name!");
+    return;
+  }
+
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("City not found");
+    }
+    const data = await response.json();
+    displayWeather(data);
+  } catch (error) {
+    document.getElementById("weatherResult").innerHTML = `<p style="color:red;">${error.message}</p>`;
+  }
+}
+
+function displayWeather(data) {
+  const resultDiv = document.getElementById("weatherResult");
+  resultDiv.innerHTML = `
+    <h3>${data.name}, ${data.sys.country}</h3>
+    <p><strong>Temperature:</strong> ${data.main.temp}°C</p>
+    <p><strong>Weather:</strong> ${data.weather[0].description}</p>
+    <p><strong>Humidity:</strong> ${data.main.humidity}%</p>
+    <p><strong>Wind Speed:</strong> ${data.wind.speed} m/s</p>
+  `;
+}
+
+  </script>
+</body>
+</html>

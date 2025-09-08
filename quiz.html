@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTML Quiz – Beginner Practice</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #3879F6;
+      --primary-dark: #2457b2;
+      --accent: #e1eaf7;
+      --bg: #e9eef6;
+      --surface: #f4f7fb;
+      --info: #e3f8ff;
+      --info-border: #67B7EB;
+      --success: #c9f4ef;
+      --success-border: #1cb39b;
+      --radius: 14px;
+      --shadow: 0 2px 16px rgba(56,121,246,0.07);
+      --font: 'Inter', Arial, sans-serif;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: #222;
+      font-family: var(--font);
+      font-size: 1.09rem;
+      line-height: 1.7;
+    }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 250px;
+      background: #1E3A8A;
+      color: white;
+      padding: 20px 0 0 0;
+      z-index: 500;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .sidebar h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 0 1rem 1.1rem;
+      letter-spacing: 0.04em;
+    }
+    .sidebar a {
+      display: block;
+      color: white;
+      padding: 10px 1.1rem;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 1.08rem;
+      border-radius: 6px;
+      margin-bottom: 2px;
+      transition: background 0.16s;
+    }
+    .sidebar a:hover,
+    .sidebar a.active {
+      background: #384d7d;
+    }
+    .container {
+      margin-left: 250px;
+      width: calc(100% - 250px);
+      padding: 0 0 2rem 0;
+      box-sizing: border-box;
+    }
+    .title-section {
+      margin: 2.2rem 0 1.5rem 0;
+      text-align: center;
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2.5rem 1.5rem 2rem;
+    }
+    .title-section h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.7rem;
+      letter-spacing: 0.01em;
+    }
+    .title-section p {
+      font-size: 1.15rem;
+      color: #38404b;
+      margin-top: 0;
+      margin-bottom: 0.2rem;
+    }
+  
+    .quiz-nav-links {
+      display: flex;
+      gap: 2rem;
+      font-size: 1.12rem;
+    }
+    .quiz-nav-links a {
+      padding: 0.5em 1em;
+      border-radius: 20px;
+      transition: background 0.2s, color 0.2s;
+      font-weight: 600;
+      color: var(--primary);
+      position: relative;
+    }
+    .quiz-nav-links a:hover,
+    .quiz-nav-links a:focus {
+      background: var(--accent);
+      color: var(--primary-dark);
+    }
+    .quiz-nav-links a.active,
+    .quiz-nav-links a:target {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(56,121,246,0.18);
+    }
+    .hero {
+      background: linear-gradient(100deg, #e1eaf7 0%, #f4f7fb 100%);
+      border-radius: 2rem;
+      box-shadow: 0 2px 24px rgba(56,121,246,0.09);
+      text-align: center;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      padding: 3rem 1rem;
+    }
+    .hero h2 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+    .hero p {
+      font-size: 1.25rem;
+      color: #333;
+    }
+    .quiz-section {
+      max-width: 900px;
+      margin: 0 auto;
+      margin-bottom: 2.5rem;
+    }
+    .quiz-section h2 {
+      font-size: 2rem;
+      color: #1cb39b;
+      margin-bottom: 1.2rem;
+      text-align: center;
+    }
+    .quiz-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    .quiz-card {
+      background: #fff;
+      border-radius: 1.2rem;
+      box-shadow: 0 2px 16px rgba(44,62,80,0.09);
+      padding: 1.3rem 1.3rem 1.1rem 1.3rem;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+    }
+    fieldset {
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+    legend {
+      font-weight: 700;
+      font-size: 1.13rem;
+      color: var(--primary-dark);
+      margin-bottom: 0.7rem;
+      padding: 0;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      margin-top: 0.2em;
+    }
+    .options label {
+      display: flex;
+      align-items: center;
+      gap: 0.7em;
+      cursor: pointer;
+      font-size: 1rem;
+      border-radius: 6px;
+      padding: 0.32em 0.6em;
+      transition: background 0.15s;
+    }
+    .options label:hover, .options input:focus + label {
+      background: var(--accent);
+      color: var(--primary-dark);
+    }
+    .options input[type="radio"] {
+      accent-color: var(--primary);
+      width: 1.1em;
+      height: 1.1em;
+      margin: 0;
+    }
+    .quiz-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1.3em;
+      margin: 2rem 0 1rem 0;
+    }
+    button {
+      border: none;
+      padding: 0.8em 2em;
+      border-radius: 30px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 1.15rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(56,121,246,0.12);
+      transition: background 0.2s, box-shadow 0.15s;
+      outline: none;
+    }
+    button:hover, button:focus {
+      background: var(--primary-dark);
+      box-shadow: 0 4px 20px rgba(56,121,246,0.18);
+    }
+    button[type="reset"] {
+      background: #1cb39b;
+    }
+    button[type="reset"]:hover,
+    button[type="reset"]:focus {
+      background: #17a085;
+    }
+    .answer-key {
+      background: var(--info);
+      border-left: 6px solid var(--info-border);
+      border-radius: var(--radius);
+      box-shadow: 0 2px 16px rgba(44,62,80,0.07);
+      padding: 2rem 1.5rem;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .answer-key h3 {
+      color: #10a37f;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .answer-key ol {
+      margin: 0;
+      padding-left: 1.4em;
+      font-size: 1.05rem;
+      color: #234;
+    }
+    .review-section {
+      background: var(--success);
+      border-left: 6px solid var(--success-border);
+      border-radius: var(--radius);
+      box-shadow: 0 2px 16px rgba(44,62,80,0.08);
+      padding: 2rem 1.5rem;
+      margin-bottom: 2rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .review-section h3 {
+      color: #1cb39b;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+    .review-section ul {
+      font-size: 1.08rem;
+      color: #234;
+      padding-left: 1.4em;
+      margin-top: 0.8em;
+    }
+    footer {
+      text-align: center;
+      padding: 1.4em 0;
+      color: #888;
+      font-size: 1em;
+      background: none;
+      margin-top: 1.5em;
+    }
+    @media (max-width: 700px) {
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        padding: 10px 0 10px 0;
+      }
+      .container {
+        margin-left: 0;
+        width: 100%;
+        padding: 0 0 2rem 0;
+      }
+      .title-section, .section { margin-left: 0; margin-right: 0; }
+      .quiz-cards {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+      }
+      .hero {
+        padding: 2rem 0.6rem;
+      }
+      .answer-key, .review-section {
+        padding-left: 0.7rem;
+        padding-right: 0.7rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .quiz-nav-links {
+        gap: 0.5rem;
+        font-size: 1rem;
+      }
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>HTML</h2>
+    <a href="introduction.html">HTML Introduction</a>
+    <a href="structure.html">Structure</a>
+    <a href="heading.html">Heading</a>
+    <a href="lists.html">Lists</a>
+    <a href="links.html">Links</a>
+    <a href="images.html">Images</a>
+    <a href="tables.html">Tables</a>
+    <a href="forms.html">Forms</a>
+    <a class="active" href="quizzes.html">Quizzes</a>
+  </div>
+  <div class="container">
+   
+    <section class="hero" id="home">
+      <h2>Test your HTML knowledge!</h2>
+      <p>
+        Welcome to the beginner HTML Quiz.<br>
+        <strong>Instructions:</strong><br>
+        Select the best answer for each question below. You can check your answers at the end, and review key HTML concepts!
+      </p>
+    </section>
+    <section class="quiz-section" id="quiz">
+      <h2>HTML Quiz</h2>
+      <form>
+        <div class="quiz-cards">
+          <!-- 1 -->
+          <div class="quiz-card">
+            <fieldset>
+              <legend>1. What does HTML stand for?</legend>
+              <div class="options">
+                <input type="radio" id="q1a1" name="q1"><label for="q1a1">Home Tool Markup Language</label>
+                <input type="radio" id="q1a2" name="q1"><label for="q1a2">Hyperlinks and Text Markup Language</label>
+                <input type="radio" id="q1a3" name="q1"><label for="q1a3">Hyper Text Markup Language</label>
+                <input type="radio" id="q1a4" name="q1"><label for="q1a4">Hyper Tool Making Language</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- 2 -->
+          <div class="quiz-card">
+            <fieldset>
+              <legend>2. Which HTML tag is used for the largest heading?</legend>
+              <div class="options">
+                <input type="radio" id="q2a1" name="q2"><label for="q2a1">&lt;h6&gt;</label>
+                <input type="radio" id="q2a2" name="q2"><label for="q2a2">&lt;heading&gt;</label>
+                <input type="radio" id="q2a3" name="q2"><label for="q2a3">&lt;h1&gt;</label>
+                <input type="radio" id="q2a4" name="q2"><label for="q2a4">&lt;head&gt;</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- 3 -->
+          <div class="quiz-card">
+            <fieldset>
+              <legend>3. True or False: The &lt;p&gt; tag defines a paragraph.</legend>
+              <div class="options">
+                <input type="radio" id="q3a1" name="q3"><label for="q3a1">True</label>
+                <input type="radio" id="q3a2" name="q3"><label for="q3a2">False</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- 4 -->
+          <div class="quiz-card">
+            <fieldset>
+              <legend>4. Which tag is used to create a link?</legend>
+              <div class="options">
+                <input type="radio" id="q4a1" name="q4"><label for="q4a1">&lt;link&gt;</label>
+                <input type="radio" id="q4a2" name="q4"><label for="q4a2">&lt;href&gt;</label>
+                <input type="radio" id="q4a3" name="q4"><label for="q4a3">&lt;a&gt;</label>
+                <input type="radio" id="q4a4" name="q4"><label for="q4a4">&lt;url&gt;</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- 5 -->
+          <div class="quiz-card">
+            <fieldset>
+              <legend>5. Which attribute specifies the destination of a link?</legend>
+              <div class="options">
+                <input type="radio" id="q5a1" name="q5"><label for="q5a1">href</label>
+                <input type="radio" id="q5a2" name="q5"><label for="q5a2">src</label>
+                <input type="radio" id="q5a3" name="q5"><label for="q5a3">link</label>
+                <input type="radio" id="q5a4" name="q5"><label for="q5a4">url</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- 6 -->
+          <div class="quiz-card">
+            <fieldset>
+              <legend>6. True or False: The &lt;img&gt; tag needs an 'alt' attribute for accessibility.</legend>
+              <div class="options">
+                <input type="radio" id="q6a1" name="q6"><label for="q6a1">True</label>
+                <input type="radio" id="q6a2" name="q6"><label for="q6a2">False</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- 7 -->
+          <div class="quiz-card">
+            <fieldset>
+              <legend>7. Which HTML element is used to display an unordered list?</legend>
+              <div class="options">
+                <input type="radio" id="q7a1" name="q7"><label for="q7a1">&lt;ol&gt;</label>
+                <input type="radio" id="q7a2" name="q7"><label for="q7a2">&lt;ul&gt;</label>
+                <input type="radio" id="q7a3" name="q7"><label for="q7a3">&lt;list&gt;</label>
+                <input type="radio" id="q7a4" name="q7"><label for="q7a4">&lt;li&gt;</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- 8 -->
+          <div class="quiz-card">
+            <fieldset>
+              <legend>8. Which tag is used to insert an image?</legend>
+              <div class="options">
+                <input type="radio" id="q8a1" name="q8"><label for="q8a1">&lt;picture&gt;</label>
+                <input type="radio" id="q8a2" name="q8"><label for="q8a2">&lt;img&gt;</label>
+                <input type="radio" id="q8a3" name="q8"><label for="q8a3">&lt;src&gt;</label>
+                <input type="radio" id="q8a4" name="q8"><label for="q8a4">&lt;image&gt;</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- 9 -->
+          <div class="quiz-card">
+            <fieldset>
+              <legend>9. True or False: The &lt;table&gt; tag is used to create tables.</legend>
+              <div class="options">
+                <input type="radio" id="q9a1" name="q9"><label for="q9a1">True</label>
+                <input type="radio" id="q9a2" name="q9"><label for="q9a2">False</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- 10 -->
+          <div class="quiz-card">
+            <fieldset>
+              <legend>10. Which tag is used to group rows in a table?</legend>
+              <div class="options">
+                <input type="radio" id="q10a1" name="q10"><label for="q10a1">&lt;tr&gt;</label>
+                <input type="radio" id="q10a2" name="q10"><label for="q10a2">&lt;td&gt;</label>
+                <input type="radio" id="q10a3" name="q10"><label for="q10a3">&lt;th&gt;</label>
+                <input type="radio" id="q10a4" name="q10"><label for="q10a4">&lt;row&gt;</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- 11 -->
+          <div class="quiz-card">
+            <fieldset>
+              <legend>11. Which HTML tag is used to create a form?</legend>
+              <div class="options">
+                <input type="radio" id="q11a1" name="q11"><label for="q11a1">&lt;input&gt;</label>
+                <input type="radio" id="q11a2" name="q11"><label for="q11a2">&lt;form&gt;</label>
+                <input type="radio" id="q11a3" name="q11"><label for="q11a3">&lt;button&gt;</label>
+                <input type="radio" id="q11a4" name="q11"><label for="q11a4">&lt;fieldset&gt;</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- 12 -->
+          <div class="quiz-card">
+            <fieldset>
+              <legend>12. True or False: The &lt;head&gt; element contains metadata, not visible content.</legend>
+              <div class="options">
+                <input type="radio" id="q12a1" name="q12"><label for="q12a1">True</label>
+                <input type="radio" id="q12a2" name="q12"><label for="q12a2">False</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- 13 -->
+          <div class="quiz-card">
+            <fieldset>
+              <legend>13. Which element is used for emphasized text?</legend>
+              <div class="options">
+                <input type="radio" id="q13a1" name="q13"><label for="q13a1">&lt;bold&gt;</label>
+                <input type="radio" id="q13a2" name="q13"><label for="q13a2">&lt;i&gt;</label>
+                <input type="radio" id="q13a3" name="q13"><label for="q13a3">&lt;em&gt;</label>
+                <input type="radio" id="q13a4" name="q13"><label for="q13a4">&lt;strong&gt;</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- 14 -->
+          <div class="quiz-card">
+            <fieldset>
+              <legend>14. Which tag is semantic for main page content?</legend>
+              <div class="options">
+                <input type="radio" id="q14a1" name="q14"><label for="q14a1">&lt;main&gt;</label>
+                <input type="radio" id="q14a2" name="q14"><label for="q14a2">&lt;body&gt;</label>
+                <input type="radio" id="q14a3" name="q14"><label for="q14a3">&lt;section&gt;</label>
+                <input type="radio" id="q14a4" name="q14"><label for="q14a4">&lt;div&gt;</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- 15 -->
+          <div class="quiz-card">
+            <fieldset>
+              <legend>15. True or False: &lt;br&gt; creates a line break.</legend>
+              <div class="options">
+                <input type="radio" id="q15a1" name="q15"><label for="q15a1">True</label>
+                <input type="radio" id="q15a2" name="q15"><label for="q15a2">False</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- 16 -->
+          <div class="quiz-card">
+            <fieldset>
+              <legend>16. Which element represents navigation links?</legend>
+              <div class="options">
+                <input type="radio" id="q16a1" name="q16"><label for="q16a1">&lt;nav&gt;</label>
+                <input type="radio" id="q16a2" name="q16"><label for="q16a2">&lt;ul&gt;</label>
+                <input type="radio" id="q16a3" name="q16"><label for="q16a3">&lt;menu&gt;</label>
+                <input type="radio" id="q16a4" name="q16"><label for="q16a4">&lt;aside&gt;</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- 17 -->
+          <div class="quiz-card">
+            <fieldset>
+              <legend>17. Which tag is used for a list item?</legend>
+              <div class="options">
+                <input type="radio" id="q17a1" name="q17"><label for="q17a1">&lt;ul&gt;</label>
+                <input type="radio" id="q17a2" name="q17"><label for="q17a2">&lt;li&gt;</label>
+                <input type="radio" id="q17a3" name="q17"><label for="q17a3">&lt;item&gt;</label>
+                <input type="radio" id="q17a4" name="q17"><label for="q17a4">&lt;ol&gt;</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- 18 -->
+          <div class="quiz-card">
+            <fieldset>
+              <legend>18. True or False: The &lt;footer&gt; tag is used for page footers.</legend>
+              <div class="options">
+                <input type="radio" id="q18a1" name="q18"><label for="q18a1">True</label>
+                <input type="radio" id="q18a2" name="q18"><label for="q18a2">False</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- 19 -->
+          <div class="quiz-card">
+            <fieldset>
+              <legend>19. Which tag is used to make text bold?</legend>
+              <div class="options">
+                <input type="radio" id="q19a1" name="q19"><label for="q19a1">&lt;b&gt;</label>
+                <input type="radio" id="q19a2" name="q19"><label for="q19a2">&lt;bold&gt;</label>
+                <input type="radio" id="q19a3" name="q19"><label for="q19a3">&lt;strong&gt;</label>
+                <input type="radio" id="q19a4" name="q19"><label for="q19a4">&lt;em&gt;</label>
+              </div>
+            </fieldset>
+          </div>
+          <!-- 20 -->
+          <div class="quiz-card">
+            <fieldset>
+              <legend>20. Which HTML tag is used for dividing content?</legend>
+              <div class="options">
+                <input type="radio" id="q20a1" name="q20"><label for="q20a1">&lt;section&gt;</label>
+                <input type="radio" id="q20a2" name="q20"><label for="q20a2">&lt;div&gt;</label>
+                <input type="radio" id="q20a3" name="q20"><label for="q20a3">&lt;span&gt;</label>
+                <input type="radio" id="q20a4" name="q20"><label for="q20a4">&lt;article&gt;</label>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <div class="quiz-buttons">
+          <button type="submit">Submit</button>
+          <button type="reset">Reset</button>
+        </div>
+      </form>
+    </section>
+    <section class="answer-key" id="answers">
+      <h3>Answer Key</h3>
+      <ol>
+        <li>Hyper Text Markup Language</li>
+        <li>&lt;h1&gt;</li>
+        <li>True</li>
+        <li>&lt;a&gt;</li>
+        <li>href</li>
+        <li>True</li>
+        <li>&lt;ul&gt;</li>
+        <li>&lt;img&gt;</li>
+        <li>True</li>
+        <li>&lt;tr&gt;</li>
+        <li>&lt;form&gt;</li>
+        <li>True</li>
+        <li>&lt;em&gt;</li>
+        <li>&lt;main&gt;</li>
+        <li>True</li>
+        <li>&lt;nav&gt;</li>
+        <li>&lt;li&gt;</li>
+        <li>True</li>
+        <li>&lt;b&gt; or &lt;strong&gt;</li>
+        <li>&lt;div&gt;</li>
+      </ol>
+      <p style="margin-top:1em;color:#0c7a5b;font-size:1.09em;">
+        Compare your answers and see where you can improve!
+      </p>
+    </section>
+    <section class="review-section" id="review">
+      <h3>HTML Quick Review &amp; Tips</h3>
+      <ul>
+        <li><strong>&lt;h1&gt; – &lt;h6&gt;:</strong> Headings, with &lt;h1&gt; the largest.</li>
+        <li><strong>&lt;p&gt;:</strong> Defines paragraphs of text.</li>
+        <li><strong>&lt;a href="..."&gt;:</strong> Creates clickable links.</li>
+        <li><strong>&lt;img src="..." alt="..."&gt;:</strong> Adds images, use <code>alt</code> for accessibility.</li>
+        <li><strong>&lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;:</strong> Lists (unordered, ordered, list item).</li>
+        <li><strong>&lt;table&gt;, &lt;tr&gt;, &lt;td&gt;, &lt;th&gt;:</strong> Tables and cells.</li>
+        <li><strong>&lt;form&gt;:</strong> Used for user input forms.</li>
+        <li><strong>&lt;main&gt;, &lt;nav&gt;, &lt;footer&gt;, &lt;section&gt;:</strong> Semantic tags for page structure.</li>
+        <li><strong>&lt;br&gt;:</strong> Creates a line break.</li>
+        <li><strong>&lt;b&gt;, &lt;strong&gt;:</strong> Makes text bold. <code>&lt;strong&gt;</code> is for importance.</li>
+        <li><strong>&lt;em&gt;:</strong> Emphasizes text (usually italic).</li>
+      </ul>
+      <p style="margin-top:1em;font-size:1.07em;">
+        Remember: HTML is all about structure. Use semantic tags for meaning, and always aim for accessible, well-organized code. Happy coding!
+      </p>
+    </section>
+  </div>
+  </body>
+</html>
