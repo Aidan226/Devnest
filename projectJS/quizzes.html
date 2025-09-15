@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JavaScript Quizzes — DevNest</title>
+<style>
+/* ========= THEME ========= */
+:root {
+  --bg-1: #0b1220;
+  --bg-2: #0a0f1a;
+  --card: #0f172aee;
+  --muted: #8aa0c7;
+  --text: #e6eeff;
+  --edge: #1f2a44;
+  --brand-1: #5ee7ff;
+  --brand-2: #7c4dff;
+  --accent: #3b82f6;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --nav-h: 72px;
+  --sidebar-w: 280px;
+  --sidebar-w-collapsed: 72px;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--muted);
+  background: radial-gradient(1000px 600px at 80% -10%, rgba(124, 77, 255, 0.16), transparent 60%),
+              radial-gradient(900px 500px at -10% 20%, rgba(94, 231, 255, 0.12), transparent 55%),
+              linear-gradient(180deg, var(--bg-1), var(--bg-2));
+  line-height: 1.7;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ========= TOP NAV ========= */
+.topnav {
+  position: sticky; top: 0; z-index: 1000;
+  height: var(--nav-h);
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(180deg, rgba(8, 12, 20, .8), rgba(8, 12, 20, .55));
+  border-bottom: 1px solid rgba(255, 255, 255, .04);
+  backdrop-filter: blur(12px);
+}
+.nav-inner {
+  width: min(1200px, 92vw);
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; color: var(--text); }
+.brand-badge {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+}
+.nav-links { display: flex; gap: 26px; align-items: center; font-weight: 600; color: #b8c6e8; }
+.nav-links a:hover { color: var(--text); }
+.login-menu {
+  display: flex; align-items: center; gap: 16px;
+}
+.login-btn {
+  padding: 10px 18px; border-radius: 999px; font-weight: 700;
+  color: #04111f; background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+  box-shadow: 0 10px 24px rgba(94, 231, 255, .25); border: none; cursor: pointer;
+}
+
+/* ========= LAYOUT ========= */
+.layout {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  gap: 24px;
+  width: min(1300px, 96vw);
+  margin: 24px auto 80px;
+}
+
+/* ========= SIDEBAR ========= */
+.sidebar {
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+  align-self: start;
+  background: linear-gradient(180deg, rgba(18, 25, 42, 0.8), rgba(12, 18, 33, 0.7));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: 12px;
+  color: #cfe0ff;
+
+  /* 👇 Scrollbar logic */
+  max-height: calc(100vh - var(--nav-h) - 48px); /* Adjust as needed */
+  overflow-y: auto;
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #555 transparent;
+}
+
+/* Optional: Style scrollbar for WebKit browsers */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.course-title {
+  font-size: 14px; letter-spacing: 1px; text-transform: uppercase;
+  margin: 6px 12px 10px; color: #86a1d6;
+}
+.sidebar a {
+  display: block; padding: 10px 10px; margin: 4px 6px;
+  border-radius: 10px; color: #b9c9f0; font-weight: 600; font-size: 15px;
+}
+.sidebar a:hover { background: rgba(255, 255, 255, 0.06); color: var(--text); }
+.sidebar a.active {
+  background: linear-gradient(135deg, rgba(94, 231, 255, 0.15), rgba(124, 77, 255, 0.18));
+  color: #eaf2ff; border: 1px solid rgba(94, 231, 255, 0.35);
+}
+details {
+  border: 1px solid rgba(255, 255, 255, .06);
+  border-radius: 14px; margin: 8px 0; overflow: hidden;
+  background: rgba(255, 255, 255, .02);
+}
+summary {
+  list-style: none; cursor: pointer; padding: 12px 14px; font-weight: 700; color: #dbe7ff;
+  display: flex; align-items: center; justify-content: space-between;
+}
+summary::-webkit-details-marker { display: none; }
+.chev { transition: transform .2s ease; }
+details[open] .chev { transform: rotate(90deg); }
+.menu { display: flex; flex-direction: column; padding: 6px 6px 10px; }
+
+/* ========= MAIN CONTENT ========= */
+.container {
+  padding: 28px 26px;
+  border-radius: 24px;
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: var(--shadow);
+  max-width: 800px; margin: 0 auto;
+}
+h1 {
+  margin: 0 0 8px; font-size: 42px; font-weight: 900;
+  background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  text-align: center;
+}
+h2 { margin: 26px 0 10px; color: #cfe0ff; font-size: 22px; }
+p, li { color: #c3d0f2; }
+
+footer { margin: 26px 0 6px; text-align: center; color: #8da3c9; }
+
+/* ========= QUIZ STYLES ========= */
+#quiz-container { padding: 20px; }
+.quiz-question {
+  margin-bottom: 20px; font-size: 1.1em; color: var(--text); font-weight: 600;
+}
+.quiz-options { display: flex; flex-direction: column; gap: 12px; }
+.quiz-option {
+  display: flex; align-items: center;
+  padding: 12px; border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.03);
+}
+.quiz-option:hover { background: rgba(255, 255, 255, 0.06); }
+.quiz-option input[type="radio"] { margin-right: 12px; cursor: pointer; }
+.quiz-controls { display: flex; justify-content: space-between; margin-top: 20px; }
+.quiz-feedback {
+  margin-top: 15px; font-weight: 600; padding: 10px;
+  border-radius: 8px; text-align: center;
+}
+.correct { background: rgba(34, 197, 94, 0.2); color: var(--success); }
+.incorrect { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+.quiz-button {
+  padding: 12px 24px; border-radius: 999px; font-weight: 700;
+  color: #04111f; background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+  box-shadow: 0 10px 24px rgba(94, 231, 255, .25);
+  border: none; cursor: pointer; transition: all 0.2s ease;
+}
+.quiz-button:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(94, 231, 255, .35); }
+.quiz-button:disabled { opacity: 0.5; cursor: not-allowed; }
+#quiz-results { text-align: center; margin-top: 40px; }
+</style>
+</head>
+<body>
+
+<header class="topnav">
+  <div class="nav-inner">
+    <a class="brand" href="#">
+      <span class="brand-badge"></span>
+      DevNest
+    </a>
+ <nav class="nav-links">
+       <a href="/Main_web_page.html">Home</a>
+        <a href="/courses.html" style="color:var(--text)">Courses</a>
+        <a href="/mini_code_editor.html">Practice</a>
+        <a href="/project_section.html">Projects</a>
+        <a href="/Main_web_page.html#about">About</a></a>
+    </nav>
+    <div class="login-menu">
+      <!-- <a href="/contact.html">Contact</a>
+      <a href="/faq.html">FAQ</a>
+      <button class="login-btn">Login</button> -->
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="course-title">JavaScript</div>
+    <nav class="menu">
+      <a href="index.html">Introduction</a>
+      <a href="linking.html">Linking JS to HTML</a>
+      <a href="variables.html">Variables / Data Types</a>
+      <a href="operators.html">Operators</a>
+      <a href="ifelse.html">If...Else / Loops</a>
+      <a href="switch.html">Switch</a>
+      <a href="functions.html">Functions & Closures</a>
+      <a href="arrays-objects.html">Arrays & Objects</a>
+      <a href="json.html">JSON</a>
+      <a href="dom.html">DOM Manipulation</a>
+      <a href="events.html">Events</a>
+      <a href="advanced.html">Advanced JS</a>
+    </nav>
+    <details open>
+      <summary>Extras <span class="chev">▶</span></summary>
+      <nav class="menu">
+        <a href="quizzes.html" class="active">Quizzes</a>
+      </nav>
+    </details>
+  </aside>
+
+  <main class="container">
+    <h1>JavaScript Quizzes</h1>
+    <section id="quiz-container"></section>
+    <footer>© 2025 JavaScript Course — Quizzes</footer>
+  </main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const quizContainer = document.getElementById('quiz-container');
+  const questions = [
+    // Variables / Data Types
+    { question: "Which keyword declares a block-scoped variable?", options: ["var", "let", "const", "define"], answer: 1 },
+    { question: "What is the default value of an uninitialized variable?", options: ["null", "0", "undefined", "NaN"], answer: 2 },
+
+    // Operators
+    { question: "Which operator checks both value and type?", options: ["==", "===", "!=", "!=="], answer: 1 },
+    { question: "What is the result of '5' - 2 in JavaScript?", options: ["3", "52", "NaN", "Error"], answer: 0 },
+
+    // If / Else & Loops
+    { question: "Which loop is guaranteed to run at least once?", options: ["for", "while", "do...while", "for...of"], answer: 2 },
+    { question: "What keyword ends a loop immediately?", options: ["stop", "exit", "break", "continue"], answer: 2 },
+
+    // Switch
+    { question: "Which keyword is used inside a switch case to stop fall-through?", options: ["stop", "return", "break", "exit"], answer: 2 },
+    { question: "What happens if no case matches in a switch statement?", options: ["It throws an error", "It runs the default block (if defined)", "It stops silently", "It loops back"], answer: 1 },
+
+    // Functions
+    { question: "What is the keyword for defining a function?", options: ["define", "func", "function", "method"], answer: 2 },
+    { question: "Which type of function has no name?", options: ["Arrow function", "Anonymous function", "Callback function", "Method"], answer: 1 },
+
+    // Arrays & Objects
+    { question: "Which method adds an element to the end of an array?", options: ["push()", "pop()", "shift()", "unshift()"], answer: 0 },
+    { question: "How do you access the value of property 'age' in an object?", options: ["person['age']", "person.age", "Both A and B", "get.age(person)"], answer: 2 },
+
+    // JSON
+    { question: "Which method converts a JavaScript object to JSON?", options: ["JSON.parse()", "JSON.stringify()", "JSON.object()", "JSON.toString()"], answer: 1 },
+    { question: "Which method converts JSON text into a JavaScript object?", options: ["JSON.parse()", "JSON.stringify()", "JSON.object()", "JSON.toObject()"], answer: 0 },
+
+    // DOM
+    { question: "Which method selects an element by its ID?", options: ["getElementByClass()", "getElementById()", "querySelectorAll()", "getElement()"], answer: 1 },
+    { question: "What property changes the text inside an HTML element?", options: ["innerHTML", "textContent", "Both A and B", "nodeValue"], answer: 2 },
+
+    // Events
+    { question: "Which event occurs when a button is clicked?", options: ["onmouseover", "onchange", "onclick", "onpress"], answer: 2 },
+    { question: "Which method attaches an event handler to an element?", options: ["attachEvent()", "onEvent()", "addEventListener()", "bindEvent()"], answer: 2 },
+
+    // Advanced
+    { question: "Which JavaScript feature handles asynchronous operations?", options: ["Modules", "Promises", "Objects", "Closures"], answer: 1 },
+    { question: "Which keyword is used with async functions to pause execution?", options: ["pause", "stop", "await", "hold"], answer: 2 }
+  ];
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  function renderQuestion() {
+    if (currentQuestionIndex < questions.length) {
+      const q = questions[currentQuestionIndex];
+      quizContainer.innerHTML = `
+        <div class="quiz-question">${currentQuestionIndex + 1}. ${q.question}</div>
+        <div class="quiz-options">
+          ${q.options.map((opt, i) => `
+            <label class="quiz-option">
+              <input type="radio" name="answer" value="${i}"> ${opt}
+            </label>`).join('')}
+        </div>
+        <div class="quiz-controls">
+          <button id="submit-btn" class="quiz-button">Submit Answer</button>
+          <button id="next-btn" class="quiz-button" style="display:none">Next Question</button>
+        </div>
+        <div id="feedback" class="quiz-feedback" style="display:none"></div>
+      `;
+      document.getElementById('submit-btn').addEventListener('click', checkAnswer);
+      document.getElementById('next-btn').addEventListener('click', () => { currentQuestionIndex++; renderQuestion(); });
+    } else {
+      quizContainer.innerHTML = `
+        <div id="quiz-results">
+          <h2>Quiz Complete!</h2>
+          <p>You scored ${score} out of ${questions.length}.</p>
+          <button id="restart-btn" class="quiz-button">Restart Quiz</button>
+        </div>
+      `;
+      document.getElementById('restart-btn').addEventListener('click', () => { currentQuestionIndex = 0; score = 0; renderQuestion(); });
+    }
+  }
+
+  function checkAnswer() {
+    const selected = document.querySelector('input[name="answer"]:checked');
+    const feedback = document.getElementById('feedback');
+    if (!selected) {
+      feedback.textContent = "Please select an answer.";
+      feedback.style.display = "block";
+      feedback.className = "quiz-feedback incorrect";
+      return;
+    }
+    const answer = parseInt(selected.value);
+    const q = questions[currentQuestionIndex];
+    document.getElementById('submit-btn').style.display = "none";
+    document.getElementById('next-btn').style.display = "block";
+    feedback.style.display = "block";
+    if (answer === q.answer) {
+      score++;
+      feedback.textContent = "Correct!";
+      feedback.className = "quiz-feedback correct";
+    } else {
+      feedback.textContent = `Incorrect. The correct answer was: ${q.options[q.answer]}`;
+      feedback.className = "quiz-feedback incorrect";
+    }
+  }
+
+  renderQuestion();
+});
+</script>
+
+</body>
+</html>

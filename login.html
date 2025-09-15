@@ -4,315 +4,444 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dev Login Portal</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-/* Reset */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Fira Code', monospace;
+:root {
+  --bg-color: #0a0f2c;
+  --card-bg: rgba(255,255,255,0.06);
+  --text-color: #e0e0e0;
+  --input-bg: rgba(255,255,255,0.1);
+  --input-border: #2e3b5f;
+  --primary: #0099ff;
 }
 
-/* Body */
+[data-theme="light"] {
+  --bg-color: #f5f7fa;
+  --card-bg: #ffffff;
+  --text-color: #1a1a1a;
+  --input-bg: #f0f0f0;
+  --input-border: #ccc;
+  --primary: #007acc;
+}
+
+/* General */
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Fira Code', monospace; }
 body {
-  background: linear-gradient(to bottom, #0a0f2c, #1c2340);
+  background: var(--bg-color);
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  color: #e0e0e0;
+  color: var(--text-color);
+  transition: background 0.4s, color 0.4s;
 }
 
-/* Wrapper */
+/* Card */
 .login-wrapper {
-  display: flex;
-  max-width: 750px;
+  max-width: 400px;
   width: 90%;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 0 20px rgba(0, 153, 255, 0.3);
-  background: #101a3a;
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 30px 25px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  backdrop-filter: blur(12px);
   animation: fadeIn 0.6s ease-in-out;
+  position: relative;
 }
 
-/* Tabs */
-.form-toggle {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
+/* Logo */
+.logo {
+  text-align: center;
   margin-bottom: 20px;
 }
+.logo img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+.logo h2 {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--primary);
+}
 
-.form-toggle button {
-  padding: 10px 20px;
-  border: 1px solid #2e3b5f;
-  background: #1a2547;
-  font-size: 16px;
+/* Toggle button */
+.theme-toggle {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: var(--input-bg);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  border-radius: 6px;
-  color: #e0e0e0;
+  color: var(--text-color);
   transition: 0.3s;
 }
-
-.form-toggle button.active {
-  background: #0099ff;
+.theme-toggle:hover {
+  background: var(--primary);
   color: #fff;
-  box-shadow: 0 0 6px rgba(0, 153, 255, 0.4);
 }
-
 /* Forms */
-.form-container {
-  flex: 1;
-  padding: 30px 25px;
-}
+form { display: none; }
+form.active { display: block; }
 
-.form-container h1 {
-  margin-bottom: 25px;
-  font-size: 28px;
-  color: #0099ff;
-  font-weight: bold;
+form h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: var(--primary);
   text-align: center;
 }
 
-.form-container label {
-  display: block;
-  text-align: left;
-  font-size: 14px;
-  margin-bottom: 5px;
-  color: #bbb;
-}
-
-.form-container input[type="text"],
-.form-container input[type="password"],
-.form-container input[type="email"] {
-  width: 100%;
-  padding: 12px;
+.input-group {
+  position: relative;
   margin-bottom: 18px;
-  border: 1px solid #2e3b5f;
-  border-radius: 6px;
+}
+.input-group i {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #888;
+}
+.input-group input {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--text-color);
   font-size: 15px;
-  background: #0f1a36;
-  color: #fff;
   transition: border-color 0.3s, box-shadow 0.3s;
 }
-
-.form-container input:focus {
-  border-color: #0099ff;
-  box-shadow: 0 0 6px rgba(0, 153, 255, 0.4);
+.input-group input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 6px var(--primary);
   outline: none;
 }
 
-.form-container button {
+/* Buttons */
+button {
   width: 100%;
   padding: 12px;
-  margin: 8px 0;
-  background: #0099ff;
+  margin: 10px 0;
+  background: linear-gradient(135deg, var(--primary), #00ccff);
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   color: #fff;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: transform 0.2s, box-shadow 0.3s;
 }
-
-.form-container button:hover {
-  background: #007acc;
+button:hover {
   transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
+button:active { transform: translateY(0); }
 
-.form-container button:active {
-  background: #005fa3;
-  transform: translateY(0);
-}
-
-.form-container h4 {
-  margin-top: 15px;
+/* Links */
+h4 {
   font-size: 14px;
   color: #aaa;
   text-align: center;
 }
-
-.form-container h4 a {
-  color: #0099ff;
+h4 a {
+  color: var(--primary);
   text-decoration: none;
   font-weight: 600;
 }
-
-.form-container h4 a:hover {
-  text-decoration: underline;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-  .login-wrapper {
-    flex-direction: column;
-  }
-}
+h4 a:hover { text-decoration: underline; }
 
 /* Animation */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
 </head>
-<body>
+<body data-theme="dark">
 
 <div class="login-wrapper">
-  <div class="form-container">
-    <!-- Login Form -->
-    <form id="login-form">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" required>
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required>
-      <button type="submit">Login</button>
-      <h4>Don't have an account? <a href="#" id="signup-link">Sign up!</a></h4>
-      <h4>Forgot your password? <a href="#">Reset Password</a></h4>
-    </form>
-
-    <!-- Sign Up Form -->
-    <form id="signup-form" style="display:none;">
-      <label for="new-username">Username</label>
-      <input type="text" id="new-username" name="username" required>
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" required>
-      <label for="new-password">Password</label>
-      <input type="password" id="new-password" name="password" minlength="8" requiredS>
-      <label for="confirm-password">Confirm Password</label>
-      <input type="password" id="confirm-password" name="confirm-password" minlength="8" required>
-      <button type="submit">Sign Up</button>
-      <h4>Already have an account? <a href="#" id="login-link">Login</a></h4>
-    </form>
-
-    <form id="reset-form" style="display:none;">
-  <h1>Reset Password</h1>
-  <label for="reset-username">Username</label>
-  <input type="text" id="reset-username" required>
-  <label for="reset-email">Email</label>
-  <input type="email" id="reset-email" required>
-  <label for="new-reset-password">New Password</label>
-  <input type="password" id="new-reset-password" minlength="8" required>
-  <button type="submit">Update Password</button>
-  <h4>Remembered your password? <a href="#" id="back-to-login">Go back</a></h4>
-</form>
-
+  <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+  <div class="logo">
+    <img src="logo.png" alt="Logo">
+    <h2>Dev Portal</h2>
   </div>
+
+  <!-- Login Form -->
+  <form id="login-form" class="active">
+    <div class="input-group">
+      <i class="fas fa-user"></i>
+      <input type="text" id="username" placeholder="Username" required>
+    </div>
+    <div class="input-group">
+      <i class="fas fa-lock"></i>
+      <input type="password" id="password" placeholder="Password" required>
+    </div>
+    <button type="submit">Login</button>
+    <h4>Don't have an account? <a href="#" id="signup-link">Sign up!</a></h4>
+    <h4><a href="#" id="reset-link">Forgot password?</a></h4>
+  </form>
+
+  <!-- Signup Form -->
+  <form id="signup-form">
+    <div class="input-group">
+      <i class="fas fa-user-plus"></i>
+      <input type="text" id="new-username" placeholder="Username" required>
+    </div>
+    <div class="input-group">
+      <i class="fas fa-envelope"></i>
+      <input type="email" id="email" placeholder="Email" required>
+    </div>
+    <div class="input-group">
+      <i class="fas fa-lock"></i>
+      <input type="password" id="new-password" placeholder="Password" minlength="8" required>
+    </div>
+    <div class="input-group">
+      <i class="fas fa-lock"></i>
+      <input type="password" id="confirm-password" placeholder="Confirm Password" minlength="8" required>
+    </div>
+    <button type="submit">Sign Up</button>
+    <h4>Already have an account? <a href="#" id="login-link">Login</a></h4>
+  </form>
+
+  <!-- Reset Form -->
+  <form id="reset-form">
+    <h1>Reset Password</h1>
+    <div class="input-group">
+      <i class="fas fa-user"></i>
+      <input type="text" id="reset-username" placeholder="Username" required>
+    </div>
+    <div class="input-group">
+      <i class="fas fa-envelope"></i>
+      <input type="email" id="reset-email" placeholder="Email" required>
+    </div>
+    <div class="input-group">
+      <i class="fas fa-key"></i>
+      <input type="password" id="new-reset-password" placeholder="New Password" minlength="8" required>
+    </div>
+    <button type="submit">Update Password</button>
+    <h4><a href="#" id="back-to-login">Go back</a></h4>
+  </form>
 </div>
 
 <script>
-  // Tabs
-  document.getElementById('signup-form').addEventListener('submit', function(e) {
-  e.preventDefault();
 
-  const username = document.getElementById('new-username').value;
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('new-password').value;
-  const confirmPassword = document.getElementById('confirm-password').value;
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-  alert("Please enter a valid email");
-  return;
-}
-  if (password !== confirmPassword) {
-    alert("Passwords do not match.");
-    return;
-  }
-  let users = JSON.parse(localStorage.getItem("users")) || [];
+  // Get all necessary elements
+const signupForm = document.getElementById('signup-form');
+const loginForm = document.getElementById('login-form');
+const resetForm = document.getElementById('reset-form');
 
-  // Checking users are already or not
-  if (users.some(user => user.username === username)) {
-    alert("Username already taken.");
-    return;
-  }
+const newUsernameInput = document.getElementById('new-username');
+const signupEmailInput = document.getElementById('email');
+const newPasswordInput = document.getElementById('new-password');
+const confirmPasswordInput = document.getElementById('confirm-password');
 
-  users.push({ username, email, password });
-  localStorage.setItem("users", JSON.stringify(users));
+const usernameInput = document.getElementById('username');
+const passwordInput = document.getElementById('password');
 
-  alert("Signup successful! You can now log in.");
-  showLogin();
-});
-document.getElementById('login-form').addEventListener('submit', function(e) {
-  e.preventDefault();
+const resetUsernameInput = document.getElementById('reset-username');
+const resetEmailInput = document.getElementById('reset-email');
+const newResetPasswordInput = document.getElementById('new-reset-password');
 
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
+const signupLink = document.getElementById('signup-link');
+const loginLink = document.getElementById('login-link');
+const resetLink = document.getElementById('reset-link');
+const backToLoginLink = document.getElementById('back-to-login');
 
-  const users = JSON.parse(localStorage.getItem("users")) || [];
+// Assuming you have tab elements for login and signup
+const loginTab = document.getElementById('login-tab'); // You might need to add this ID to your HTML
+const signupTab = document.getElementById('signup-tab'); // You might need to add this ID to your HTML
 
-  const matchedUser = users.find(user => user.username === username && user.password === password);//find method
 
-  if (matchedUser) {
-    localStorage.setItem("loggedInUser", JSON.stringify(matchedUser));
-    window.location.href = "/courses.html";
-  } else {
-    alert("Invalid username or password.");
-  }
-});
-  const loginForm = document.getElementById('login-form');
-  const signupForm = document.getElementById('signup-form');
-  const signupLink = document.getElementById('signup-link');
-  const loginLink = document.getElementById('login-link');
+// --- Helper Functions ---
 
-  function showLogin() {
+/**
+ * Displays the login form and hides other forms.
+ */
+function showLogin() {
     loginForm.style.display = 'block';
     signupForm.style.display = 'none';
-    loginTab.classList.add('active');
-    signupTab.classList.remove('active');
-  }
+    resetForm.style.display = 'none';
+    if (loginTab && signupTab) {
+        loginTab.classList.add('active');
+        signupTab.classList.remove('active');
+    }
+}
 
-  function showSignup() {
+/**
+ * Displays the signup form and hides other forms.
+ */
+function showSignup() {
     loginForm.style.display = 'none';
     signupForm.style.display = 'block';
-    signupTab.classList.add('active');
-    loginTab.classList.remove('active');
-  }
-  signupLink.addEventListener('click', (e) => { e.preventDefault(); showSignup(); });
-  loginLink.addEventListener('click', (e) => { e.preventDefault(); showLogin(); });
+    resetForm.style.display = 'none';
+    if (loginTab && signupTab) {
+        signupTab.classList.add('active');
+        loginTab.classList.remove('active');
+    }
+}
 
-  const resetForm = document.getElementById('reset-form');
-const resetLink = document.getElementById('reset-link');
-const backToLogin = document.getElementById('back-to-login');
+/**
+ * Displays the reset password form and hides other forms.
+ */
+function showResetPassword() {
+    loginForm.style.display = 'none';
+    signupForm.style.display = 'none';
+    resetForm.style.display = 'block';
+}
+
+/**
+ * Retrieves users from localStorage.
+ * @returns {Array} An array of user objects.
+ */
+function getUsers() {
+    return JSON.parse(localStorage.getItem("users")) || [];
+}
+
+/**
+ * Saves the updated users array to localStorage.
+ * @param {Array} users - The array of user objects to save.
+ */
+function saveUsers(users) {
+    localStorage.setItem("users", JSON.stringify(users));
+}
+
+
+// --- Event Listeners ---
+
+// Signup Form Submission
+signupForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const username = newUsernameInput.value;
+    const email = signupEmailInput.value;
+    const password = newPasswordInput.value;
+    const confirmPassword = confirmPasswordInput.value;
+
+    // Email validation
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        alert("Please enter a valid email");
+        return;
+    }
+
+    // Password match validation
+    if (password !== confirmPassword) {
+        alert("Passwords do not match.");
+        return;
+    }
+
+    let users = getUsers();
+
+    // Check if username already exists
+    if (users.some(user => user.username === username)) {
+        alert("Username already taken.");
+        return;
+    }
+
+    // Add new user
+    users.push({ username, email, password });
+    saveUsers(users);
+
+    alert("Signup successful! You can now log in.");
+    showLogin(); // Automatically switch to login form after successful signup
+});
+
+// Login Form Submission
+loginForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const username = usernameInput.value;
+    const password = passwordInput.value;
+    const users = getUsers();
+
+    // Find a matching user
+    const matchedUser = users.find(user => user.username === username && user.password === password);
+
+    if (matchedUser) {
+        localStorage.setItem("loggedInUser", JSON.stringify(matchedUser));
+        window.location.href = "/courses.html"; // Redirect to courses page
+    } else {
+        alert("Invalid username or password.");
+    }
+});
+
+// Reset Password Form Submission
+resetForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const username = resetUsernameInput.value;
+    const email = resetEmailInput.value;
+    const newPassword = newResetPasswordInput.value;
+
+    let users = getUsers();
+
+    // Find user by username and email
+    const userIndex = users.findIndex(user => user.username === username && user.email === email);
+
+    if (userIndex === -1) {
+        alert("User not found or email doesn't match.");
+        return;
+    }
+
+    // Update password
+    users[userIndex].password = newPassword;
+    saveUsers(users);
+
+    alert("Password updated successfully!");
+    showLogin(); // Go back to login after password reset
+});
+
+
+// Navigation Links
+signupLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    showSignup();
+});
+
+loginLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    showLogin();
+});
 
 resetLink.addEventListener('click', (e) => {
-  e.preventDefault();
-  loginForm.style.display = 'none';
-  signupForm.style.display = 'none';
-  resetForm.style.display = 'block';
+    e.preventDefault();
+    showResetPassword();
 });
 
-backToLogin.addEventListener('click', (e) => {
-  e.preventDefault();
-  resetForm.style.display = 'none';
-  loginForm.style.display = 'block';
+backToLoginLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    showLogin();
+});
+document.addEventListener('DOMContentLoaded', showLogin);
+/* Theme toggle */
+const themeToggle = document.getElementById('themeToggle');
+themeToggle.addEventListener('click', () => {
+  const body = document.body;
+  const isDark = body.getAttribute("data-theme") === "dark";
+  body.setAttribute("data-theme", isDark ? "light" : "dark");
+  themeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
 });
 
-resetForm.addEventListener('submit', function(e) {
-  e.preventDefault();
-
-  const username = document.getElementById('reset-username').value;
-  const email = document.getElementById('reset-email').value;
-  const newPassword = document.getElementById('new-reset-password').value;
-
-  let users = JSON.parse(localStorage.getItem("users")) || [];
-  const userIndex = users.findIndex(user => user.username === username && user.email === email);
-
-  if (userIndex === -1) {
-    alert("User not found or email doesn't match.");
-    return;
-  }
-  users[userIndex].password = newPassword;
-  localStorage.setItem("users", JSON.stringify(users));
-
-  alert("Password updated successfully!");
-  resetForm.style.display = 'none';
-  loginForm.style.display = 'block';
+/* Switch forms */
+document.getElementById('signup-link').addEventListener('click', e => {
+  e.preventDefault(); loginForm.classList.remove('active'); signupForm.classList.add('active');
+});
+document.getElementById('login-link').addEventListener('click', e => {
+  e.preventDefault(); signupForm.classList.remove('active'); loginForm.classList.add('active');
+});
+document.getElementById('reset-link').addEventListener('click', e => {
+  e.preventDefault(); loginForm.classList.remove('active'); resetForm.classList.add('active');
+});
+document.getElementById('back-to-login').addEventListener('click', e => {
+  e.preventDefault(); resetForm.classList.remove('active'); loginForm.classList.add('active');
 });
 </script>
 </body>

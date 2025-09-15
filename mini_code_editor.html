@@ -3,108 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini Code Editor</title>
-    <style>
-       body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Fira Code', monospace;
-  background: #1e1e1e;
-  color: #eee;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  height: 100vh;
-  gap: 1px;
+    <title>Mini Code Editor || HTML | CSS | JS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.10/codemirror.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.10/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.10/mode/htmlmixed/htmlmixed.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.10/mode/css/css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.10/mode/javascript/javascript.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.10/addon/display/placeholder.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.10/theme/material-darker.min.css">
+   
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Fira Code', monospace;
+      background: #1e1e1e;
+      color: #eee;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 100vh;
+      gap: 1px;
+      transition: all 0.3s ease;
+    }
+    body.fullpage {
+     grid-template-columns: 1fr;   /* Only one column */
+     grid-template-rows: 1fr 1fr;  /* Editor on top, preview below */
 }
 
-.editor {
-  display: flex;
-  flex-direction: column;
-  padding: 15px;
-  background: #2c2c2c;
-  overflow-y: auto;
+    .editor {
+      /*display: flex;
+      flex-direction: column;*/
+      padding: 15px;
+      background: #2c2c2c;
+      overflow-y: auto;
+    }
+    .editor textarea,
+    .CodeMirror {
+     transition: all 0.3s ease;
 }
+.hidden {
+  display: none !important;
+}
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
 
-.editor textarea {
-  width: 100%;
-  height: 150px;
-  padding: 12px;
-  background: #1e1e1e;
-  color: #eee;
-  border: 1px solid #444;
-  border-radius: 6px;
-  font-size: 15px;
-  resize: vertical;
-  transition: border-color 0.3s;
-}
+    .toolbar button,
+    .toolbar select {
+      padding: 8px 14px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
 
-.editor textarea:focus {
-  border-color: #00ff99;
-  outline: none;
-}
+    .toolbar button {
+      background: #00ff99;
+      color: #000;
+      font-weight: bold;
+    }
 
-.toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 15px;
-}
+    .toolbar button:hover {
+      background: #00cc88;
+    }
 
-.toolbar button,
-.toolbar select {
-  padding: 8px 14px;
-  font-size: 14px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
+    .toolbar select {
+      background: #1e1e1e;
+      color: #eee;
+      border: 1px solid #555;
+    }
 
-.toolbar button {
-  background: #00ff99;
-  color: #000;
-  font-weight: bold;
-}
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #fff;
+    }
 
-.toolbar button:hover {
-  background: #00cc88;
-}
+    /* CodeMirror Styling */
+    .CodeMirror {
+      height: 180px;
+      border-radius: 8px;
+      padding: 0;
+      font-size: 14px;
+      line-height: 1;
+      border: 1px solid #444;
+    }
 
-.toolbar select {
-  background: #1e1e1e;
-  color: #eee;
-  border: 1px solid #555;
-}
+    .CodeMirror-focused {
+      border-color: #00ff99;
+    }
 
-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  background: #fff;
-}
-
-/* Responsive Layout */
-@media (max-width: 768px) {
-  body {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
-  }
-
-  .editor textarea {
-    height: 120px;
-  }
-
-  .toolbar {
-    justify-content: center;
-  }
-}
-.editor textarea.expanded {
-  height: 400px;
-}
-.editor textarea {
-  transition: height 0.3s ease;
-}
-    </style>
+    @media (max-width: 768px) {
+      body {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
     <div class="editor">
@@ -116,6 +118,13 @@ iframe {
             <button id="reset" onclick="resetBtn()">Reset</button>
             <button id="delete" onclick="deleteBtn()">Delete</button>
             <button onclick="renameProject()">Rename</button>
+
+            <!-- <select id="modeSelect" onchange="switchMode(this.value)">
+                  <option value="all">All</option>
+                  <option value="html">HTML Only</option>
+                  <option value="css">CSS Only</option>
+                  <option value="js">JS Only</option>
+            </select> -->
         </div>
         <textarea id="htmlCode" placeholder="HTML code here..."></textarea>
         <textarea id="cssCode" placeholder="CSS code here..."></textarea>
@@ -124,23 +133,76 @@ iframe {
     </div>
     <iframe id="output"></iframe>
     <script>
-        let currentProject = "default";
-        function runClick() {
-  const htmlCode = document.getElementById("htmlCode").value;
-  const cssCode  = document.getElementById("cssCode").value;
-  const jsCode   = document.getElementById("jsCode").value;
+      let currentProject = "default";
+      let htmlEditor, cssEditor, jsEditor;
+      window.onload = () => {
+        htmlEditor = CodeMirror.fromTextArea(document.getElementById("htmlCode"),{
+          mode: "htmlmixed",
+          theme: "default",
+          lineNumbers: true,
+        });
+
+        cssEditor = CodeMirror.fromTextArea(document.getElementById("cssCode"), {
+          mode: "css",
+          theme: "default",
+          lineNumbers: true,
+        });
+
+        jsEditor = CodeMirror.fromTextArea(document.getElementById("jsCode"), {
+          mode: "javascript",
+          theme: "default",
+          lineNumbers: true,
+        });
+
+        loadProjectList();
+        let projects = JSON.parse(localStorage.getItem("projects")) || {};
+        if(Object.keys(projects).length > 0 ) {
+          currentProject = Object.keys(projects)[0];
+          loadProject(currentProject);
+        }else {
+          newProject();
+        }
+
+        [htmlEditor, cssEditor, jsEditor].forEach(ed => {
+          ed.on("change", runClick);
+        });
+    } ;
+        
+      function runClick() {
+  const html = htmlEditor.getValue();
+  const css = `<style>${cssEditor.getValue()}</style>`;
+  const jsRaw = jsEditor.getValue();
+
+  const js = `
+    <script>
+      (function() {
+        const log = console.log;
+        console.log = function(msg) {
+          parent.postMessage({ type: 'log', message: msg }, '*');
+          log.apply(console, arguments);
+        };
+        try {
+          ${jsRaw}
+        } catch (e) {
+          parent.postMessage({ type: 'error', message: e.message }, '*');
+        }
+      })();
+    <\/script>
+  `;
 
   const output = document.getElementById("output").contentWindow.document;
   output.open();
-  output.write(htmlCode + cssCode + jsCode);
+  output.write(html + css + js);
   output.close();
 }
+
+
         function saveProject() {
             let projects = JSON.parse(localStorage.getItem("projects")) || {};
             projects[currentProject] = {
-                html: document.getElementById("htmlCode").value,
-                css: document.getElementById("cssCode").value,
-                js: document.getElementById("jsCode").value,
+                html: htmlEditor.getValue(),
+                css: cssEditor.getValue(),
+                js: jsEditor.getValue(),
             };
             localStorage.setItem("projects", JSON.stringify(projects));
             loadProjectList();
@@ -164,16 +226,16 @@ iframe {
             let projects = JSON.parse(localStorage.getItem("projects")) || {};
             if(!projects[name]) return;
             currentProject = name;
-            document.getElementById("htmlCode").value = projects[name].html;
-            document.getElementById("cssCode").value  = projects[name].css;
-            document.getElementById("jsCode").value   = projects[name].js;
+            htmlEditor.setValue(projects[name].html);
+            cssEditor.setValue(projects[name].css);
+            jsEditor.setValue(projects[name].js);
             runClick();
         }
         function resetBtn() {
             if(!confirm("Clear all code in this project?")) return;
-            document.getElementById("htmlCode").value = "";
-            document.getElementById("cssCode").value = "";
-            document.getElementById("jsCode").value = "";
+            htmlEditor.setValue("");
+            cssEditor.setValue("");
+            jsEditor.setValue("");
             runClick();
             saveProject();
         }
@@ -227,20 +289,6 @@ iframe {
   alert("Project renamed successfully.");
 }
 
-        window.onload = () => {
-            loadProjectList();
-            let projects = JSON.parse(localStorage.getItem("projects")) || {};
-            if(Object.keys(projects).length > 0 ) {
-            currentProject = Object.keys(projects)[0];
-            loadProject(currentProject);
-            }
-            else {
-                newProject();
-            }
-        }
-        ["htmlCode", "cssCode", "jsCode"].forEach(id => {
-  document.getElementById(id).addEventListener("input", runClick);
-});
 
     </script>
 </body>

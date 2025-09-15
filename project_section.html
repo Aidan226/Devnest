@@ -4,125 +4,205 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Coding Platform</title>
+  <style>
+    .notice {
+  display: inline-block;
+  background: rgba(255, 72, 72, 0.1);
+  color: #f87171;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-left: 4px solid #ef4444;
+  border-radius: 6px;
+  margin-top: 8px;
+  transition: background 0.3s ease;
+}
+.notice:hover {
+  background: rgba(255, 72, 72, 0.2);
+}
+
+  </style>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 font-sans">
-
+<body class="bg-gradient-to-r from-[#0f172a] via-[#1e293b] to-[#0f172a] font-sans text-white">
   <!-- Navbar -->
-  <nav class="bg-white shadow sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-blue-600">MyCode</h1>
-      <ul class="flex space-x-6 text-gray-700 font-medium">
-        <li><a href="#" class="hover:text-blue-600">Home</a></li>
-        <li><a href="#" class="hover:text-blue-600">Course</a></li>
-        <li><a href="#" class="hover:text-blue-600">Practice</a></li>
-        <li><a href="#" class="hover:text-blue-600">Project</a></li>
-        <li><a href="#" class="hover:text-blue-600">About</a></li>
-      </ul>
-    </div>
-  </nav>
+<nav class="bg-gradient-to-r from-[#0f172a] to-[#1e293b] sticky top-0 z-50 shadow-md">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-cyan-400">DevNest || Projects</h1>
+    <ul class="flex space-x-6 font-medium">
+      <li><a href="Main_web_page.html" class="px-3 py-2 rounded-lg hover:bg-cyan-500/20 hover:text-cyan-400 transition">Home</a></li>
+      <li><a href="courses.html" class="px-3 py-2 rounded-lg hover:bg-cyan-500/20 hover:text-cyan-400 transition">Course</a></li>
+      <li><a href="mini_code_editor.html" class="px-3 py-2 rounded-lg hover:bg-cyan-500/20 hover:text-cyan-400 transition">Practice</a></li>
+      <li><a href="project_section.html" class="px-3 py-2 rounded-lg hover:bg-cyan-500/20 hover:text-cyan-400 transition">Project</a></li>
+      <li><a href="Main_web_page.html#about" class="px-3 py-2 rounded-lg hover:bg-cyan-500/20 hover:text-cyan-400 transition">About</a></li>
+    </ul>
+  </div>
+</nav>
+
 
   <!-- Header -->
   <header class="text-center py-12">
-    <h2 class="text-3xl font-bold">Projects Showcase</h2>
-    <p class="text-gray-600 mt-2">Explore coding projects I built while learning</p>
+    <h2 class="text-3xl font-bold text-cyan">Projects Showcase</h2>
+    <p class="text-cyan-600 mt-2">Explore coding projects I built while learning</p>
   </header>
 
   <!-- Projects Grid -->
   <main class="max-w-7xl mx-auto px-6 grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 pb-12">
 
     <!-- Project Card -->
-    <div class="bg-white rounded-2xl shadow hover:shadow-lg transition p-4">
-      <img src="calculator_image.png" alt="Project 1" class="rounded-lg mb-4">
-      <h3 class="text-xl font-semibold">Project 1</h3>
-      <p class="text-gray-600 mb-2" style="font-family: Inter, Inter Fallback">In this project, our aim is to build a modern tip calculator. 
+    <div class="relative bg-gradient-to-br from-[#1e293b]/80 to-[#0f172a]/80 backdrop-blur-lg 
+     rounded-2xl border border-transparent hover:border-cyan-400 shadow-lg 
+     hover:shadow-cyan-400/30 transform transition duration-500 hover:scale-105 hover:-translate-y-2 p-6">
+      <img src="calculator_image.png" alt="Tip_Calculator" class="rounded-lg mb-4 w-full h-48 object-cover">
+      <h3 class="text-xl font-bold text-cyan " style="font-family: Inter, Inter Fallback">🚀 Project 1</h3>
+      <p class="project-desc text-white-600 mb-2 line-clamp-6" style="font-family: Inter, Inter Fallback">In this project, our aim is to build a modern tip calculator. 
         The project's primary interface comprises a container labeled "Tip Calculator" with two input fields: one for the bill amount and the other for the tip percentage.
         The tip calculator has a modern design that is styled using CSS.
-        We utilized JavaScript to obtain the values of the two input fields and calculate the total amount based on these values.
-      </p>
-      <a href="project1/index.html" target="_blank" 
+        We utilized JavaScript to obtain the values of the two input fields and calculate the total amount based on these values. <span class="notice">You can test this project demo and source code on our own editor. Go to course bar ☝🏼</span>
+      </p> <button class="toggle-btn flex items-center gap-1 text-sm text-blue-600 font-medium hover:text-blue-800 transition-all duration-200">
+  <span>See More</span>
+  <svg class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+  </svg>
+</button>
+
+
+   <a href="courses.html" target="_blank" 
          class="inline-block mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
          View Project
       </a>
-
-    
     </div>
 
     <!-- Project Card -->
-    <div class="bg-white rounded-2xl shadow hover:shadow-lg transition p-4">
-      <img src="rock_scissors_.paper.png" alt="Project 2" class="rounded-lg mb-4">
-      <h3 class="text-xl font-semibold">Project 2</h3>
-      <p class="text-gray-600 mb-2" style="font-family: Inter, Inter Fallback">In this project, we create a rock, paper, and scissors game.
+     <div class="bg-gradient-to-br from-[#1e293b] to-[#0f172a] rounded-2xl shadow-lg 
+     hover:shadow-cyan-500/40 transform transition duration-300 hover:scale-105 p-4">
+      <img src="rock_scissors_.paper.png" alt="Rock_Paper_Scissors" class="rounded-lg mb-4 w-full h-48 object-cover">
+      <h3 class="text-xl font-bold"  style="font-family: Inter, Inter Fallback">✈️ Project 2</h3>
+      <p class="project-desc text-white-600 mb-2 line-clamp-6" style="font-family: Inter, Inter Fallback">In this project, we create a rock, paper, and scissors game.
          The computer will also choose a random option, and the results will be displayed.
          You can win, lose, or tie. Scores are tracked at the bottom. We'll use HTML for structure, CSS for a modern look, and JavaScript to generate the computer's choice and compare the results.
-         This game is an interactive way to test your luck and strategy against a computer opponent.</p>
-      <a href="https://demo.100jsprojects.com/rock-paper-scissors-game" target="_blank" 
+         This game is an interactive way to test your luck and strategy against a computer opponent.<span class="notice">You can test this project demo and source code on our own editor. Go to course bar ☝🏼</span></p><button class="toggle-btn flex items-center gap-1 text-sm text-blue-600 font-medium hover:text-blue-800 transition-all duration-200">
+  <span>See More</span>
+  <svg class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+  </svg>
+</button>
+      <a href="courses.html" target="_blank" 
          class="inline-block mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
          View Project
       </a>
     </div>
 
-      <div class="bg-white rounded-2xl shadow hover:shadow-lg transition p-4">
-      <img src="" alt="Project 2" class="rounded-lg mb-4">
-      <h3 class="text-xl font-semibold">Project 2</h3>
-      <p class="text-gray-600 mb-2" style="font-family: Inter, Inter Fallback">In this project, we create a rock, paper, and scissors game.
-         The computer will also choose a random option, and the results will be displayed.
-         You can win, lose, or tie. Scores are tracked at the bottom. We'll use HTML for structure, CSS for a modern look, and JavaScript to generate the computer's choice and compare the results.
-         This game is an interactive way to test your luck and strategy against a computer opponent.</p>
-      <a href="project2/index.html" target="_blank" 
+       <div class="bg-gradient-to-br from-[#1e293b] to-[#0f172a] rounded-2xl shadow-lg 
+     hover:shadow-cyan-500/40 transform transition duration-300 hover:scale-105 p-4">
+      <img src="https://firebasestorage.googleapis.com/v0/b/jsporjects100.appspot.com/o/hFQ4qcvDcRYuZSWYofFE8SsflQw2-medium_heart_trail_animation_1f30f528fd.jpg-ca2c70d5-c139-4494-ab58-f0fec8d599bd?alt=media&token=f6b20649-f9ff-41f0-8cb0-9275fb45fd5c" alt="Heart Trail" class="rounded-lg mb-4 w-full h-48 object-cover">
+      <h3 class="text-xl font-bold" style="font-family: Inter, Inter Fallback">💡 Project 3</h3>
+      <p class="project-desc text-white-600 mb-2 line-clamp-6" style="font-family: Inter, Inter Fallback">Our project involves creating a heart rate animation that responds to mouse movement in the browser. As the mouse moves, hearts of varying colors and sizes will appear on the screen.
+        Keyframe queries will modify the opacity, size, and hue of the hearts.
+        To track the mouse's position in the browser, we'll use JavaScript. With this information, we'll position the heart in the exact location of the cursor.
+        This interactive feature will personalize the user experience and respond to their movements in real-time.
+        By combining these elements, we'll develop an engaging and dynamic animation that captures the user's attention and provides a fun and interactive experience on the webpage.<span class="notice">You can test this project demo and source code on our own editor. Go to course bar ☝🏼</span></p><button class="toggle-btn flex items-center gap-1 text-sm text-blue-600 font-medium hover:text-blue-800 transition-all duration-200">
+  <span>See More</span>
+  <svg class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+  </svg>
+</button>
+      <a href="courses.html" target="_blank" 
          class="inline-block mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
          View Project
       </a>
     </div>
 
-    <div class="bg-white rounded-2xl shadow hover:shadow-lg transition p-4">
-      <img src="" alt="Project 2" class="rounded-lg mb-4">
-      <h3 class="text-xl font-semibold">Project 2</h3>
-      <p class="text-gray-600 mb-2" style="font-family: Inter, Inter Fallback">In this project, we create a rock, paper, and scissors game.
-         The computer will also choose a random option, and the results will be displayed.
-         You can win, lose, or tie. Scores are tracked at the bottom. We'll use HTML for structure, CSS for a modern look, and JavaScript to generate the computer's choice and compare the results.
-         This game is an interactive way to test your luck and strategy against a computer opponent.</p>
-      <a href="project2/index.html" target="_blank" 
+     <div class="bg-gradient-to-br from-[#1e293b] to-[#0f172a] rounded-2xl shadow-lg 
+     hover:shadow-cyan-500/40 transform transition duration-300 hover:scale-105 p-4">
+      <img src="nav-bar.png" alt="Navigation bar" class="rounded-lg mb-4 w-full h-48 object-cover">
+      <h3 class="text-xl font-bold" style="font-family: Inter, Inter Fallback">🌃 Project 4</h3>
+      <p class="project-desc text-white-600 mb-2 line-clamp-6" style="font-family: Inter, Inter Fallback">In this project, we create a responsive navigation bar with a logo and three menu items.
+         We will obtain the logo from the internet and ensure that the navigation bar changes based on the browser window's size. Clicking on the icon will reveal the home and about menu items. Each menu item will feature a hovering effect when the mouse is moved over it.
+         We will utilize JavaScript to modify the classes of the HTML text, apply different CSS styles to each class, and use JavaScript to add or remove them accordingly.<span class="notice">You can test this project demo and source code on our own editor. Go to course bar ☝🏼</span></p>
+      <button class="toggle-btn flex items-center gap-1 text-sm text-blue-600 font-medium hover:text-blue-800 transition-all duration-200">
+  <span>See More</span>
+  <svg class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+  </svg>
+</button>
+      <a href="courses.html" target="_blank" 
          class="inline-block mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
          View Project
       </a>
     </div>
 
-    <div class="bg-white rounded-2xl shadow hover:shadow-lg transition p-4">
-      <img src="" alt="Project 2" class="rounded-lg mb-4">
-      <h3 class="text-xl font-semibold">Project 2</h3>
-      <p class="text-gray-600 mb-2" style="font-family: Inter, Inter Fallback">In this project, we create a rock, paper, and scissors game.
-         The computer will also choose a random option, and the results will be displayed.
-         You can win, lose, or tie. Scores are tracked at the bottom. We'll use HTML for structure, CSS for a modern look, and JavaScript to generate the computer's choice and compare the results.
-         This game is an interactive way to test your luck and strategy against a computer opponent.</p>
-      <a href="project2/index.html" target="_blank" 
+     <div class="bg-gradient-to-br from-[#1e293b] to-[#0f172a] rounded-2xl shadow-lg 
+     hover:shadow-cyan-500/40 transform transition duration-300 hover:scale-105 p-4">
+      <img src="https://firebasestorage.googleapis.com/v0/b/jsporjects100.appspot.com/o/hFQ4qcvDcRYuZSWYofFE8SsflQw2-medium_mouse_event_0a0057147e.jpg-dd4855a9-958f-4496-9549-ae904f00b52c?alt=media&token=702d5866-2855-4ab9-b8e5-bd0f617e87ca" alt="Mouse Event" class="rounded-lg mb-4 w-full h-48 object-cover">
+      <h3 class="text-xl font-bold" style="font-family: Inter, Inter Fallback">🛞 Project 5</h3>
+      <p class="project-desc text-white-600 mb-2 line-clamp-6" style="font-family: Inter, Inter Fallback">In this project, we create a mouse event project that tracks the mouse's position on the screen.
+        Moving the mouse around will display X and Y positions that change as you move. These measurements are useful for designing websites and writing CSS. We'll use the "add event listener" method to track mouse position in the browser.
+        This mouse event project can also teach you how to use JavaScript to build web apps that respond to user input.<span class="notice">You can test this project demo and source code on our own editor. Go to course bar ☝🏼</span></p><button class="toggle-btn flex items-center gap-1 text-sm text-blue-600 font-medium hover:text-blue-800 transition-all duration-200">
+  <span>See More</span>
+  <svg class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+  </svg>
+</button>
+      <a href="courses.html" target="_blank" 
          class="inline-block mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
          View Project
       </a>
     </div>
 
-    <div class="bg-white rounded-2xl shadow hover:shadow-lg transition p-4">
-      <img src="" alt="Project 2" class="rounded-lg mb-4">
-      <h3 class="text-xl font-semibold">Project 2</h3>
-      <p class="text-gray-600 mb-2" style="font-family: Inter, Inter Fallback">In this project, we create a rock, paper, and scissors game.
-         The computer will also choose a random option, and the results will be displayed.
-         You can win, lose, or tie. Scores are tracked at the bottom. We'll use HTML for structure, CSS for a modern look, and JavaScript to generate the computer's choice and compare the results.
-         This game is an interactive way to test your luck and strategy against a computer opponent.</p>
-      <a href="project2/index.html" target="_blank" 
+     <div class="bg-gradient-to-br from-[#1e293b] to-[#0f172a] rounded-2xl shadow-lg 
+     hover:shadow-cyan-500/40 transform transition duration-300 hover:scale-105 p-4">
+      <img src="https://firebasestorage.googleapis.com/v0/b/jsporjects100.appspot.com/o/hFQ4qcvDcRYuZSWYofFE8SsflQw2-medium_english_dictionary_4bd3655d3b.jpg-d431dcba-f523-4690-bae1-80dc5d223ad0?alt=media&token=5d949840-ddca-49e4-8b0f-7a5d0127baac" alt="English Dictionary" class="rounded-lg mb-4 w-full h-48 object-cover">
+      <h3 class="text-xl font-bold" style="font-family: Inter, Inter Fallback">📰 Project 6</h3>
+      <p class="project-desc text-white-600 mb-2 line-clamp-6" style="font-family: Inter, Inter Fallback">In this project , you will learn how to create an English dictionary web app that retrieves definitions from an API.
+        Type a word into the input field and hit enter to see its definition, pronunciation, and hear the word pronounced correctly.
+        The app also includes a loading effect and error handling for no internet connectivity.
+        Use CSS to style the app and JavaScript to retrieve data, add the loading effect, and handle errors with try-catch blocks.
+        You'll also learn how to use the Web Speech API to include an audio file for word pronunciation.<span class="notice">You can test this project demo and source code on our own editor. Go to course bar ☝🏼</span></p><button class="toggle-btn flex items-center gap-1 text-sm text-blue-600 font-medium hover:text-blue-800 transition-all duration-200">
+  <span>See More</span>
+  <svg class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+  </svg>
+</button>
+      <a href="courses.html" target="_blank" 
          class="inline-block mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
          View Project
       </a>
     </div>
 
-    <div class="bg-white rounded-2xl shadow hover:shadow-lg transition p-4">
-      <img src="" alt="Project 2" class="rounded-lg mb-4">
-      <h3 class="text-xl font-semibold">Project 2</h3>
-      <p class="text-gray-600 mb-2" style="font-family: Inter, Inter Fallback">In this project, we create a rock, paper, and scissors game.
-         The computer will also choose a random option, and the results will be displayed.
-         You can win, lose, or tie. Scores are tracked at the bottom. We'll use HTML for structure, CSS for a modern look, and JavaScript to generate the computer's choice and compare the results.
-         This game is an interactive way to test your luck and strategy against a computer opponent.</p>
+    <div class="bg-gradient-to-br from-[#1e293b] to-[#0f172a] rounded-2xl shadow-lg 
+     hover:shadow-cyan-500/40 transform transition duration-300 hover:scale-105 p-4">
+      <img src="data:image/webp;base64,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" alt="Love_Compatibiliy" class="rounded-lg mb-4 w-full h-48 object-cover">
+      <h3 class="text-xl font-bold" style="font-family: Inter, Inter Fallback">👩‍❤️‍👩 Project 7</h3>
+      <p class="project-desc text-white-600 mb-2 line-clamp-6" style="font-family: Inter, Inter Fallback">The Love Compatibility Test is a fun web app that calculates romantic compatibility between two names using a simple character-code algorithm.
+      Built with HTML, CSS, and JavaScript, it features a sleek glassmorphism UI, animated progress bar, and playful messages based on the score.
+      It’s a lighthearted showcase of interactive design and front-end creativity.<span class="notice">You can test this project demo and source code on our own editor. Go to course bar ☝🏼</span></p><button class="toggle-btn flex items-center gap-1 text-sm text-blue-600 font-medium hover:text-blue-800 transition-all duration-200">
+  <span>See More</span>
+  <svg class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+  </svg>
+</button>
+      <a href="courses.html" target="_blank" 
+         class="inline-block mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+         View Project
+      </a>
+    </div>
+
+     <div class="bg-gradient-to-br from-[#1e293b] to-[#0f172a] rounded-2xl shadow-lg 
+     hover:shadow-cyan-500/40 transform transition duration-300 hover:scale-105 p-4">
+      <img src="https://thvnext.bing.com/th/id/OIP.ie8SoniR6R2bNnNmZdUBYwHaHa?w=179&h=180&c=7&r=0&o=7&cb=ucfimgc2&dpr=1.5&pid=1.7&rm=3" alt="Project 2" class="rounded-lg mb-4 w-full h-48 object-cover">
+      <h3 class="text-xl font-bold" style="font-family: Inter, Inter Fallback">🗓 Project 8</h3>
+      <p class="project-desc text-white-600 mb-2 line-camp-4" style="font-family: Inter, Inter Fallback">This project entails building a full-month calendar using HTML, CSS, and JavaScript.
+        The calendar includes a header displaying the current month and date, all dates of the month from 1 to 30, and accurately reflects today's date.
+        Everything is dynamically generated and automatically updates based on the current date and month.
+        The calendar is visually appealing with effects like shadow and other design elements styled with CSS.</p>
+   <button class="toggle-btn flex items-center gap-1 text-sm text-blue-600 font-medium hover:text-blue-800 transition-all duration-200">
+  <span>See More</span>
+  <svg class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+  </svg>
+</button>
          <div class="flex space-x-3">
-      <a href="project2/index.html" target="_blank" 
+      <a href="projects_12\month_calendar.html" target="_blank" 
          class="inline-block mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
          View Project
       </a>
@@ -143,15 +223,25 @@
      </div>
     </div>
 
-    <div class="bg-white rounded-2xl shadow hover:shadow-lg transition p-4">
-      <img src="" alt="Project 2" class="rounded-lg mb-4">
-      <h3 class="text-xl font-semibold">Project 2</h3>
-      <p class="text-gray-600 mb-2" style="font-family: Inter, Inter Fallback">In this project, we create a rock, paper, and scissors game.
-         The computer will also choose a random option, and the results will be displayed.
-         You can win, lose, or tie. Scores are tracked at the bottom. We'll use HTML for structure, CSS for a modern look, and JavaScript to generate the computer's choice and compare the results.
-         This game is an interactive way to test your luck and strategy against a computer opponent.</p>
+     <div class="bg-gradient-to-br from-[#1e293b] to-[#0f172a] rounded-2xl shadow-lg 
+     hover:shadow-cyan-500/40 transform transition duration-300 hover:scale-105 p-4">
+      <img src="https://www.bing.com/th/id/OIP.ATe8S8LC5vXMaMJGzsZArwHaHa?w=204&h=211&c=8&rs=1&qlt=90&o=6&cb=thwsc4&dpr=1.5&pid=3.1&rm=2" alt="Project 2" class="rounded-lg mb-4 w-full h-48 object-cover">
+      <h3 class="text-xl font-bold" style="font-family: Inter, Inter Fallback">📒 Project 9</h3>
+      <p class="project-desc text-white-600 mb-2 line-clamp-6" style="font-family: Inter, Inter Fallback">In this project, we create a modern to do list.
+        We can add a new task to the list using the input field.
+        Plus, our to-do list is unique in that even after refreshing the page, the tasks remain saved.
+        By utilizing JavaScript, we'll show you how to set and get items from local storage.
+        With each task, there are two icons: a check mark and a trash bin.
+        The check mark allows you to mark the task as completed, while the trash bin lets you delete the task.
+        Each task will also be saved in the local storage</p>
+<button class="toggle-btn flex items-center gap-1 text-sm text-blue-600 font-medium hover:text-blue-800 transition-all duration-200">
+  <span>See More</span>
+  <svg class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+  </svg>
+</button>
          <div class="flex space-x-3">
-      <a href="project2/index.html" target="_blank" 
+      <a href="projects_12\to_do_list.html" target="_blank"
          class="inline-block mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
          View Project
       </a>
@@ -172,15 +262,20 @@
      </div>
     </div>
 
-    <div class="bg-white rounded-2xl shadow hover:shadow-lg transition p-4">
-      <img src="" alt="Project 2" class="rounded-lg mb-4">
-      <h3 class="text-xl font-semibold">Project 2</h3>
-      <p class="text-gray-600 mb-2" style="font-family: Inter, Inter Fallback">In this project, we create a rock, paper, and scissors game.
-         The computer will also choose a random option, and the results will be displayed.
-         You can win, lose, or tie. Scores are tracked at the bottom. We'll use HTML for structure, CSS for a modern look, and JavaScript to generate the computer's choice and compare the results.
-         This game is an interactive way to test your luck and strategy against a computer opponent.</p>
+     <div class="bg-gradient-to-br from-[#1e293b] to-[#0f172a] rounded-2xl shadow-lg 
+     hover:shadow-cyan-500/40 transform transition duration-300 hover:scale-105 p-4">
+      <img src="https://firebasestorage.googleapis.com/v0/b/jsporjects100.appspot.com/o/hFQ4qcvDcRYuZSWYofFE8SsflQw2-medium_digital_clock_4464d93438.jpg-1f6e1b81-b63d-48c7-a0dd-44d42db6a33d?alt=media&token=900d4717-363a-4fec-a6d8-94d624d512df" alt="digital_clock" class="rounded-lg mb-4 w-full h-48 object-cover">
+      <h3 class="text-xl font-bold" style="font-family: Inter, Inter Fallback">🕒 Project 10</h3>
+      <p class="project-desc text-white-600 mb-2 line-clamp-6" style="font-family: Inter, Inter Fallback">We will create a user-friendly digital clock that displays the current time on a website with a beautiful design, title, and background image.
+        We'll get the current time from the computer and display it in a digital format using JavaScript, . The clock will always show the accurate time, synchronized with the computer's time.
+        This project will help us learn crucial skills such as working with JavaScript to retrieve the current time and creating an attractive website design.</p><button class="toggle-btn flex items-center gap-1 text-sm text-blue-600 font-medium hover:text-blue-800 transition-all duration-200">
+  <span>See More</span>
+  <svg class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+  </svg>
+</button>
       <div class="flex space-x-3">
-      <a href="project2/index.html" target="_blank" 
+      <a href="projects_12\digital_clock.html" target="_blank" 
          class="inline-block mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
          View Project
       </a>
@@ -201,14 +296,25 @@
      </div>
     </div>
 
-    <div class="bg-white rounded-2xl shadow hover:shadow-lg transition p-4">
-      <img src="" alt="Project 2" class="rounded-lg mb-4">
-      <h3 class="text-xl font-semibold">Project 2</h3>
-      <p class="text-gray-600 mb-2" style="font-family: Inter, Inter Fallback">In this project, we create a rock, paper, and scissors game.
-         The computer will also choose a random option, and the results will be displayed.
-         You can win, lose, or tie. Scores are tracked at the bottom. We'll use HTML for structure, CSS for a modern look, and JavaScript to generate the computer's choice and compare the results.
+     <div class="bg-gradient-to-br from-[#1e293b] to-[#0f172a] rounded-2xl shadow-lg 
+     hover:shadow-cyan-500/40 transform transition duration-300 hover:scale-105 p-4">
+      <img src="https://firebasestorage.googleapis.com/v0/b/jsporjects100.appspot.com/o/hFQ4qcvDcRYuZSWYofFE8SsflQw2-medium_currency_converter_e303c72773.jpg-196e5b3d-98ca-461f-ad49-b2f22ab12d2d?alt=media&token=84e043bc-13b4-4718-9375-bf20b7ed264b" 
+      alt="Currency Exchage"
+      class="rounded-lg mb-4 w-full h-48 object-cover">
+      <h3 class="text-xl font-bold" style="font-family: Inter, Inter Fallback">💶 Project 11</h3>
+      <p class="project-desc text-white-600 mb-2 line-clamp-6" style="font-family: Inter, Inter Fallback">In this project , we create a currency converter that offers various currency options.
+        Once a currency is selected, the application immediately requests the current exchange rate from an API.
+        Users can then input an amount in one currency and see the equivalent in the other currency, all in real-time.
+        In order to that, we will be using JavaScript to fetch data from the currency API.
+        This project offers a great opportunity to learn about currency conversion, API requests, and utilizing JavaScript to create dynamic web applications.</p>
+     <button class="toggle-btn flex items-center gap-1 text-sm text-blue-600 font-medium hover:text-blue-800 transition-all duration-200">
+  <span>See More</span>
+  <svg class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+  </svg>
+</button>
      <div class="flex space-x-3">
-      <a href="project2/index.html" target="_blank" 
+      <a href="projects-12\currency_converter.html" target="_blank" 
          class="inline-block mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
          View Project
       </a>
@@ -229,15 +335,22 @@
      </div>
     </div>
 
-    <div class="bg-white rounded-2xl shadow hover:shadow-lg transition p-4">
-      <img src="" alt="Project 2" class="rounded-lg mb-4">
-      <h3 class="text-xl font-semibold">Project 2</h3>
-      <p class="text-gray-600 mb-2" style="font-family: Inter, Inter Fallback">In this project, we create a rock, paper, and scissors game.
-         The computer will also choose a random option, and the results will be displayed.
-         You can win, lose, or tie. Scores are tracked at the bottom. We'll use HTML for structure, CSS for a modern look, and JavaScript to generate the computer's choice and compare the results.
-         This game is an interactive way to test your luck and strategy against a computer opponent.</p>
+     <div class="bg-gradient-to-br from-[#1e293b] to-[#0f172a] rounded-2xl shadow-lg 
+     hover:shadow-cyan-500/40 transform transition duration-300 hover:scale-105 p-4">
+      <img src="data:image/webp;base64,UklGRu4YAABXRUJQVlA4IOIYAADQdwCdASrhAA8BPp1Gnkulo6KqJTS70UATiWI7fnQAmiIDWqPi+fpbX9txwPIeTO6H61f0B/0/cA8cP17/2D/e+o3+gf4P9u/d89HP+T9QD+0f7DraPQy8uX90viD/dj9kvbP1VD1B54fGT9F0+fwmZV4GaoPd2/n8kfnf2F/yP+heBzunrd+gp379Lr6bzZ/lPUA78zwfaAH8v/wvoc6C/qjgQejqbqgyNzeKFW2D6aVAgjsOAps0JLvvHkGf9XRigds52LZmWH9BILh2lPOU+XbpLWETbIqRz/2xZrndrCmVcVwo0R69zO2cYzgKTNBwbAvxDrGXKfFFCU+l839QyhEti9NcUkyGlK826MVnHm73dA1Hk0YadzyX8aWAi/ddLxrZq8kDDLdB5g6rLHSq4YKgALUOPdNhNYvNjf7KGzBNuC4dSrzX+DHSHc0VCrusZIL5BWhFW5lM8dIJkj9ToEsUkjn8KkTTRq0SWTwcSmosyIlJCxzmObBCSUv5Upuw3YbVo/PwtpfUVf1cSwLW8u/iZUGLra4SiRbRxa9IP1tFeqOackEKizfJd338jO6IEtFhPG0D8Q0SGRmgCq0MnneWXrNC9zE0whU2Q5795EFOa00NMZgHWf6rJkepXBMNDLIC7rB8BF7SZPuPqCYkZ4P3WC3MijUmpN/rfjaSQbRLQeCijOHXYpU1glWRhciNEnACFMkiEGACatFKBd8LESoklh4UxoYG5MtnDRG0QMl/fstlQ+3f/cP6jRrW8iH7piBHcXk80/I7qsDEDo+WLMHtiDYPgpKmutLsjxb8EeEpDnAPAPIva2RCMYmExnaGy8YSdPzRLQm3nfYgK+Fhxg0/PnPvuLGXBh6BdJS7CtOf5gZylDM+Fwi0MvC9GlVNJxUkePQmDPyKAmiAPQPPvWu6fAQQc99gkiDchgSkYmo+lpVKGo+TAlwZq0X9vvew35pkXJJGREOXoHJ38CweD9v1FljqlnNQN8q9WQ2cYYOY/gwDKcxBllRyrpOO5gmjd8fEEpEIUuZQb98sN7Hfr9TmoX5cv+pQ/lU7EHGiC/KrckNDgon62EZGF7QhImLxdnBGBGmTWRY6qjUe4jcIossfT01ssghyOFD4HA9ENjdcJb0uyazOuS+pL7c+MJ1FMM2sPq79cFLA2PIEOxBMm3RAwDahARyTpIpkdy//DVRl4GAvLvLvNz07SfqD2xO116Mo8zZ8i2T/HovxFh++JLtKYA5EYjeGWOJY6YdVIbGt+uQ1Z+harbQ34PNAfWm0ShNra0wwAP74We/KCvubemREzX3U3cS5+RjazWvDpXoLZVFRYYbEpYrp2YJmNnk2bE56yA3JeU6zbkuUG/LcZF0T+KMW0kt0t+ujbbsBVIaF62CpmFc8PjASQkwPhgwJ6XjexRlzO1SfNJXK/feSVvrnkZl9GYaPLb4caa/vqLqZYEW0uW15eBDkvFDX1L+/12dT7R5DRZRcUEnOekRmoB8sif4+8tiVnrP5iSMIlj41D96HNZA/k3OLyUY0qrsOzRFnv3c4g8lcmMsWHi65bdgdTVf8t7qF/Y1+76+QRgriO/Z49vxyfr/+ePI24XnBwi1zK9iJ/YwI9+4WsxlwyObabLFjT5wcjKEs0V+U7ktKXzgyh+edKpIZDkqk1Dt9ikSTohlZQIs3Xt44yLmGQaK5XSVxFRsyYAIVQVN7Bgzs8cdL39W8+myeDRZMksxe8CO0WOn7wfeliyAaRS16bhmrMca8tQT/G2grfq1WcWWvJG7q+1RS/423baj2kAQ9FJOLmqs5MnfuLNHW9pkaNoK+mTFtF3qhEv7XLDSGIKmzjxSphfCCy7ysVSAhpCISfUqKf/uw6WZ3Y35awBqW8yq8GCo/WJYd5tefYG0dPV0gQoCyeRK86PWjnemqDfxwv2WHnJOMyApgSAPF3KEGUf/Th1oNRe+sqaarxoZ3HrnEf8enLhLIL76s1o8KxYgf/MqQYx2a7Z6EuorPpOD5zoUwsIT/Bu1HiNHvb0N5zdgZwAAaMp4GCsFJ4K6F/Ped/30bSistAgmk/ZO+bgHQKjZFDeRlhyi80Xnkto6aU2Yl2Jm0zl1FEGSh9dIK89nsA89yA6uCcqjQzbIZpqc50K32Thd4js/En0BbMDMxCff5rJbYS+1v4hm+ozGJWehabWVLXHea0gHxKpx2hXFVNLh1PqH36JE/gqieQAc2rNyuyXapUVaOfDyiMuEA2Glcs8dqWQ6SD4nxIVv6Fm/Z7mkUiFL2F5evHNvkV4Fp9knC9JMOQKvpLNTUrGr9K+I4R2P38Hxyff01NvW2GgLNIhSis2g1X8v0ekmKTGgQ5NQzBG9wKnNIxWckJZ2+tccekTPGfCRA4FKt6lBp0jbZaUmYeuUAPw1ZIeLJjWoLidJB50kqGu3j/QSrlgP4s3vNOPhJysZhS5IkxxemE+8BzrbGJSopE1kVmRQffY/GsOVyNxbFIjloX+jbTtx/gZXl88iC5pnjIpVMzjp6BkK1Nt5bzmoroJ9jVqitq39GJ/M0iuuouZaRZeWs4jTc2dXgBPVdZfGWs7f4qoVUOXZm589wWG+f8LtMF3C3Ut4EW4U5PylwZoxv+6iJEcq1UWOTuAzWRcNnyF7jzlKihenULn7kYkGRf0x/g8btfN5IzBcsAOMWqeCRJlY4PQKT+QuYmq0iXm5pUgK1iT6iZM6TdvOGKf/pgd7gQWCxPhZg74Pqv/KnmcvwwHGLYBLmYKnb6xeeEa36tMdVrhtAqSLn3uD6Q8Kbo2Kgv7xk/7cEpS1K9NSrUejq4sMK6vdTIM9dCOK6xmJGlBsjzykE/GadGDNZDyDkbGXXG0N+1Zs5EgH+rv75l6YT2GIPhrEcnWMQN2Bm9lCL99iGsjWK5fPw0zvU0KCQCre7Dc5GHTk/cax6RNuxf91PYYqTyCYLqyjj9f6ftHuxmhH6bfUeI7Z9MIHqdOb4Ux18HqNlONx+agUXHZ9bkUuJjCl4Z05dCv3EcAN/Bqqaq9W0jWsbM/KA5QodWbCR4ETlvcWiwGZC8otvnz8kVFUeNZBEctBv8HFmKfkwWAmA2KIAjyMH2kgu+wtZTqVtfhd2AwgwFTAfXNRn363dc2DRvABNn/XQ/fwlBeHXUjY97IpMcrCHRrD24r5by/8BPY29u5Yat96CPG8IcgNF4nu7ZLichsbPxgfsSb2hKc/HhptbGdX8n02wq4XJ/X9GcuPY4hSH1jaaJw3Yuz88yN6NvdfV6p4rt1KYc+k7zJm7ZhE2rUQ3yW1dYOhhqcOV1kmHOxVZ6isB406Cdi+4Kh5RGaceTjZW5dzuB3+M1AkTIwKCioU11Q2wBF6bD2BH54DJsF6V5IK3KJ1442pm7LRfgiJ1aIzS2yvblmU9BIkvo+ML3BGDpNJ0YvDZQiaRYZOccD6eR3Xp58gbSsNn03wn87OC1m2cR3F+buzSmd8c8ngTJ+y/n3EvMeCyXPhv/l3WDMs2lz7K+Q4BH0ud+qbu7FlJGRKcpQMsU23r+MWZ3uJhuWJLDZFZ1YuyjALlu1I+BOKk+y05+vFDncj7vj5+jQcUTkoeDL+rVGCFfeMOi3vq9I5ObzoXZNa7Qrn41t2cl3jrQZ5uGYCLlmH8kUUsEx5nUe/g9gcxPckrGMyZvluohNzLwn70Gd1s+y4BJkx/4QumIOLgU1saNmVQru3ZoGC0LCqkbKHUgiIvuTj1hISMannxgPwIG9+71To6mZt4NkSjAczUJJFp34iCzIM2kxR03SyS5H/dp3X9LPtVZ+QmXaME6nGSLjYp6J7d3mrJw/HQTb6V75Kv1JbQDXLKjR1c4aPUZ9tmKXZQpy3bMYBeNLUvXH5tp5IwKA0o8BnX++FE2d/uuDlwvwb4C3jLmix1hmbF3FTIK2CYtsj8/6tcUogODpstY3wKGTrBZObb+grqw/lu1mfFifsk9aJVzJ22EqZyu3/JzmCku++9lCTVY55WQb3UNt/5NNahxFE4SzJ+U6IBCEV9xbKc53+xyoWtJpV7E5MfODtq12UVWUA5tVs56uXKIKxtZ3fm6iFL1FlxsKK6QJIR0fvf/Bt/xq71uXCzc2Ix1UgXkroEwLGnt8C63KQ0rK0m5iVCS3EowvXQPFnqpCw8KATfxhwedQsfaevdwWc/Sx/sVitPBzGUuCqC0WpF3XzYr67h5LcLpZRNxQBYA/xlNm3nav6O7YutL/yVsZRI9RbO80g9fEb7mJgnFU2T3bu1xSK5LyctIkw7R0xH6hhACN8tE/0c/Ja2z9cdkV3rl9Edl9sbIh5gfMglz/NBGYb4MB5iu/CIwXTAXXMI+Uq7FaexwKjQdyizvXwbeIQ2faI7kV8q4Yx1GVJnjWyEMVUiLCeZ3c8j3QG31qlpDqXLiERy3+60AUzksZsvIvuHaoSh7z9xoVPHy49F16TaADFzZd7ju0XUKY7USE5rWcelQ9DSa//rQYBAP0Qal0rXg4Pt/Ats2c98E+D8WII6ICensXp0OlRRHPzSioLT/9yJSoU9iDpMTRIvW8c+IXaTVL/M7cwCCFPqVCA2Jwa9WdDIr7uOWfzcG2HaxBQdFe205BTsF3mMG3cJN3ITQ+OWMInz3Qkb5Is/K3CRe/DVxbC2t6UXoW8TDa2rEdRawBrP3xKdxML0fQImyLskWoyNXT5ArUBZKlURQKmNh6pRO3Du29TbILEnqER6GiNkcbKN5wIQagOCzZSKcfxLUT5/6xjTgslY9og1exJHwxq5xv41TdXZ9FCrspqQ79/vrIuIK81pWoyj3MB//2HzDl6Kl7lJvUFfIdI8AtO4FI2R6J/nFera/6x2zHXJlMoGAqTIzXt0lvDtx8SeFhvjFhtVv5mdyH5veZ85v0x7p9I2TVMRtNDI4ml3gX/tMvP61pZ8W0GNOtCZA1fqb4gtK7jn+tK2P9Iy+AC0GNBwaRVUZaOQ1HIDVlbXOD1WHTiOvy5s2EJn6okD5vEpdU0mpBoLhWKxB97nIx2Wh7HNTMHfh8Ff3eDC56T9hGZE/uGzT/qZg0Ow5leFFb4bftoQDdvemYGIutvo+zcvwjXaXBRjM5XjR5S9JwNkBqWqp5Ri540l3mZVefFLzR+I3E0v6+BetTfni4tU2U9xVChSNKflleysTu36i0aRw+fnny75vn0cbucjzAs8gtJci4LAQlg6mfdc1zNEnWlyo0vpMYhDRGRMo160JFqbs0qgfwAMSwnE42rjHBjZVEyorYaAumyv7G2RrNy4LemnFQfyCuxwS87FZi6KUK3Ll1BPjPsQgP+DtG1S2NvsMwTah0U/+DoG3j7OW0cuKfZoKwvAJSN5bVVd8DDAmfoqu3bzGzFzsAXfSwO+FkffGOsED0cjFGpmPPqps9ZsvA6YTZulUJGh77RtGStuLKRZLiQDvMEyh7uCwPJQ4vvTCeJSrudHQFTziu3c0oUzkr2YdDRXRS2SaiPg4Jv6IJf62xj5D4uktD33UQzRgV8s7y30+CRmuCE5Kf5XS7qyYpSV+fHHMMGRiwt65S90ZPHRaAUHhWrKET2RwYZIxhnVg1NcOqJxclbqP4DUr3RsCUPhhfgB/IzRmLfJrPDLnJMhAaAAAD94kuVp0UkJDznLIHmkXD/OBx7Mv4A+flLo/8o7AmWp0ZOVBDPgGKEjo5c126qO24eOvf15Q/QAjExQOtTI6Pn2UJzttN8p+7UEvwaPzkfAAWvFDE0QhwAfzGPGW777V5ZKJpn3GbjiQgxBtEwxhLvBAZYWsw23lbfLOWfMefZ2ICjMZzdifcw2dU/pftsTFqCvC7bjqz30/5WXVnQdvCZ0PZD6jNVcpDPgjeK3riQBpLW7p6pZCsdBlJ/7o1lVIuXmbC8yce3uAhEJSiu6JF/AgN6PgaF9713W4yiWM0T3hvgyQaPIfgGz2Rv30HjvzAJuNME2qfyYI26wDY9WxulA0NlAQrsGljvQborUyrVIv1V6wALsdUJehYH1wW2Q2AMZWBDgSHb0xhtOWtAcbcJztWKHmkZbk8OZJziuI9WJZUnydgqLpjUPwu8M2EU/D4D4qmlV+/o2o5YLcVA6hgYPx+HmziKfK8pNOjq+thJYwAXAli+Hfo2Qk4VEatRHiayWq3xuNKCv4HZfruUyxayG/FvKMM8yVgWbVyzcOKVXdW/hl8mEA2ePHbuu+R2JfVU66KNmf0hyl0FKE0pPAwNreHLSIAEgnA3B9w/GVW3YjVsUUuDR/s3HqY5XppinIHD+ntYrmP1EtvrABoBIRY5cl2yF/YUpXqykWu41QNjn/LNDMsv+YumnlGOzn4MyXZKFbdydbfxgce9ONi+UEewipT539soOamu9t7G0QRf96Kt6IehqzUYMP3FiuA0hj4mZkSUvDCxT9iUx45FXiQlpHlMj4YAXzQ96tiz1mFxo7jsRsIl48U9EkW4igoeFcdBHcCJtKHJVkSgxaXESApfTF5CjL615BB7Greejv/IHIycog9sFwWml3VtAgejgzv++4jV4/Ig2l/Ze7NlF+AUc903LKg/3EFqOyIJKpyE2FmyRAGR+pNJHg4cxE3UCRBbwqYx7t09NrxKhtWDsIvuOG5wi1r8D8fkSmaEa6Jt6KQEef9t+gWBUBu4R04G36jYg7w0R7DKT0drjEpOH1trCdN3KAu84iUxTCi+L+BGvSVJIfcF1WLwn/3GBuOEi1S4yjK/WLD9WJ/k199YvdD+SU1H/bKaBfe3+D0eWiZyN8YQm9IFV4MZEinxk/FJNJyAsHR9Bbf2iHzDmE3pf8Fa3z4pDPrd52kGuEc0AAtChKBPyxgqiwPb32bd+IFW9ThBScvO8szrRvtsrV7sBo8V9fsB6AXjtq0h9VQeFmxCvTsH6oO7T+whlD96t1iP8lqwdS0U/yuH++RSfzugDYkXDpkbt/acz6wXy+LYplgyIWiqw+6UqizdsIq2g4pGsTuD2yl3kboc9FI40715VWsGl9TbFDTnC7U4wCbFqGXrQLO6RAKTSeE3NHI4Inm5W5aoso3YK0VYYriFpl67/DxmuKdixb+A6gAFYTss1wQzo7mkUe2zFjx9x5lA+AxUmR7kskbRWH06VQJyhkxXNCB4UyyGCmzBgDifykim6TB96Sl/zWXUrEDXdas3DU8K7Ct/T1c9Oy2AwCo3Is95MZcJ8k1dvwhctGDt7QPes4+X+2cCj1PWxbUY+ibl7ZWsAUKOkBYkMDDE/ycSKhREOOSp8p9zTZDQmpDcd5J9W0VM3txiVJz5GoVos7BRCNTY50Ps8NZE5pFStzGUOM3RidOtk5/ersnEJhTOrTBnBJ+abyBZmbBQ5RQhcvsjCgdV7KePzaAtd++Z88zQjdvleBBXnef/lYs+9zRhxiL3PC9ibzEzzCMRDlRY4wMIADrr6/0ZZwXEshwkOmywxqK3L+5HG6NUr1XFVwz1XLBoKGr54nM0qPcDMxV320RelDJk1s/hO5xJDt4HsE5Z42K9saWWQBhDsS/jiDT0/dh4AAANVRfg9TfVyEc5eZusw/+C3r/djiiaSs489iedzmisoTbMC+LNwwFSMXa502Ws+cJgfW/auzv+8Vb7iINz/dH/g4PQLmj0aK5xTNVwpZU3vpBz3MltolhW6XfkRRkM3Pgf7Td6g7PqK762jpQtvvRAYaHJYDk2mi1dfOggeWZpoPdvLBYGtJeUaGBeY1Df9n0MI4IMSDyJN+SINyxSjfABBZudkZuXSwm1XAm4o4+bj7yNGtJ2sasCqml96jAfsMeUQiyT7VwGH3uqnWRgx8BW3qM+mBY2CFswz2g8s9oTks6BSXveZN+l/UzkvWTLQJjvBudd8oAcd15/4SR+E9DWSsInSwWDlSgbiLOadpXvThqBr14Vv9a/oWfWsJBaD8s0EPlfmoK3g2cE0t6yBHsvf6lpLOIchBB9+sM7OKC1u39QpB3H4IUL4A+Vacodet+b7g4aWScc+jWi6qWbJTPH6paTCu/YV3uyJc6flJlUtDwdBlzDe6/VA5Vtu/+YoBLl/XkGPAzVL76i9v5xySeAK5BgVwvuZr3Q2k8+C7VNNVCVfJablKXi7M895xUHinXqdGOOTR0qWXvkl4brPYblZNskpM7Fl2/Ep/9ZtbUxZ1/J9FHgEINYt08hU7qCNyNBydeHLET+nNidI9lRTfmt4feemc/qv/FBMwrycaDMMMXzHIk99oXgJib7GJE3l6wuTVZ3dyuXkJVxJYb03ADT75jC2a8jY+NwLckgnTCzsIf9A5DBe6JnOx4DvYw/GxCWbpWtGsdAz1FEQOnyG+50HPySwIwSAbJzxEKPdonrdph2r2Joyfuwq0pZ/2f5jYd1WKEzq/yYVFy586Zkv1/wH7zRvAwmlGuFMmErbi8jkrEjjTll5ukdFyOHPLnhBKOMGR8J9XVZeBD7MDsEvbX+u+Q9+WAXIiKntZA+N0I/ksFXXy6+X41Dx4Nj6UeTEtE0am7RhLDyc6oM62O9soNlKFlUYgAAA" 
+      alt="Project 2" class="rounded-lg mb-4 w-full h-48 object-cover">
+      <h3 class="text-xl font-bold" style="font-family: Inter, Inter Fallback">👨🏼‍💻 Project 12</h3>
+      <p class="project-desc text-white-600 mb-2 line-clamp-6" style="font-family: Inter, Inter Fallback">This project involves creating a question and answer section that can be useful for many websites to improve their SEO.
+        The final version of the project features three questions, each with a plus sign tab. Clicking on the plus sign shows the answer of the question. We'll use Font Awesome's library to get the plus and minus signs. We'll learn to add and remove classes using JavaScript. When we click on the plus sign, we'll add an "active" class to the question, revealing the answer.
+        Clicking on the minus sign removes the "active" class to hide the answer.</p>
+   <button class="toggle-btn flex items-center gap-1 text-sm text-blue-600 font-medium hover:text-blue-800 transition-all duration-200">
+  <span>See More</span>
+  <svg class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+  </svg>
+</button>
       <div class="flex space-x-3">
-      <a href="project2/index.html" target="_blank" 
+      <a href="projects_12\Q&A.html" target="_blank" 
          class="inline-block mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
          View Project
       </a>
@@ -258,20 +371,26 @@
      </div>
     </div>
 
-    <div class="bg-white rounded-2xl shadow hover:shadow-lg transition p-4">
-      <img src="" alt="Project 2" class="rounded-lg mb-4">
-      <h3 class="text-xl font-semibold">Project 2</h3>
-      <p class="text-gray-600 mb-2" style="font-family: Inter, Inter Fallback">In this project, we create a rock, paper, and scissors game.
-         The computer will also choose a random option, and the results will be displayed.
-         You can win, lose, or tie. Scores are tracked at the bottom. We'll use HTML for structure, CSS for a modern look, and JavaScript to generate the computer's choice and compare the results.
-         This game is an interactive way to test your luck and strategy against a computer opponent.</p>
+     <div class="bg-gradient-to-br from-[#1e293b] to-[#0f172a] rounded-2xl shadow-lg 
+     hover:shadow-cyan-500/40 transform transition duration-300 hover:scale-105 p-4">
+      <img src="data:image/webp;base64,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" 
+      alt="Project 2" class="rounded-lg mb-4 w-full h-48 object-cover">
+      <h3 class="text-xl font-bold" style="font-family: Inter, Inter Fallback">☂️ Project 13</h3>
+      <p class="project-desc text-white-600 mb-2 line-clamp-6" style="font-family: Inter, Inter Fallback">We are embarking on a weather app creation project that will empower users to access weather information for any city.
+        The process will involve the user inputting the city name into an input field and clicking a button or pressing enter to retrieve the weather data. By leveraging JavaScript, we will connect to an open weather API to access relevant weather data for the specified city. To represent weather conditions, we will use icons or images like a sun or a cloud. In handling errors while fetching data from the weather API, we will employ the 'try and catch' technique.
+        Our project will enhance our skills in working with APIs, handling errors effectively, and creating user-friendly interfaces.</p><button class="toggle-btn flex items-center gap-1 text-sm text-blue-600 font-medium hover:text-blue-800 transition-all duration-200">
+  <span>See More</span>
+  <svg class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+  </svg>
+</button>
      <div class="flex space-x-3">
-      <a href="project2/index.html" target="_blank" 
+      <a href="projects_12\weather_api.html" target="_blank" 
          class="inline-block mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
          View Project
       </a>
 
-     <a href="" target="_blank" class="inline-flex items-center px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 ">
+     <a href="https://github.com/Aidan226/weather-api-project/blob/master/weather_api.html" target="_blank" class="inline-flex items-center px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 ">
        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.263.82-.583 
                   0-.288-.01-1.05-.015-2.06-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.744.083-.729.083-.729 
@@ -293,9 +412,48 @@
   </main>
 
   <!-- Footer -->
-  <footer class="bg-white py-6 mt-12 shadow text-center text-gray-600">
-    © 2025 MyCode | Built with ❤️ while learning
-  </footer>
+  <footer class="bg-gradient-to-r from-[#0f172a] to-[#1e293b] py-8 mt-12 shadow-inner text-center text-gray-300">
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
+
+    <!-- Column 1: Brand -->
+    <div>
+      <h2 class="text-lg font-bold text-cyan-400">MyCode</h2>
+      <p class="mt-2 text-gray-400">Built with ❤️ while learning.<br>© 2025 MyCode. All rights reserved.</p>
+    </div>
+
+    <!-- Column 2: Quick Links -->
+    <div>
+      <h3 class="font-semibold text-cyan-300">Quick Links</h3>
+      <ul class="mt-2 space-y-1">
+        <li><a href="#" class="hover:text-cyan-400 transition">Home</a></li>
+        <li><a href="#" class="hover:text-cyan-400 transition">Courses</a></li>
+        <li><a href="#" class="hover:text-cyan-400 transition">Projects</a></li>
+        <li><a href="#" class="hover:text-cyan-400 transition">About</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 3: Socials -->
+    <div>
+      <h3 class="font-semibold text-cyan-300">Follow Us</h3>
+      <div class="flex justify-center md:justify-start gap-4 mt-2">
+        <a href="#" class="hover:text-cyan-400 transition">🐦 Twitter</a>
+        <a href="#" class="hover:text-cyan-400 transition">📘 Facebook</a>
+        <a href="#" class="hover:text-cyan-400 transition">📸 Instagram</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+  <script>
+  document.querySelectorAll('.toggle-btn').forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      const desc = document.querySelectorAll('.project-desc')[index];
+      desc.classList.toggle('line-clamp-6');
+      btn.textContent = desc.classList.contains('line-clamp-6') ? 'See More' : 'See Less';
+    });
+  });
+</script>
 
 </body>
 </html>

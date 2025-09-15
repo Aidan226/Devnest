@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HTML Quiz — DevNest</title>
+<style>
+/* ========= THEME ========= */
+:root {
+  --bg-1: #0b1220;
+  --bg-2: #0a0f1a;
+  --card: #0f172aee;
+  --muted: #8aa0c7;
+  --text: #e6eeff;
+  --edge: #1f2a44;
+  --brand-1: #5ee7ff;
+  --brand-2: #7c4dff;
+  --accent: #3b82f6;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --glass: backdrop-filter: blur(10px);
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --nav-h: 72px;
+  --sidebar-w: 280px;
+  --sidebar-w-collapsed: 72px;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--muted);
+  background: radial-gradient(1000px 600px at 80% -10%, rgba(124, 77, 255, 0.16), transparent 60%), radial-gradient(900px 500px at -10% 20%, rgba(94, 231, 255, 0.12), transparent 55%), linear-gradient(180deg, var(--bg-1), var(--bg-2));
+  line-height: 1.7;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ========= TOP NAV ========= */
+.topnav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(8, 12, 20, .8), rgba(8, 12, 20, .55));
+  border-bottom: 1px solid rgba(255, 255, 255, .04);
+  backdrop-filter: blur(12px);
+}
+.nav-inner {
+  width: min(1200px, 92vw);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  letter-spacing: .2px;
+  color: var(--text);
+}
+.brand-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+  box-shadow: 0 8px 30px rgba(124, 77, 255, .35), inset 0 0 18px rgba(255, 255, 255, .3);
+}
+.nav-links {
+  display: flex;
+  gap: 26px;
+  align-items: center;
+  font-weight: 600;
+  color: #b8c6e8;
+}
+.nav-links a {
+  opacity: .9;
+}
+.nav-links a:hover {
+  opacity: 1;
+  color: var(--text);
+}
+.login-btn {
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  color: #04111f;
+  background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+  box-shadow: 0 10px 24px rgba(94, 231, 255, .25);
+  border: none;
+  cursor: pointer;
+}
+.hamburger{display:none;}
+
+/* ========= LAYOUT ========= */
+.layout {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  gap: 24px;
+  width: min(1300px, 96vw);
+  margin: 24px auto 80px;
+}
+
+.layout.collapsed {
+  grid-template-columns: var(--sidebar-w-collapsed) 1fr;
+}
+
+@media (max-width: 1000px) {
+  .layout {
+    display: flex;
+    flex-direction: column;
+    width: 96vw;
+    margin: 24px auto 80px;
+  }
+  .sidebar {
+    position: static;
+    width: auto;
+    height: auto;
+  }
+  .container {
+    margin-left: 0;
+    width: 100%;
+    padding: 0 0.5rem;
+  }
+}
+
+/* ========= SIDEBAR ========= */
+/* ========= SIDEBAR ========= */
+.sidebar {
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+  align-self: start;
+  background: linear-gradient(180deg, rgba(18, 25, 42, 0.8), rgba(12, 18, 33, 0.7));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: 12px;
+  color: #cfe0ff;
+
+  /* 👇 Scrollbar logic */
+  max-height: calc(100vh - var(--nav-h) - 48px); /* Adjust as needed */
+  overflow-y: auto;
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #555 transparent;
+}
+
+/* Optional: Style scrollbar for WebKit browsers */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.collapse-toggle{
+    width:100%; background:transparent; border:none; color:#9fb3d8;
+    display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; cursor:pointer;
+    margin:0; /* NO margin! */
+  }
+  .collapse-toggle:hover{background:rgba(255,255,255,.05); color:var(--text)}
+  .toggle-icon{transition: transform .25s ease}
+  .layout.collapsed .toggle-icon{transform: rotate(180deg)}
+  .layout.collapsed .sidebar-content{display:none}
+.course-title {
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin: 6px 12px 10px;
+  color: #86a1d6;
+}
+.sidebar a {
+  display: block;
+  padding: 10px 10px;
+  margin: 4px 6px;
+  border-radius: 10px;
+  color: #b9c9f0;
+  font-weight: 600;
+  font-size: 15px;
+}
+.sidebar a:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+}
+.sidebar a.active {
+  background: linear-gradient(135deg, rgba(94, 231, 255, 0.15), rgba(124, 77, 255, 0.18));
+  color: #eaf2ff;
+  border: 1px solid rgba(94, 231, 255, 0.35);
+}
+details {
+  border: 1px solid rgba(255, 255, 255, .06);
+  border-radius: 14px;
+  margin: 8px 0;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .02);
+}
+summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 12px 14px;
+  font-weight: 700;
+  color: #dbe7ff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+summary::-webkit-details-marker {
+  display: none;
+}
+.chev {
+  transition: transform .2s ease;
+}
+details[open] .chev {
+  transform: rotate(90deg);
+}
+.menu {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 6px 10px;
+}
+/* ========= MAIN CONTENT CARD ========= */
+.container {
+  padding: 28px 26px;
+  border-radius: 24px;
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: var(--shadow);
+  max-width: 800px;
+  margin: 0 auto;
+}
+h1 {
+  margin: 0 0 8px;
+  font-size: 42px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-align: center;
+}
+h2 {
+  margin: 26px 0 10px;
+  color: #cfe0ff;
+  font-size: 22px;
+}
+p, li {
+  color: #c3d0f2;
+}
+footer {
+  margin: 26px 0 6px;
+  text-align: center;
+  color: #8da3c9;
+}
+
+/* Quiz Specific Styles */
+#quiz-container {
+  padding: 20px;
+}
+.quiz-question {
+  margin-bottom: 20px;
+  font-size: 1.1em;
+  color: var(--text);
+  font-weight: 600;
+}
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.quiz-option {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.03);
+}
+.quiz-option:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.quiz-option input[type="radio"] {
+  margin-right: 12px;
+  cursor: pointer;
+}
+.quiz-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.quiz-feedback {
+  margin-top: 15px;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+}
+.correct {
+  background: rgba(34, 197, 94, 0.2);
+  color: var(--success);
+}
+.incorrect {
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--danger);
+}
+.quiz-button {
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-weight: 700;
+  color: #04111f;
+  background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+  box-shadow: 0 10px 24px rgba(94, 231, 255, .25);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.quiz-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(94, 231, 255, .35);
+}
+.quiz-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+#quiz-results {
+  text-align: center;
+  margin-top: 40px;
+}
+</style>
+</head>
+<body>
+  <header class="topnav">
+    <div class="nav-inner">
+      <a class="brand" href="#">
+        <span class="brand-badge" aria-hidden="true"></span>
+        DevNest
+      </a>
+        <nav class="nav-links" aria-label="Primary">
+        <a href="/Main_web_page.html">Home</a>
+        <a href="/courses.html" style="color:var(--text)">Courses</a>
+        <a href="/mini_code_editor.html">Practice</a>
+        <a href="/project_section.html">Projects</a>
+        <a href="/Main_web_page.html#about">About</a>
+      </nav>>
+     
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- Sidebar with Basics and Extras -->
+    <aside class="sidebar" aria-label="Course navigation">
+      <!-- Course Menu (MUST be first, with no margin or gap above) -->
+      <button class="collapse-toggle" id="collapseSidebar" title="Collapse sidebar">
+        <svg class="toggle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <strong>Course Menu</strong>
+      </button>
+      <div class="sidebar-content">
+      <div class="course-title">HTML</div>
+      <details open >
+        <summary>Basics <span class="chev">▶</span></summary>
+        <nav class="menu">
+          <a href="intro.html">HTML Introduction</a>
+          <a href="structure.html">Structure</a>
+          <a href="heading.html">Headings & Paragraphs</a>
+          <a href="lists.html">Lists</a>
+          <a href="links.html">Links</a>
+          <a href="images.html">Images</a>
+          <a href="tables.html">Tables</a>
+          <a href="forms.html">Forms</a>
+        </nav>
+      </details>
+      <details open>
+        <summary>Extras <span class="chev">▶</span></summary>
+        <nav class="menu">
+          <a href="#" class="active">Quizzes</a>
+        </nav>
+      </details>
+    </aside>
+
+    <main class="container">
+      <h1>HTML Quiz</h1>
+
+      <section id="quiz-container">
+        <!-- Quiz questions will be dynamically injected here -->
+      </section>
+
+      <footer>
+        © 2025 HTML Course — Quizzes
+      </footer>
+    </main>
+  </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const quizContainer = document.getElementById('quiz-container');
+    const questions = [
+      {
+        question: "What does HTML stand for?",
+        options: [
+          "Home Tool Markup Language",
+          "Hyperlinks and Text Markup Language",
+          "Hyper Text Markup Language",
+          "Hyper Tool Making Language"
+        ],
+        answer: 2
+      },
+      {
+        question: "Which HTML tag is used for the largest heading?",
+        options: [
+          "&lt;h6&gt;",
+          "&lt;heading&gt;",
+          "&lt;h1&gt;",
+          "&lt;head&gt;"
+        ],
+        answer: 2
+      },
+      {
+        question: "True or False: The &lt;p&gt; tag defines a paragraph.",
+        options: [
+          "True",
+          "False"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which tag is used to create a link?",
+        options: [
+          "&lt;link&gt;",
+          "&lt;href&gt;",
+          "&lt;a&gt;",
+          "&lt;url&gt;"
+        ],
+        answer: 2
+      },
+      {
+        question: "Which attribute specifies the destination of a link?",
+        options: [
+          "href",
+          "src",
+          "link",
+          "url"
+        ],
+        answer: 0
+      },
+      {
+        question: "True or False: The &lt;img&gt; tag needs an 'alt' attribute for accessibility.",
+        options: [
+          "True",
+          "False"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which HTML element is used to display an unordered list?",
+        options: [
+          "&lt;ol&gt;",
+          "&lt;ul&gt;",
+          "&lt;list&gt;",
+          "&lt;li&gt;"
+        ],
+        answer: 1
+      },
+      {
+        question: "Which tag is used to insert an image?",
+        options: [
+          "&lt;picture&gt;",
+          "&lt;img&gt;",
+          "&lt;src&gt;",
+          "&lt;image&gt;"
+        ],
+        answer: 1
+      },
+      {
+        question: "True or False: The &lt;table&gt; tag is used to create tables.",
+        options: [
+          "True",
+          "False"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which tag is used to group rows in a table?",
+        options: [
+          "&lt;tr&gt;",
+          "&lt;td&gt;",
+          "&lt;th&gt;",
+          "&lt;row&gt;"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which HTML tag is used to create a form?",
+        options: [
+          "&lt;input&gt;",
+          "&lt;form&gt;",
+          "&lt;button&gt;",
+          "&lt;fieldset&gt;"
+        ],
+        answer: 1
+      },
+      {
+        question: "True or False: The &lt;head&gt; element contains metadata, not visible content.",
+        options: [
+          "True",
+          "False"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which element is used for emphasized text?",
+        options: [
+          "&lt;bold&gt;",
+          "&lt;i&gt;",
+          "&lt;em&gt;",
+          "&lt;strong&gt;"
+        ],
+        answer: 2
+      },
+      {
+        question: "Which tag is semantic for main page content?",
+        options: [
+          "&lt;main&gt;",
+          "&lt;body&gt;",
+          "&lt;section&gt;",
+          "&lt;div&gt;"
+        ],
+        answer: 0
+      },
+      {
+        question: "True or False: &lt;br&gt; creates a line break.",
+        options: [
+          "True",
+          "False"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which element represents navigation links?",
+        options: [
+          "&lt;nav&gt;",
+          "&lt;ul&gt;",
+          "&lt;menu&gt;",
+          "&lt;aside&gt;"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which tag is used for a list item?",
+        options: [
+          "&lt;ul&gt;",
+          "&lt;li&gt;",
+          "&lt;item&gt;",
+          "&lt;ol&gt;"
+        ],
+        answer: 1
+      },
+      {
+        question: "True or False: The &lt;footer&gt; tag is used for page footers.",
+        options: [
+          "True",
+          "False"
+        ],
+        answer: 0
+      },
+      {
+        question: "Which tag is used to make text bold?",
+        options: [
+          "&lt;b&gt;",
+          "&lt;bold&gt;",
+          "&lt;strong&gt;",
+          "&lt;em&gt;"
+        ],
+        answer: 0 // Accepts both <b> and <strong>, but MCQ expects <b>
+      },
+      {
+        question: "Which HTML tag is used for dividing content?",
+        options: [
+          "&lt;section&gt;",
+          "&lt;div&gt;",
+          "&lt;span&gt;",
+          "&lt;article&gt;"
+        ],
+        answer: 1
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let selectedOption = null;
+
+    function renderQuestion() {
+        if (currentQuestionIndex < questions.length) {
+            const questionData = questions[currentQuestionIndex];
+            const html = `
+                <div class="quiz-question">${currentQuestionIndex + 1}. ${questionData.question}</div>
+                <div class="quiz-options">
+                    ${questionData.options.map((option, index) => `
+                        <label class="quiz-option">
+                            <input type="radio" name="answer" value="${index}">
+                            ${option}
+                        </label>
+                    `).join('')}
+                </div>
+                <div class="quiz-controls">
+                    <button id="submit-btn" class="quiz-button">Submit Answer</button>
+                    <button id="next-btn" class="quiz-button" style="display: none;">Next Question</button>
+                </div>
+                <div id="feedback" class="quiz-feedback" style="display: none;"></div>
+            `;
+            quizContainer.innerHTML = html;
+            selectedOption = null;
+            document.getElementById('submit-btn').addEventListener('click', checkAnswer);
+            document.getElementById('next-btn').addEventListener('click', nextQuestion);
+        } else {
+            showResults();
+        }
+    }
+
+   function checkAnswer(e) {
+    e.preventDefault();
+    const selectedRadio = document.querySelector('input[name="answer"]:checked');
+    const submitBtn = document.getElementById('submit-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const feedbackDiv = document.getElementById('feedback');
+    
+    if (!selectedRadio) {
+        feedbackDiv.textContent = "Please select an answer.";
+        feedbackDiv.style.display = 'block';
+        feedbackDiv.classList.remove('correct');
+        feedbackDiv.classList.add('incorrect');
+        return;
+    }
+
+    selectedOption = parseInt(selectedRadio.value);
+    const questionData = questions[currentQuestionIndex];
+    
+    submitBtn.style.display = 'none';
+    nextBtn.style.display = 'block';
+    feedbackDiv.style.display = 'block';
+
+    // Special case for "bold" question (accept <b> or <strong>)
+    if (selectedOption === questionData.answer
+        || (currentQuestionIndex === 18 && (selectedOption === 0 || selectedOption === 2))
+    ) {
+        score++;
+        feedbackDiv.textContent = "Correct!";
+        feedbackDiv.classList.remove('incorrect');
+        feedbackDiv.classList.add('correct');
+    } else {
+        feedbackDiv.classList.remove('correct');
+        feedbackDiv.classList.add('incorrect');
+
+        // Decode entities safely but display as TEXT
+        const raw = questionData.options[questionData.answer];
+        const decoded = raw.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+
+        // Clear and rebuild feedback content
+        feedbackDiv.textContent = "Incorrect. The correct answer was: ";
+        const span = document.createElement("span");
+        span.style.color = "#7c4dff";
+        span.style.fontWeight = "bold";
+        span.textContent = decoded; // <- this makes <h1> show literally as text
+        feedbackDiv.appendChild(span);
+    }
+
+    document.querySelectorAll('input[name="answer"]').forEach(radio => radio.disabled = true);
+}
+
+
+    function nextQuestion(e) {
+        e.preventDefault();
+        currentQuestionIndex++;
+        renderQuestion();
+    }
+
+    function showResults() {
+        const html = `
+            <div id="quiz-results">
+                <h2>Quiz Complete!</h2>
+                <p>You scored ${score} out of ${questions.length}.</p>
+                <button id="restart-btn" class="quiz-button">Restart Quiz</button>
+            </div>
+        `;
+        quizContainer.innerHTML = html;
+        document.getElementById('restart-btn').addEventListener('click', restartQuiz);
+    }
+
+    function restartQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        renderQuestion();
+    }
+
+    renderQuestion();
+});
+</script>
+</body>
+</html>

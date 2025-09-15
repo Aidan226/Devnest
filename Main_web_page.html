@@ -39,7 +39,7 @@
   img{max-width:100%;display:block}
   .container{width:min(1200px, 92%); margin-inline:auto}
 
-/* ===================== Navbar (REPLACE THIS BLOCK) ===================== */
+/*Navbar (REPLACE THIS BLOCK)*/
 .nav{
   position:sticky; top:0; z-index:40;
   backdrop-filter:saturate(140%) blur(10px);
@@ -331,19 +331,55 @@
   .tagline h3{margin:0 0 10px 0; font-size:clamp(22px, 2.4vw, 30px)}
   .tagline p{color:var(--muted); margin:6px 0}
 
-  /* ===================== CTA ===================== */
-  .cta{padding:70px 0}
-  .cta .panel{
-    display:flex; gap:18px; flex-wrap:wrap; align-items:center; justify-content:space-between;
-    background:var(--grad); color:#0b1220; border-radius:var(--radius); padding:28px;
-    box-shadow: var(--shadow);
-  }
-  .cta h4{margin:0; font-size:clamp(20px,2.2vw,26px); font-weight:900}
-  .cta .row{display:flex; gap:10px; flex-wrap:wrap}
-  .input{
-    background:rgba(255,255,255,.9); border:0; padding:12px 14px; border-radius:12px; min-width:260px;
-    font-weight:600; color:#0b1220; outline:none;
-  }
+  /*  CTA  */
+.cta {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+}
+
+.cta .panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #f1f5f9;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 8px 24px rgba(236, 72, 153, 0.2);
+  transition: transform 0.3s ease;
+}
+.cta .panel:hover {
+  transform: scale(1.01);
+}
+
+.cta h4 {
+  margin: 0;
+  font-size: clamp(22px, 2.5vw, 28px);
+  font-weight: 800;
+  color: #72b3f4;
+}
+
+.cta .row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.input {
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid transparent;
+  padding: 16px;
+  border-radius: 12px;
+  font-weight: 600;
+  color: #e2e8f0;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+.input:hover {
+  border-color: #a855f7;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+}
+
+
 
   /* Footer */
   footer{
@@ -363,17 +399,17 @@
   <nav class="nav">
     <div class="container nav-inner">
       <div class="brand">
-        <span class="logo"></span>
+        <span class="logo"><img src="logo.png" alt="logo"></span>
         <span>DevNest</span>
       </div>
       <!-- for both desktop and mobile -->
       <div class="menu" id="menu" data-open="false">
       <a href="#" class="link active">Home</a>
-      <a href="/courses.html" class="link">Courses</a>
+      <a href="/courses.html" class="link" target="_blank">Courses</a>
       <a href="/mini_code_editor.html" class="link" target="_blank">Practice</a>
-      <a href="/project_section.html" class="link">Projects</a>
+      <a href="/project_section.html" class="link" target="_blank">Projects</a>
       <a href="#about" class="link">About</a>
-      <a class="btn nav-cta" href="login.html">Login</a>
+      <!-- <a class="btn nav-cta" href="login.html">Login</a> -->
     </div>
 
     <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">☰</button>
@@ -450,17 +486,25 @@
   </section>
 
   <!-- ===================== CTA ===================== -->
-  <section class="cta" id="practice">
-    <div class="container">
-      <div class="panel">
-        <h4>Let’s Learn Together</h4>
-        <div class="row">
-          <input class="input" type="email" placeholder="Email address" aria-label="Email address" />
-          <a class="btn" href="#courses">Get Started</a>
-        </div>
+<section class="cta" id="practice">
+  <div class="container">
+    <div class="panel">
+      <h4>Let’s Learn Together</h4>
+      <div class="row">
+        <div class="input">🚀 <strong>Mission:</strong> To build creative, secure tools and help others learn through hands-on projects.</div>
+        <div class="input">📚 <strong>Roadmap:</strong> Start with HTML → CSS → JavaScript → Real-world Projects.</div>
+        <div class="input">🏆 <strong>Milestones:</strong> Completed multiple mini apps, tutorials, and UI/UX experiments.</div>
+        <div class="input">🧭 <strong>How to Use:</strong> Explore tutorials, test projects, and follow the roadmap step-by-step.</div>
+        <div class="input">💬 <strong>My Journey:</strong> I started coding to turn ideas into tools that empower others.</div>
+        <div class="input">📖 <strong>References:</strong> MDN, FreeCodeCamp, W3Schools, CSS-Tricks, JavaScript.info, Eloquent JavaScript.</div>
+        <div class="input">🛠️ <strong>Tools:</strong> VS Code, Chrome DevTools, GitHub Desktop, LeetCode, Codecademy.</div>
+        <div class="input">🌐 <strong>GitHub:</strong> Open-source projects, contribution guidelines, and community invites.</div>
+        <div class="input">✨ <strong>Showcase:</strong> Love Compatibility Test, Code Editor UI, Encrypted File Sharing.</div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
 
   <!-- ===================== FOOTER ===================== -->
   <footer>

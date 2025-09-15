@@ -84,17 +84,36 @@
       grid-template-columns: var(--sidebar-w-collapsed) 1fr;
     }
 
-    .sidebar{
-      position:sticky; top:calc(var(--nav-h) + 24px);
-      align-self:start;
-      background:linear-gradient(180deg, rgba(18,25,42,.8), rgba(12,18,33,.7));
-      border:1px solid rgba(255,255,255,.06);
-      border-radius:20px;
-      box-shadow:var(--shadow);
-      padding:12px;
-      color:#cfe0ff;
-      overflow:hidden;
-    }
+  /* ========= SIDEBAR ========= */
+.sidebar {
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+  align-self: start;
+  background: linear-gradient(180deg, rgba(18, 25, 42, 0.8), rgba(12, 18, 33, 0.7));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: 12px;
+  color: #cfe0ff;
+
+  /* 👇 Scrollbar logic */
+  max-height: calc(100vh - var(--nav-h) - 48px); /* Adjust as needed */
+  overflow-y: auto;
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #555 transparent;
+}
+
+/* Optional: Style scrollbar for WebKit browsers */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
     .collapse-toggle{
       width:100%; background:transparent; border:none; color:#9fb3d8;
       display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; cursor:pointer;
@@ -233,12 +252,12 @@
         <a href="/courses.html" style="color:var(--text)">Courses</a>
         <a href="/mini_code_editor.html">Practice</a>
         <a href="/project_section.html">Projects</a>
-        <a href="/about.html">About</a>
+        <a href="/Main_web_page.html#about">About</a>
       </nav>
-      <button class="login-btn">Login</button>
+      <!-- <button class="login-btn">Login</button>
       <div class="hamburger">
         <button class="login-btn" style="padding:8px 14px;">Menu</button>
-      </div>
+      </div> -->
     </div>
   </header>
   <div id="page" class="layout">
@@ -258,7 +277,7 @@
             <a href="introduction.html">HTML Introduction</a>
             <a href="structure.html">Structure</a>
             <a href="heading.html">Headings &amp; Paragraphs</a>
-            <a href="lists.html" class="active">Lists</a>
+            <a href="#" class="active">Lists</a>
             <a href="links.html">Links</a>
             <a href="images.html">Images</a>
             <a href="tables.html">Tables</a>
